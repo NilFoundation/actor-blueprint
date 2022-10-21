@@ -25,9 +25,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_kimchi_verifier_scalar_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/vesta.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/vesta.hpp>
@@ -53,9 +52,8 @@
 #include "test_plonk_component.hpp"
 #include "proof_data.hpp"
 
-using namespace nil::crypto3;
-
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite)
+using namespace nil;
+using namespace nil::actor;
 
 template<typename CurveType, typename BlueprintFieldType, typename KimchiParamsType, std::size_t EvelRounds>
 void prepare_proof(zk::snark::pickles_proof<CurveType> &original_proof,
@@ -99,7 +97,7 @@ void prepare_proof(zk::snark::pickles_proof<CurveType> &original_proof,
     circuit_proof.ft_eval = var(0, public_input.size() - 1, false, var::column_type::public_input);
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite) {
 
     using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
@@ -250,5 +248,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
     test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
         params, public_input, result_check);
 }
-
-BOOST_AUTO_TEST_SUITE_END()

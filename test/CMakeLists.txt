@@ -301,3 +301,6 @@ actor_add_test("non_native/plonk/fixed_base_mul")
 actor_add_test("non_native/plonk/complete_addition")
 actor_add_test("non_native/plonk/var_base_mul_per_bit")
 actor_add_test("non_native/plonk/signatures_verification")
+
+actor_add_test("verifiers/kimchi/batch_verify_base_field")
+actor_add_test("verifiers/kimchi/batch_verify_scalar_field")
