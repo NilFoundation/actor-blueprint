@@ -37,9 +37,11 @@
 
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/types/verifier_index.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_base_field.hpp>
 
-#include <nil/crypto3/zk/components/systems/snark/plonk/pickles/base_details/batch_dlog_accumulator_check_base.hpp>
+
+#include <nil/actor/zk/components/systems/snark/plonk/pickles/base_details/batch_dlog_accumulator_check_base.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/pickles/types/instance.hpp>
 
 namespace nil {
     namespace actor {
@@ -74,7 +76,7 @@ namespace nil {
 
                     using batch_verify_component =
                         zk::components::batch_dlog_accumulator_check_base<ArithmetizationType, CurveType, KimchiParamsType,
-                                                                W0, W1, W2, W3,
+                                                                BatchSize, W0, W1, W2, W3,
                                                                 W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14>;
                     
                     using kimchi_verify_component = zk::components::base_field<ArithmetizationType,
@@ -82,7 +84,12 @@ namespace nil {
                         W0, W1, W2, W3,
                                 W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14>;
 
+                    using proof_binding =
+                        typename zk::components::binding<ArithmetizationType, BlueprintFieldType, KimchiParamsType>;
+
                     using verifier_index_type = kimchi_verifier_index_base<CurveType, KimchiParamsType>;
+                    using proof_type = kimchi_proof_base<BlueprintFieldType, KimchiParamsType>;
+                    using pickles_instance_type = instance_type<BlueprintFieldType, CurveType, KimchiParamsType>;
 
                     constexpr static std::size_t rows() {
                         std::size_t row = 0;
@@ -99,10 +106,7 @@ namespace nil {
                     constexpr static const std::size_t gates_amount = 0;
 
                     struct params_type {
-                        std::vector<var_ec_point> comms;
-
-                        std::array<proof_type, BatchSize> proofs;
-                        verifier_index_type verifier_index;
+                        std::array<pickles_instance_type, BatchSize> ts;
 
                         typename proof_binding::template fr_data<var, BatchSize> fr_data;
                         typename proof_binding::template fq_data<var> fq_data;
@@ -119,12 +123,28 @@ namespace nil {
                                          const std::size_t start_row_index) {
                         std::size_t row = start_row_index;
 
-                        batch_verify_component::generate_circuit(bp, assignmet,
-                            {params.comms, params.verifier_index, params.fr_output}, row);
+                        std::vector<var_ec_point> comms;
+                        std::vector<var> bulletproof_challenges; 
+                        for (std::size_t i = 0; i < BatchSize; ++i) {
+                            std::vector<var_ec_point> comms_i = 
+                                params.ts[i].statement.proof_state.messages_for_next_wrap_proof.challenge_polynomial_commitment;
+                            comms.insert(comms.end(), comms_i.begin(), comms_i.end());
+
+                            std::vector<var> bulletproof_challenges_i = 
+                                params.fr_data.step_bulletproof_challenges[i];
+                            bulletproof_challenges.insert(bulletproof_challenges.end(), bulletproof_challenges_i.begin(), bulletproof_challenges_i.end());
+                        }
+                        batch_verify_component::generate_circuit(bp, assignment,
+                            {comms, bulletproof_challenges, params.ts[0].verifier_index}, row);
                         row += batch_verify_component::rows_amount;
 
-                        kimchi_verify_component::generate_circuit(bp, assignmet,
-                            {params.proofs, params.verifier_index, params.ft_data, params.fq_data}, row);
+                        std::array<proof_type, BatchSize> proofs;
+                        for (std::size_t i = 0; i < BatchSize; ++i) {
+                            proofs[i] = params.ts[i].kimchi_proof;
+                        }
+
+                        kimchi_verify_component::generate_circuit(bp, assignment,
+                            {proofs, params.ts[0].verifier_index, params.fr_data, params.fq_data}, row);
                         row += kimchi_verify_component::rows_amount;
 
                         return result_type();
@@ -136,12 +156,28 @@ namespace nil {
 
                         std::size_t row = start_row_index;
 
-                        batch_verify_component::generate_assignments(assignmet,
-                            {params.comms, params.verifier_index, params.fr_output}, row);
+                        std::vector<var_ec_point> comms;
+                        std::vector<var> bulletproof_challenges; 
+                        for (std::size_t i = 0; i < BatchSize; ++i) {
+                            std::vector<var_ec_point> comms_i = 
+                                params.ts[i].statement.proof_state.messages_for_next_wrap_proof.challenge_polynomial_commitment;
+                            comms.insert(comms.end(), comms_i.begin(), comms_i.end());
+
+                            std::vector<var> bulletproof_challenges_i = 
+                                params.fr_data.step_bulletproof_challenges[i];
+                            bulletproof_challenges.insert(bulletproof_challenges.end(), bulletproof_challenges_i.begin(), bulletproof_challenges_i.end());
+                        }
+                        batch_verify_component::generate_assignments(assignment,
+                            {comms, bulletproof_challenges, params.ts[0].verifier_index}, row);
                         row += batch_verify_component::rows_amount;
 
-                        kimchi_verify_component::generate_assignments(assignmet,
-                            {params.proofs, params.verifier_index, params.ft_data, params.fq_data}, row);
+                        std::array<proof_type, BatchSize> proofs;
+                        for (std::size_t i = 0; i < BatchSize; ++i) {
+                            proofs[i] = params.ts[i].kimchi_proof;
+                        }
+
+                        kimchi_verify_component::generate_assignments(assignment,
+                            {proofs, params.ts[0].verifier_index, params.fr_data, params.fq_data}, row);
                         row += kimchi_verify_component::rows_amount;
                         
                         return result_type();

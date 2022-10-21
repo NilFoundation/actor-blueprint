@@ -110,7 +110,7 @@ typename fri_type::params_type create_fri_params(std::size_t degree_log, const i
     constexpr std::size_t expand_factor = 0;
     std::size_t r = degree_log - 1;
 
-    std::vector<std::shared_ptr<math::evaluation_domain<FieldType>>> domain_set =
+    std::vector<std::shared_ptr<crypto3::math::evaluation_domain<FieldType>>> domain_set =
         math::calculate_domain_set<FieldType>(degree_log + expand_factor, r);
 
     params.r = r;

@@ -137,7 +137,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
     std::vector<typename BlueprintFieldType::value_type> public_input;
 
     curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type shifted =
-        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+        crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(shifted.X);
     public_input.push_back(shifted.Y);
@@ -146,7 +146,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
                                 var(0, 1, false, var::column_type::public_input)};
 
     curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type unshifted =
-        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+        crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(unshifted.X);
     public_input.push_back(unshifted.Y);
@@ -167,7 +167,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
     var f_zeta_w_var = var(0, 5, false, var::column_type::public_input);
 
     curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type L =
-        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+        crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(L.X);
     public_input.push_back(L.Y);
@@ -176,7 +176,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
                           var(0, 7, false, var::column_type::public_input)};
 
     curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type R =
-        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+        crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(R.X);
     public_input.push_back(R.Y);
@@ -185,7 +185,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
                           var(0, 9, false, var::column_type::public_input)};
 
     curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type delta =
-        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+        crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(delta.X);
     public_input.push_back(delta.Y);
@@ -194,7 +194,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
                               var(0, 11, false, var::column_type::public_input)};
 
     curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type G =
-        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+        crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(G.X);
     public_input.push_back(G.Y);
@@ -203,7 +203,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
                           var(0, 13, false, var::column_type::public_input)};
 
     curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type H =
-        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+        crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(H.X);
     public_input.push_back(H.Y);
@@ -212,7 +212,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
                           var(0, 21, false, var::column_type::public_input)};
 
     curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type PI_G =
-        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+        crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(PI_G.X);
     public_input.push_back(PI_G.Y);

@@ -22,25 +22,25 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_PLONK_PICKLES_SCALAR_DETAILS_EVALS_OF_SPLIT_EVALS_HPP
-#define CRYPTO3_ZK_BLUEPRINT_PLONK_PICKLES_SCALAR_DETAILS_EVALS_OF_SPLIT_EVALS_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_SCALAR_DETAILS_EVALS_OF_SPLIT_EVALS_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_SCALAR_DETAILS_EVALS_OF_SPLIT_EVALS_HPP
 
 #include <nil/marshalling/algorithms/pack.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/constraint_system.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/component.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/component.hpp>
 
-#include <nil/crypto3/zk/components/algebra/fields/plonk/field_operations.hpp>
-#include <nil/crypto3/zk/components/algebra/fields/plonk/exponentiation.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/types/evaluation_proof.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/oracles_scalar/combine_proof_evals.hpp>
+#include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
+#include <nil/actor/zk/components/algebra/fields/plonk/exponentiation.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/evaluation_proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/oracles_scalar/combine_proof_evals.hpp>
 
-#include <nil/crypto3/zk/algorithms/generate_circuit.hpp>
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         namespace zk {
             namespace components {
 
@@ -294,4 +294,4 @@ namespace nil {
     }            // namespace crypto3
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_PICKLES_SCALAR_DETAILS_EVALS_OF_SPLIT_EVALS_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_SCALAR_DETAILS_EVALS_OF_SPLIT_EVALS_HPP

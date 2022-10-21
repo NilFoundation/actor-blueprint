@@ -22,19 +22,19 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_BATCH_SCALAR_PREPARE_SCALARS_INVERSION_HPP
-#define CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_BATCH_SCALAR_PREPARE_SCALARS_INVERSION_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_BATCH_SCALAR_PREPARE_SCALARS_INVERSION_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_BATCH_SCALAR_PREPARE_SCALARS_INVERSION_HPP
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/constraint_system.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/component.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/component.hpp>
 
-#include <nil/crypto3/zk/components/algebra/fields/plonk/field_operations.hpp>
-#include <nil/crypto3/zk/algorithms/generate_circuit.hpp>
+#include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         namespace zk {
             namespace components {
 
@@ -177,4 +177,4 @@ namespace nil {
     }            // namespace crypto3
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_BATCH_SCALAR_PREPARE_SCALARS_INVERSION_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_BATCH_SCALAR_PREPARE_SCALARS_INVERSION_HPP

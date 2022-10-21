@@ -34,15 +34,15 @@
 #include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/types/binding.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/proof_system/circuit_description.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/pickles/scalar_details/evals_of_split_evals.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/binding.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/circuit_description.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/pickles/scalar_details/evals_of_split_evals.hpp>
 #include "verifiers/kimchi/index_terms_instances/ec_index_terms.hpp"
 
 #include "test_plonk_component.hpp"

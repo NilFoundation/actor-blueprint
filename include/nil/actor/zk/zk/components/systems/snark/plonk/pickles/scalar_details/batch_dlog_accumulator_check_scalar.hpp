@@ -24,29 +24,29 @@
 // @file Declaration of interfaces for auxiliary components for the BATCH_VERIFY_SCALAR_FIELD component.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_BATCH_VERIFY_SCALAR_FIELD_HPP
-#define CRYPTO3_ZK_BLUEPRINT_BATCH_VERIFY_SCALAR_FIELD_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_BATCH_VERIFY_SCALAR_FIELD_HPP
+#define ACTOR_ZK_BLUEPRINT_BATCH_VERIFY_SCALAR_FIELD_HPP
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
 
-#include <nil/crypto3/zk/algorithms/generate_circuit.hpp>
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
-#include <nil/crypto3/zk/components/algebra/fields/plonk/field_operations.hpp>
-#include <nil/crypto3/zk/components/algebra/fields/plonk/combined_inner_product.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
+#include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
+#include <nil/actor/zk/components/algebra/fields/plonk/combined_inner_product.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
 
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/batch_scalar/random.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/batch_scalar/prepare_scalars.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/batch_scalar/random.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/batch_scalar/prepare_scalars.hpp>
 
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/oracles_scalar/b_poly.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/oracles_scalar/b_poly_coefficients.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/oracles_scalar/b_poly.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/oracles_scalar/b_poly_coefficients.hpp>
 
-#include <nil/crypto3/zk/components/algebra/curves/pasta/plonk/endo_scalar.hpp>
+#include <nil/actor/zk/components/algebra/curves/pasta/plonk/endo_scalar.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         namespace zk {
             namespace components {
 
@@ -334,4 +334,4 @@ namespace nil {
     }            // namespace crypto3
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_BATCH_VERIFY_SCALAR_FIELD_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_BATCH_VERIFY_SCALAR_FIELD_HPP
