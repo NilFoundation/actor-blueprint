@@ -24,9 +24,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE multi_scalar_mul_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -45,11 +44,10 @@
 
 #include "../../../profiling.hpp"
 
-using namespace nil::crypto3;
+using namespace nil;
+using namespace nil::actor;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
-
-BOOST_AUTO_TEST_CASE(blueprint_plonk_multi_scalar_mul) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_multi_scalar_mul) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = crypto3::algebra::curves::pallas;
@@ -110,5 +108,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_multi_scalar_mul) {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
     std::cout << "base_scalar_mul: " << duration.count() << "ms" << std::endl;
 }
-
-BOOST_AUTO_TEST_SUITE_END()

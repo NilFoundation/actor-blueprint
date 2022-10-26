@@ -304,3 +304,6 @@ actor_add_test("non_native/plonk/signatures_verification")
 
 actor_add_test("verifiers/kimchi/batch_verify_base_field")
 actor_add_test("verifiers/kimchi/batch_verify_scalar_field")
+
+actor_add_test("algebra/curves/plonk/multi_scalar_multiplication")
+actor_add_test("verifiers/kimchi/detail/prepare_scalars")
