@@ -122,41 +122,41 @@ namespace nil {
             }
 
             zk::components::generate_circuit<component_type>(bp, public_assignment, params, start_row);
-            typename component_type::result_type component_result =
-                component_type::generate_assignments(assignment_bp, params, start_row);
-            
-            result_check(assignment_bp, component_result);
+//            typename component_type::result_type component_result =
+//                component_type::generate_assignments(assignment_bp, params, start_row);
+//
+//            result_check(assignment_bp, component_result);
+//
+//            assignment_bp.padding();
+//
+//            zk::snark::plonk_assignment_table<BlueprintFieldType, ArithmetizationParams> assignments(private_assignment,
+//                                                                                                     public_assignment);
 
-            assignment_bp.padding();
-
-            zk::snark::plonk_assignment_table<BlueprintFieldType, ArithmetizationParams> assignments(private_assignment,
-                                                                                                     public_assignment);
-
-            using placeholder_params =
-                zk::snark::placeholder_params<BlueprintFieldType, ArithmetizationParams, Hash, Hash, Lambda>;
-            using types = zk::snark::detail::placeholder_policy<BlueprintFieldType, placeholder_params>;
-
-            using fri_type =
-                typename zk::commitments::fri<BlueprintFieldType, typename placeholder_params::merkle_hash_type,
-                                              typename placeholder_params::transcript_hash_type, 2, 1>;
-
-            std::size_t table_rows_log = std::ceil(std::log2(desc.rows_amount));
-
-            typename fri_type::params_type fri_params = create_fri_params<fri_type, BlueprintFieldType>(table_rows_log);
-
-            std::size_t permutation_size = desc.witness_columns + desc.public_input_columns + desc.constant_columns;
-
-            typename zk::snark::placeholder_public_preprocessor<
-                BlueprintFieldType, placeholder_params>::preprocessed_data_type public_preprocessed_data =
-                zk::snark::placeholder_public_preprocessor<BlueprintFieldType, placeholder_params>::process(
-                    bp, public_assignment, desc, fri_params, permutation_size).get();
-            typename zk::snark::placeholder_private_preprocessor<
-                BlueprintFieldType, placeholder_params>::preprocessed_data_type private_preprocessed_data =
-                zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(
-                    bp, private_assignment, desc, fri_params).get();
-
-            return std::make_tuple(desc, bp, fri_params, assignments, public_preprocessed_data,
-                                   private_preprocessed_data);
+//            using placeholder_params =
+//                zk::snark::placeholder_params<BlueprintFieldType, ArithmetizationParams, Hash, Hash, Lambda>;
+//            using types = zk::snark::detail::placeholder_policy<BlueprintFieldType, placeholder_params>;
+//
+//            using fri_type =
+//                typename zk::commitments::fri<BlueprintFieldType, typename placeholder_params::merkle_hash_type,
+//                                              typename placeholder_params::transcript_hash_type, 2, 1>;
+//
+//            std::size_t table_rows_log = std::ceil(std::log2(desc.rows_amount));
+//
+//            typename fri_type::params_type fri_params = create_fri_params<fri_type, BlueprintFieldType>(table_rows_log);
+//
+//            std::size_t permutation_size = desc.witness_columns + desc.public_input_columns + desc.constant_columns;
+//
+//            typename zk::snark::placeholder_public_preprocessor<
+//                BlueprintFieldType, placeholder_params>::preprocessed_data_type public_preprocessed_data =
+//                zk::snark::placeholder_public_preprocessor<BlueprintFieldType, placeholder_params>::process(
+//                    bp, public_assignment, desc, fri_params, permutation_size).get();
+//            typename zk::snark::placeholder_private_preprocessor<
+//                BlueprintFieldType, placeholder_params>::preprocessed_data_type private_preprocessed_data =
+//                zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(
+//                    bp, private_assignment, desc, fri_params).get();
+//
+//            return std::make_tuple(desc, bp, fri_params, assignments, public_preprocessed_data,
+//                                   private_preprocessed_data);
         }
 
         template<typename ComponentType, typename BlueprintFieldType, typename ArithmetizationParams, typename Hash,
@@ -170,25 +170,25 @@ namespace nil {
             using placeholder_params =
                 zk::snark::placeholder_params<BlueprintFieldType, ArithmetizationParams, Hash, Hash, Lambda>;
 
-            auto [desc, bp, fri_params, assignments, public_preprocessed_data, private_preprocessed_data] =
+//            auto [desc, bp, fri_params, assignments, public_preprocessed_data, private_preprocessed_data] =
                 prepare_component<ComponentType, BlueprintFieldType, ArithmetizationParams, Hash, Lambda,
                                   FunctorResultCheck>(params, public_input, result_check);
-
-            auto proof = zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params>::process(
-                public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params);
-
-            bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
-              public_preprocessed_data, proof, bp, fri_params);
-
-#ifdef BLUEPRINT_PLONK_PROFILING_ENABLED
-            profiling_plonk_circuit<BlueprintFieldType, ArithmetizationParams, Hash, Lambda>::process(std::cout, bp, public_preprocessed_data);
-            profiling(assignments);
-#endif
-            if(verification_result) {
-                BOOST_CHECK(verifier_res);
-            } else {
-                BOOST_CHECK(!verifier_res);
-            }
+//
+//            auto proof = zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params>::process(
+//                public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params);
+//
+//            bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
+//              public_preprocessed_data, proof, bp, fri_params);
+//
+//#ifdef BLUEPRINT_PLONK_PROFILING_ENABLED
+//            profiling_plonk_circuit<BlueprintFieldType, ArithmetizationParams, Hash, Lambda>::process(std::cout, bp, public_preprocessed_data);
+//            profiling(assignments);
+//#endif
+//            if(verification_result) {
+//                BOOST_CHECK(verifier_res);
+//            } else {
+//                BOOST_CHECK(!verifier_res);
+//            }
         }
 
         template<typename ComponentType, typename BlueprintFieldType, typename ArithmetizationParams, typename Hash,

@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_verify_scalar_field_test_suite) {
     constexpr static std::size_t witness_columns = 15;
     constexpr static std::size_t perm_size = 7;
 
-    constexpr static std::size_t srs_len = 10;
+    constexpr static std::size_t srs_len = 32;
     constexpr static std::size_t batch_size = 1;
 
     constexpr static const std::size_t prev_chal_size = 1;

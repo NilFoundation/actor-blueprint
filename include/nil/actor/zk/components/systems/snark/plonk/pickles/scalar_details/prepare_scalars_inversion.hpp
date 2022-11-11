@@ -97,7 +97,8 @@ namespace nil {
 
                         std::size_t row = start_row_index;
 
-                        std::array<var, InputSize> shifted;
+                        std::vector<var> shifted;
+                        shifted.resize(InputSize);
                         result_type result;
 
                         for (std::size_t i = 0; i < InputSize; ++i) {
@@ -125,7 +126,8 @@ namespace nil {
 
                         std::size_t row = start_row_index;
 
-                        std::array<var, InputSize> shifted;
+                        std::vector<var> shifted;
+                        shifted.resize(InputSize);
                         result_type result;
 
                         for (std::size_t i = 0; i < InputSize; ++i) {

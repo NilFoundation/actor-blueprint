@@ -42,7 +42,9 @@ namespace nil {
                 struct messages_for_next_step_proof_type {
                     using var = snark::plonk_variable<FieldType>;
 
-                    
+                    app_state_type<FieldType> app_state;
+                    std::vector<var> old_bulletproof_challenges; 
+                    std::vector<var_ec_point>challenge_polynomial_commitments;         
                 };
 
                 // TODO: link
@@ -51,7 +53,8 @@ namespace nil {
                     using var = snark::plonk_variable<FieldType>;
                     using var_ec_point = typename zk::components::var_ec_point<FieldType>;
 
-                    std::vector<var_ec_point> challenge_polynomial_commitment;
+                    var_ec_point challenge_polynomial_commitment;
+                    std::vector<var> old_bulletproof_challenges; 
                 };
             }    // namespace components
         }        // namespace zk
