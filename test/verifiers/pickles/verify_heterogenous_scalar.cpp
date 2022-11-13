@@ -77,11 +77,12 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_pickles_heterogenous_verify_scalar_field_te
     constexpr static std::size_t perm_size = 7;
 
     constexpr static std::size_t srs_len = 2;
-    constexpr static std::size_t batch_size = 1;
+    constexpr static const std::size_t batch_size = 1;
 
     constexpr static const std::size_t prev_chal_size = 1;
 
     constexpr static const std::size_t max_state_size = 3;
+    constexpr static const std::size_t evals_size = 3;
     constexpr static const std::size_t bulletproofs_size = 3;
     constexpr static const std::size_t challenge_polynomial_commitments_size = batch_size;
 
@@ -93,8 +94,10 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_pickles_heterogenous_verify_scalar_field_te
         public_input_size, prev_chal_size>;
 
     using component_type =
-        zk::components::verify_heterogenous_scalar<ArithmetizationType, curve_type, kimchi_params, batch_size, 0,
+        zk::components::verify_heterogenous_scalar<ArithmetizationType, curve_type, kimchi_params, commitment_params, batch_size, bulletproofs_size, evals_size, 0,
                                       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
+
+    typename component_type::params_type params;
 
     using commitment_type =
         typename zk::components::kimchi_commitment_type<BlueprintFieldType,
@@ -111,8 +114,6 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_pickles_heterogenous_verify_scalar_field_te
     using binding = typename zk::components::binding<ArithmetizationType, BlueprintFieldType, kimchi_params>;
 
     std::vector<typename BlueprintFieldType::value_type> public_input = {};
-
-    typename component_type::params_type params = {};
 
     for (std::size_t i = 0; i < batch_size; i++) {
         // KIMCHI PROOF
@@ -253,56 +254,56 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_pickles_heterogenous_verify_scalar_field_te
         //     range_check // range_check
         // }};
         // generate statement and app_state
-        std::vector<curve_type::scalar_field_type::value_type> Zkapp_state;
+        std::vector<curve_type::base_field_type::value_type> Zkapp_state;
         std::vector<var> Zkapp_state_var;
         for (std::size_t k = 0; k < max_state_size; k++) {
-            Zkapp_state[k] = algebra::random_element<curve_type::scalar_field_type>();
+            Zkapp_state[k] = algebra::random_element<curve_type::base_field_type>();
             public_input.push_back(Zkapp_state[k]);
             Zkapp_state_var[k] = var(0, public_input.size() - 1, false, var::column_type::public_input);
         }
-        curve_type::scalar_field_type::value_type alpha = algebra::random_element<curve_type::scalar_field_type>();
+        curve_type::base_field_type::value_type alpha = algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(alpha);
         params.ts[i].statement.proof_state.deferred_values.plonk.alpha = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
-        curve_type::scalar_field_type::value_type beta = algebra::random_element<curve_type::scalar_field_type>();
+        curve_type::base_field_type::value_type beta = algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(beta);
         params.ts[i].statement.proof_state.deferred_values.plonk.beta = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
-        curve_type::scalar_field_type::value_type gamma = algebra::random_element<curve_type::scalar_field_type>();
+        curve_type::base_field_type::value_type gamma = algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(gamma);
         params.ts[i].statement.proof_state.deferred_values.plonk.gamma = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
-        curve_type::scalar_field_type::value_type zeta = algebra::random_element<curve_type::scalar_field_type>();
+        curve_type::base_field_type::value_type zeta = algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(zeta);
         params.ts[i].statement.proof_state.deferred_values.plonk.zeta = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
-        curve_type::scalar_field_type::value_type joint_combiner = algebra::random_element<curve_type::scalar_field_type>();
+        curve_type::base_field_type::value_type joint_combiner = algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(joint_combiner);
         params.ts[i].statement.proof_state.deferred_values.plonk.joint_combiner = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
-        curve_type::scalar_field_type::value_type combined_inner_product = algebra::random_element<curve_type::scalar_field_type>();
+        curve_type::base_field_type::value_type combined_inner_product = algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(combined_inner_product);
         params.ts[i].statement.proof_state.deferred_values.combined_inner_product = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
-        curve_type::scalar_field_type::value_type b = algebra::random_element<curve_type::scalar_field_type>();
+        curve_type::base_field_type::value_type b = algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(b);
         params.ts[i].statement.proof_state.deferred_values.b = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
-        curve_type::scalar_field_type::value_type xi = algebra::random_element<curve_type::scalar_field_type>();
+        curve_type::base_field_type::value_type xi = algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(xi);
         params.ts[i].statement.proof_state.deferred_values.xi = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
-        std::vector<curve_type::scalar_field_type::value_type> bulletproof_challenges;
+        std::vector<curve_type::base_field_type::value_type> bulletproof_challenges;
         std::vector<var> bulletproof_challenges_var;
         for (std::size_t k = 0; k < bulletproofs_size; k++) {
-            bulletproof_challenges[k] = algebra::random_element<curve_type::scalar_field_type>();
+            bulletproof_challenges[k] = algebra::random_element<curve_type::base_field_type>();
             public_input.push_back(bulletproof_challenges[k]);
             bulletproof_challenges_var[k] = var(0, public_input.size() - 1, false, var::column_type::public_input);
         }
         params.ts[i].statement.proof_state.deferred_values.bulletproof_challenges = bulletproof_challenges_var;
         params.ts[i].statement.proof_state.deferred_values.branch_data.domain_log2 = 3;
 
-        curve_type::scalar_field_type::value_type sponge_digest_before_evaluations = algebra::random_element<curve_type::scalar_field_type>();
+        curve_type::base_field_type::value_type sponge_digest_before_evaluations = algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(sponge_digest_before_evaluations);
         params.ts[i].statement.proof_state.sponge_digest_before_evaluations = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
@@ -315,10 +316,10 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_pickles_heterogenous_verify_scalar_field_te
         params.ts[i].statement.proof_state.messages_for_next_wrap_proof.challenge_polynomial_commitment = {var(0, public_input.size() - 1, false, var::column_type::public_input),
                                 var(0, public_input.size() - 1, false, var::column_type::public_input)};
         
-        std::vector<curve_type::scalar_field_type::value_type> old_bulletproof_challenges;
+        std::vector<curve_type::base_field_type::value_type> old_bulletproof_challenges;
         std::vector<var> old_bulletproof_challenges_var;
         for (std::size_t k = 0; k < bulletproofs_size; k++) {
-            old_bulletproof_challenges[k] = algebra::random_element<curve_type::scalar_field_type>();
+            old_bulletproof_challenges[k] = algebra::random_element<curve_type::base_field_type>();
             public_input.push_back(old_bulletproof_challenges[k]);
             old_bulletproof_challenges_var[k] = var(0, public_input.size() - 1, false, var::column_type::public_input);
         }
@@ -335,7 +336,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_pickles_heterogenous_verify_scalar_field_te
             public_input.push_back(challenge_polynomial_commitment.X);
             public_input.push_back(challenge_polynomial_commitment.Y);
 
-            params.ts[i].statement.proof_state.messages_for_next_step_proof.challenge_polynomial_commitments[k] = {var(0, public_input.size() - 1, false, var::column_type::public_input),
+            params.ts[i].statement.messages_for_next_step_proof.challenge_polynomial_commitments[k] = {var(0, public_input.size() - 1, false, var::column_type::public_input),
                                     var(0, public_input.size() - 1, false, var::column_type::public_input)};
         }
 

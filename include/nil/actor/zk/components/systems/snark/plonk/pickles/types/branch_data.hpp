@@ -22,6 +22,7 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
+<<<<<<< HEAD:include/nil/actor/zk/components/systems/snark/plonk/pickles/types/branch_data.hpp
 #ifndef ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_TYPES_PLONK_HPP
 #define ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_TYPES_PLONK_HPP
 
@@ -39,7 +40,7 @@ namespace nil {
 
                 // https://github.com/MinaProtocol/mina/blob/develop/src/lib/mina_wire_types/pickles/pickles_composition_types.ml#L3-L15
                 template<typename FieldType>
-                struct branch_data {
+                struct branch_data_type {
                     using var = snark::plonk_variable<FieldType>;
 
                     /*enum proofs_verified_type {
@@ -48,7 +49,6 @@ namespace nil {
 
                     proofs_verified_type proofs_verified;*/
                     std::size_t domain_log2;
-                };
                 };
             }    // namespace components
         }        // namespace zk

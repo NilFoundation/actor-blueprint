@@ -34,7 +34,7 @@
 #include <nil/crypto3/hash/keccak.hpp>
 
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
-//#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
 
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
@@ -220,9 +220,9 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
     var_ec_point PI_G_var = {var(0, 22, false, var::column_type::public_input),
                              var(0, 23, false, var::column_type::public_input)};
 
-    std::array<curve_type::base_field_type::value_type, bases_size> scalars;
+    std::vector<curve_type::base_field_type::value_type> scalars(bases_size);
 
-    std::array<var, bases_size> scalars_var;
+    std::vector<var> scalars_var(bases_size);
 
     for (std::size_t i = 0; i < bases_size; i++) {
         scalars[i] = crypto3::algebra::random_element<curve_type::base_field_type>();
@@ -240,11 +240,18 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
     opening_proof_type o_var = {{L_var}, {R_var}, delta_var, G_var};
     //transcript_type transcript;
 
-    typename binding::fr_data<var, batch_size> fr_data = {scalars_var, {cip_var}};
+    typename binding::fr_data<var, batch_size> fr_data;
+    for (std::size_t i = 0; i < scalars_var.size(); ++i) {
+        fr_data.scalars[i] = scalars_var[i];
+    }
+    fr_data.cip_shifted = {cip_var};
 
-    std::array<batch_proof_type, batch_size> prepared_proofs = {{{{comm_var}, o_var}}};
+    std::vector<batch_proof_type> prepared_proofs = {{{{comm_var}, o_var}}};
 
-    typename component_type::params_type params = {prepared_proofs, {H_var, {PI_G_var}, {PI_G_var}}, fr_data};
+    typename component_type::params_type params;// = {prepared_proofs, {H_var, {PI_G_var}, {PI_G_var}}, fr_data};
+    params.proofs = prepared_proofs;
+    params.verifier_index = {H_var, {PI_G_var}, {PI_G_var}};
+    params.fr_output = fr_data;
 
     auto result_check = [](AssignmentType &assignment, component_type::result_type &real_res) {};
 

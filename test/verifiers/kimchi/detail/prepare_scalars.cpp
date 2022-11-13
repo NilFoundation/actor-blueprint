@@ -71,7 +71,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
                                                                             11, 12, 13, 14>;
 
     std::vector<typename BlueprintFieldType::value_type> scalars;
-    std::vector<var> scalars_var(InputSize);
+    std::array<var, InputSize> scalars_var;
     for (int i = 0; i < InputSize; ++i) {
         scalars.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
     }
