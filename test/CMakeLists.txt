@@ -194,7 +194,7 @@ set(PLONK_TESTS_FILES
     "verifiers/kimchi/detail/prev_chal_evals"
     "verifiers/kimchi/detail/ft_eval"
     "verifiers/kimchi/detail/combine_proof_evals"
-    "verifiers/kimchi/detail//constraints/index_terms_scalars"
+    "verifiers/kimchi/detail/constraints/index_terms_scalars"
     "verifiers/kimchi/detail/constraints/rpn_expression"
     "verifiers/kimchi/detail/constraints/vanishes_on_last_4_rows"
     "verifiers/kimchi/detail/constraints/unnormalized_lagrange_basis"
@@ -218,6 +218,7 @@ set(PLONK_TESTS_FILES
     "verifiers/pickles/verify_heterogenous_scalar"
     "verifiers/pickles/verify_heterogenous_base"
     "verifiers/pickles/scalar_details/evals_of_split_evals"
+    "verifiers/pickles/scalar_details/prepare_scalars_inversion"
     )
 
 set(FIELDS_TESTS_FILES
