@@ -43,11 +43,11 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
 
-nil::actor::zk::snark::pickles_proof<algebra::curves::vesta> test_proof() {
+nil::actor::zk::snark::proof_type<nil::crypto3::algebra::curves::vesta> test_proof() {
 
-    using curve_type = crypto3::algebra::curves::vesta;
-    using affine_point_type = algebra::curves::vesta::g1_type<crypto3::algebra::curves::coordinates::affine>;
-    nil::actor::zk::snark::pickles_proof<curve_type> proof;
+    using curve_type = nil::crypto3::algebra::curves::vesta;
+    using affine_point_type = nil::crypto3::algebra::curves::vesta::g1_type<nil::crypto3::algebra::curves::coordinates::affine>;
+    nil::actor::zk::snark::proof_type<curve_type> proof;
 
     std::vector<std::vector<typename affine_point_type::value_type>> w_comm_unshifted = {
     {{0x29C11510848CF79EA9D58C2E7B2F9EABDE5470AB0C7D8051DB68B6A597844291_cppui256,
@@ -239,12 +239,12 @@ nil::actor::zk::snark::pickles_proof<algebra::curves::vesta> test_proof() {
     return proof;
 }
 
-nil::crypto3::zk::snark::pickles_proof<crypto3::algebra::curves::pallas> test_proof_ec_test() {
+nil::actor::zk::snark::proof_type<nil::crypto3::algebra::curves::pallas> test_proof_ec_test() {
     // https://github.com/o1-labs/proof-systems/blob/1f8532ec1b8d43748a372632bd854be36b371afe/kimchi/src/tests/ec.rs#L15
 
-    using curve_type = crypto3::algebra::curves::pallas;
-    using affine_point_type = algebra::curves::pallas::g1_type<crypto3::algebra::curves::coordinates::affine>;
-    nil::crypto3::zk::snark::pickles_proof<curve_type> proof;
+    using curve_type = nil::crypto3::algebra::curves::pallas;
+    using affine_point_type = nil::crypto3::algebra::curves::pallas::g1_type<nil::crypto3::algebra::curves::coordinates::affine>;
+    nil::actor::zk::snark::proof_type<curve_type> proof;
 
     std::vector<std::vector<typename affine_point_type::value_type>> w_comm_unshifted = {
     {{0x3992FC42921BCA5A98D4D4C10406B5111E259E90455A36B1BBB1CF2874BD80B7_cppui256,
@@ -416,12 +416,12 @@ nil::crypto3::zk::snark::pickles_proof<crypto3::algebra::curves::pallas> test_pr
     return proof;
 }
 
-nil::crypto3::zk::snark::proof_type<algebra::curves::vesta> test_proof_chacha() {
+nil::actor::zk::snark::proof_type<nil::crypto3::algebra::curves::vesta> test_proof_chacha() {
     //from test https://github.com/o1-labs/proof-systems/blob/1f8532ec1b8d43748a372632bd854be36b371afe/kimchi/src/tests/chacha.rs#L40
 
-    using curve_type = crypto3::algebra::curves::vesta;
-    using affine_point_type = algebra::curves::vesta::g1_type<crypto3::algebra::curves::coordinates::affine>;
-    nil::crypto3::zk::snark::pickles_proof<curve_type> proof;
+    using curve_type = nil::crypto3::algebra::curves::vesta;
+    using affine_point_type = nil::crypto3::algebra::curves::vesta::g1_type<nil::crypto3::algebra::curves::coordinates::affine>;
+    nil::actor::zk::snark::proof_type<curve_type> proof;
 
     std::vector<std::vector<typename affine_point_type::value_type>> w_comm_unshifted = {
     {{0x0D907C081D3359118A5E478BFCC88DDAD869FD50100838716ED04567BAA33FDC_cppui256,
@@ -627,12 +627,12 @@ nil::crypto3::zk::snark::proof_type<algebra::curves::vesta> test_proof_chacha() 
     return proof;
 }
 
-nil::crypto3::zk::snark::proof_type<algebra::curves::vesta> test_proof_recursion() {
+nil::actor::zk::snark::proof_type<nil::crypto3::algebra::curves::vesta> test_proof_recursion() {
     //from test https://github.com/o1-labs/proof-systems/blob/1f8532ec1b8d43748a372632bd854be36b371afe/kimchi/src/tests/recursion.rs#L15
 
-    using curve_type = crypto3::algebra::curves::vesta;
-    using affine_point_type = algebra::curves::vesta::g1_type<crypto3::algebra::curves::coordinates::affine>;
-    nil::crypto3::zk::snark::pickles_proof<curve_type> proof;
+    using curve_type = nil::crypto3::algebra::curves::vesta;
+    using affine_point_type = nil::crypto3::algebra::curves::vesta::g1_type<nil::crypto3::algebra::curves::coordinates::affine>;
+    nil::actor::zk::snark::proof_type<curve_type> proof;
 
     std::vector<std::vector<typename affine_point_type::value_type>> w_comm_unshifted = {
     {{0x000CB3CEDC0D40901A28D13E576FD8C91E7C8AF929CAA9E701E5AD030D2B6A4D_cppui256,
@@ -802,12 +802,12 @@ nil::crypto3::zk::snark::proof_type<algebra::curves::vesta> test_proof_recursion
 
     return proof;
 }
-nil::crypto3::zk::snark::proof_type<algebra::curves::vesta> test_proof_generic() {
+nil::actor::zk::snark::proof_type<nil::crypto3::algebra::curves::vesta> test_proof_generic() {
     //from test https://github.com/o1-labs/proof-systems/blob/1f8532ec1b8d43748a372632bd854be36b371afe/kimchi/src/tests/generic.rs#L25
 
-    using curve_type = algebra::curves::vesta;
-    using affine_point_type = algebra::curves::vesta::g1_type<algebra::curves::coordinates::affine>;
-    nil::crypto3::zk::snark::proof_type<curve_type> proof;
+    using curve_type = nil::crypto3::algebra::curves::vesta;
+    using affine_point_type = nil::crypto3::algebra::curves::vesta::g1_type<nil::crypto3::algebra::curves::coordinates::affine>;
+    nil::actor::zk::snark::proof_type<curve_type> proof;
 
     std::vector<std::vector<typename affine_point_type::value_type>> w_comm_unshifted = {
     {{0x3094763C768A2D4DA47EA2BA3F39D984FCE447C2B756337E18BC8837661808F8_cppui256,
