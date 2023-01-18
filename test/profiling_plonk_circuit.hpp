@@ -34,8 +34,8 @@
 #include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/circuit.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
 #include <nil/actor/zk/snark/systems/plonk/placeholder/params.hpp>
 #include <nil/actor/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
 

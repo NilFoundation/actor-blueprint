@@ -33,15 +33,13 @@
 #include <nil/crypto3/algebra/curves/ed25519.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/ed25519.hpp>
 
-#include <nil/crypto3/hash/algorithm/hash.hpp>
-#include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/components/non_native/algebra/fields/plonk/ed25519.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/circuit.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
+#include <nil/actor_blueprint/components/algebra/fields/plonk/non_native/ed25519.hpp>
 
 #include "../../test_plonk_component.hpp"
 
@@ -50,10 +48,9 @@ using namespace nil::crypto3;
 BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
 BOOST_AUTO_TEST_CASE(blueprint_edwards) {
-    auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = crypto3::algebra::curves::pallas;
-    using ed25519_type = algebra::curves::ed25519;
+    using ed25519_type = crypto3::algebra::curves::ed25519;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 9;
     constexpr std::size_t PublicInputColumns = 1;
@@ -62,20 +59,21 @@ BOOST_AUTO_TEST_CASE(blueprint_edwards) {
     using ArithmetizationParams =
         zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = zk::blueprint_assignment_table<ArithmetizationType>;
+    using AssignmentType = blueprint::assignment<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
     using var = zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type =
-        zk::components::eddsa25519<ArithmetizationType, curve_type, ed25519_type, 0, 1, 2, 3, 4, 5, 6, 7, 8>;
+    using component_type = zk::components::eddsa25519<ArithmetizationType, curve_type, ed25519_type, 0, 1, 2, 3,
+                                                                          4, 5, 6, 7, 8>;
     ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type B =
         ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type::one();
-    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type R = 2 * B;
-    ed25519_type::scalar_field_type::value_type b = crypto3::algebra::random_element<ed25519_type::scalar_field_type>();
-    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type T = b * R;
-    ed25519_type::scalar_field_type::value_type s = 2 * b + 2;
+        ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type R = 2*B;
+        ed25519_type::scalar_field_type::value_type b = crypto3::algebra::random_element<ed25519_type::scalar_field_type>();
+        ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type T = b*R;
+        ed25519_type::scalar_field_type::value_type s = 2*b + 2;
+
     ed25519_type::base_field_type::integral_type Tx = ed25519_type::base_field_type::integral_type(T.X.data);
     ed25519_type::base_field_type::integral_type Ty = ed25519_type::base_field_type::integral_type(T.Y.data);
     ed25519_type::base_field_type::integral_type Rx = ed25519_type::base_field_type::integral_type(R.X.data);
@@ -109,12 +107,8 @@ BOOST_AUTO_TEST_CASE(blueprint_edwards) {
 
     auto result_check = [](AssignmentType &assignment, component_type::result_type &real_res) {};
 
-    test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
-        params, public_input, result_check);
-
-    auto duration =
-        std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
-    std::cout << "Time_execution: " << duration.count() << "ms" << std::endl;
+    test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(params, public_input,
+                                                                                                 result_check);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

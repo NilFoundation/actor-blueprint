@@ -23,28 +23,26 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef ACTOR_ZK_BLUEPRINT_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
-#define ACTOR_ZK_BLUEPRINT_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
+#ifndef ACTOR_BLUEPRINT_COMPONENTS_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
+#define ACTOR_BLUEPRINT_COMPONENTS_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
 
 #include <boost/test/unit_test.hpp>
 
-#include <nil/actor/zk/snark/algorithms/generate.hpp>
-#include <nil/actor/zk/snark/algorithms/verify.hpp>
-#include <nil/actor/zk/snark/algorithms/prove.hpp>
-#include <nil/actor/zk/snark/schemes/ppzksnark/r1cs_gg_ppzksnark.hpp>
+#include <nil/actor/zk/algorithms/generate.hpp>
+#include <nil/actor/zk/algorithms/verify.hpp>
+#include <nil/actor/zk/algorithms/prove.hpp>
 
-#include <nil/actor/zk/components/blueprint.hpp>
+#include <nil/actor_blueprint/components/blueprint.hpp>
 
 #include <nil/crypto3/algebra/curves/edwards.hpp>
 
-using namespace nil::crypto3::zk;
+using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
-template<typename CurveType, 
-         typename SchemeType = snark::r1cs_gg_ppzksnark<CurveType>>
-bool verify_component(blueprint<typename CurveType::scalar_field_type> bp){
+template<typename CurveType, typename SchemeType = snark::r1cs_gg_ppzksnark<CurveType>>
+bool verify_component(blueprint<typename CurveType::scalar_field_type> bp) {
 
-    if (bp.num_variables() == 0x00){
+    if (bp.num_variables() == 0x00) {
         std::cout << "Empty blueprint!" << std::endl;
         return false;
     }
@@ -55,19 +53,20 @@ bool verify_component(blueprint<typename CurveType::scalar_field_type> bp){
     const snark::r1cs_constraint_system<field_type> constraint_system = bp.get_constraint_system();
 
     auto begin = std::chrono::high_resolution_clock::now();
-    const typename scheme_type::keypair_type keypair = snark::generate<scheme_type>(constraint_system);
+    const typename scheme_type::keypair_type keypair = generate<scheme_type>(constraint_system);
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
     std::cout << "Key generation finished, time: " << elapsed.count() * 1e-9 << std::endl;
 
     begin = std::chrono::high_resolution_clock::now();
-    const typename scheme_type::proof_type proof = snark::prove<scheme_type>(keypair.first, bp.primary_input(), bp.auxiliary_input());
+    const typename scheme_type::proof_type proof =
+        prove<scheme_type>(keypair.first, bp.primary_input(), bp.auxiliary_input());
     end = std::chrono::high_resolution_clock::now();
     elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
     std::cout << "Proving finished, time: " << elapsed.count() * 1e-9 << std::endl;
 
     begin = std::chrono::high_resolution_clock::now();
-    bool verified = snark::verify<scheme_type>(keypair.second, bp.primary_input(), proof);
+    bool verified = verify<scheme_type>(keypair.second, bp.primary_input(), proof);
     end = std::chrono::high_resolution_clock::now();
     elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
 
@@ -79,11 +78,11 @@ bool verify_component(blueprint<typename CurveType::scalar_field_type> bp){
 }
 
 template<>
-bool verify_component<curves::edwards<183>,
-                      snark::r1cs_gg_ppzksnark<curves::edwards<183>>>(blueprint<typename curves::edwards<183>::scalar_field_type> bp){
+bool verify_component<curves::edwards<183>, snark::r1cs_gg_ppzksnark<curves::edwards<183>>>(
+    blueprint<typename curves::edwards<183>::scalar_field_type> bp) {
     std::cout << "Warning! r1cs_gg_ppzksnark for Edwards-183 is not implemented yet" << std::endl;
 
     return false;
 }
 
-#endif    // ACTOR_ZK_BLUEPRINT_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
+#endif    // ACTOR_BLUEPRINT_COMPONENTS_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP

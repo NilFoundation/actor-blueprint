@@ -26,8 +26,8 @@
 // @file Declaration of interfaces for PLONK unified addition component.
 //---------------------------------------------------------------------------//
 
-#ifndef ACTOR_ZK_BLUEPRINT_EXAMPLE_PLONK_ADDITION_HPP
-#define ACTOR_ZK_BLUEPRINT_EXAMPLE_PLONK_ADDITION_HPP
+#ifndef ACTOR_BLUEPRINT_COMPONENTS_EXAMPLE_PLONK_ADDITION_HPP
+#define ACTOR_BLUEPRINT_COMPONENTS_EXAMPLE_PLONK_ADDITION_HPP
 
 #include <cmath>
 
@@ -35,13 +35,13 @@
 
 #include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/component.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/circuit.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
+#include <nil/actor_blueprint/component.hpp>
 
 namespace nil {
     namespace actor {
-        namespace zk {
+        namespace actor_blueprint {
             namespace components {
 
                 template<typename ArithmetizationType,
@@ -199,8 +199,8 @@ namespace nil {
                     }
                 };
             }    // namespace components
-        }        // namespace zk
+        }        // namespace blueprint
     }            // namespace actor
 }    // namespace nil
 
-#endif    // ACTOR_ZK_BLUEPRINT_EXAMPLE_PLONK_ADDITION_HPP
+#endif    // ACTOR_BLUEPRINT_COMPONENTS_EXAMPLE_PLONK_ADDITION_HPP

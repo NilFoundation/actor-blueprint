@@ -31,14 +31,15 @@
 #include <nil/crypto3/algebra/curves/mnt6.hpp>
 #include <nil/crypto3/algebra/random_element.hpp>
 
-#include <nil/actor/zk/components/blueprint.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/circuit.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/assignment.hpp>
 
-#include <nil/actor/zk/components/algebra/fields/element_fp6_2over3.hpp>
+#include <nil/actor_blueprint/components/algebra/fields/element_fp6_2over3.hpp>
 
 #include "arithmetic.hpp"
 
 using namespace nil::crypto3;
-using namespace nil::crypto3::zk;
+using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
 BOOST_AUTO_TEST_SUITE(field_element_arithmetic_component_test_suite)

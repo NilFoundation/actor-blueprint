@@ -42,22 +42,22 @@
 
 #include <nil/crypto3/algebra/random_element.hpp>
 
-#include <nil/actor/zk/components/algebra/pairing/detail/mnt4.hpp>
-#include <nil/actor/zk/components/algebra/pairing/detail/mnt6.hpp>
-//#include <nil/actor/zk/components/algebra/pairing/pairing_params.hpp>
+#include <nil/actor_blueprint/components/algebra/pairing/detail/mnt4.hpp>
+#include <nil/actor_blueprint/components/algebra/pairing/detail/mnt6.hpp>
+//#include <nil/actor_blueprint/components/algebra/pairing/pairing_params.hpp>
 
-#include <nil/actor/zk/components/algebra/fields/element_fp2.hpp>
-#include <nil/actor/zk/components/algebra/fields/element_fp3.hpp>
-#include <nil/actor/zk/components/algebra/fields/element_fp4.hpp>
-#include <nil/actor/zk/components/algebra/fields/element_fp6_2over3.hpp>
+#include <nil/actor_blueprint/components/algebra/fields/element_fp2.hpp>
+#include <nil/actor_blueprint/components/algebra/fields/element_fp3.hpp>
+#include <nil/actor_blueprint/components/algebra/fields/element_fp4.hpp>
+#include <nil/actor_blueprint/components/algebra/fields/element_fp6_2over3.hpp>
 #include <nil/actor/zk/snark/components/verifiers/r1cs_ppzksnark_verifier_component.hpp>
 #include <nil/actor/zk/snark/schemes/ppzksnark/r1cs_ppzksnark.hpp>
 
 #include "../pairing/weierstrass_miller_loop.hpp"
 #include "../r1cs_examples.hpp"
 
-using namespace nil::crypto3::zk;
-using namespace nil::crypto3::zk::snark;
+using namespace nil::actor::zk;
+using namespace nil::actor::zk::snark;
 using namespace nil::crypto3::algebra;
 
 template<typename ppT_A, typename ppT_B>
@@ -85,23 +85,23 @@ void test_verifier() {
         r1cs_ppzksnark_verification_key_variable<ppT_B>::size_in_bits(primary_input_size);
 
     blueprint<FieldT_B> bp;
-    components::blueprint_variable_vector<FieldT_B> vk_bits;
+    nil::actor::zk::detail::blueprint_variable_vector<FieldT_B> vk_bits;
     vk_bits.allocate(bp, vk_size_in_bits);
 
-    components::blueprint_variable_vector<FieldT_B> primary_input_bits;
+    nil::actor::zk::detail::blueprint_variable_vector<FieldT_B> primary_input_bits;
     primary_input_bits.allocate(bp, primary_input_size_in_bits);
 
     r1cs_ppzksnark_proof_variable<ppT_B> proof(bp);
 
     r1cs_ppzksnark_verification_key_variable<ppT_B> vk(bp, vk_bits, primary_input_size);
 
-    components::blueprint_variable<FieldT_B> result;
+    nil::actor::zk::detail::blueprint_variable<FieldT_B> result;
     result.allocate(bp);
 
     r1cs_ppzksnark_verifier_component<ppT_B> verifier(bp, vk, primary_input_bits, elt_size, proof, result);
 
-    proof.generate_r1cs_constraints();
-    verifier.generate_r1cs_constraints();
+    proof.generate_gates();
+    verifier.generate_gates();
 
     std::vector<bool> input_as_bits;
     for (const FieldT_A &el : example.primary_input) {
@@ -111,16 +111,16 @@ void test_verifier() {
 
     primary_input_bits.fill_with_bits(bp, input_as_bits);
 
-    vk.generate_r1cs_witness(keypair.second);
-    proof.generate_r1cs_witness(pi);
-    verifier.generate_r1cs_witness();
+    vk.generate_assignments(keypair.second);
+    proof.generate_assignments(pi);
+    verifier.generate_assignments();
     bp.val(result) = FieldT_B::one();
 
     std::cout << "positive test:\n" << std::endl;
     BOOST_CHECK(bp.is_satisfied());
 
     bp.val(primary_input_bits[0]) = FieldT_B::one() - bp.val(primary_input_bits[0]);
-    verifier.generate_r1cs_witness();
+    verifier.generate_assignments();
     bp.val(result) = FieldT_B::one();
 
     std::cout << "negative test:" << std::endl;
@@ -152,19 +152,19 @@ void test_hardcoded_verifier() {
 
     blueprint<FieldT_B> bp;
     r1cs_ppzksnark_preprocessed_r1cs_ppzksnark_verification_key_variable<ppT_B> hardcoded_vk(bp, keypair.second);
-    components::blueprint_variable_vector<FieldT_B> primary_input_bits;
+    nil::actor::zk::detail::blueprint_variable_vector<FieldT_B> primary_input_bits;
     primary_input_bits.allocate(bp, primary_input_size_in_bits);
 
     r1cs_ppzksnark_proof_variable<ppT_B> proof(bp);
 
-    components::blueprint_variable<FieldT_B> result;
+    nil::actor::zk::detail::blueprint_variable<FieldT_B> result;
     result.allocate(bp);
 
     r1cs_ppzksnark_online_verifier_component<ppT_B> online_verifier(bp, hardcoded_vk, primary_input_bits, elt_size,
                                                                     proof, result);
 
-    proof.generate_r1cs_constraints();
-    online_verifier.generate_r1cs_constraints();
+    proof.generate_gates();
+    online_verifier.generate_gates();
 
     std::vector<bool> input_as_bits;
     for (const FieldT_A &el : example.primary_input) {
@@ -174,15 +174,15 @@ void test_hardcoded_verifier() {
 
     primary_input_bits.fill_with_bits(bp, input_as_bits);
 
-    proof.generate_r1cs_witness(pi);
-    online_verifier.generate_r1cs_witness();
+    proof.generate_assignments(pi);
+    online_verifier.generate_assignments();
     bp.val(result) = FieldT_B::one();
 
     printf("positive test:\n");
     BOOST_CHECK(bp.is_satisfied());
 
     bp.val(primary_input_bits[0]) = FieldT_B::one() - bp.val(primary_input_bits[0]);
-    online_verifier.generate_r1cs_witness();
+    online_verifier.generate_assignments();
     bp.val(result) = FieldT_B::one();
 
     printf("negative test:\n");
@@ -199,14 +199,14 @@ void test_mul() {
     VarT<FpExtT> y(bp);
     VarT<FpExtT> xy(bp);
     MulT<FpExtT> mul(bp, x, y, xy);
-    mul.generate_r1cs_constraints();
+    mul.generate_gates();
 
     for (size_t i = 0; i < 10; ++i) {
-        const typename FpExtT::value_type x_val = crypto3::algebra::random_element<FpExtT>();
-        const typename FpExtT::value_type y_val = crypto3::algebra::random_element<FpExtT>();
-        x.generate_r1cs_witness(x_val);
-        y.generate_r1cs_witness(y_val);
-        mul.generate_r1cs_witness();
+        const typename FpExtT::value_type x_val = algebra::random_element<FpExtT>();
+        const typename FpExtT::value_type y_val = algebra::random_element<FpExtT>();
+        x.generate_assignments(x_val);
+        y.generate_assignments(y_val);
+        mul.generate_assignments();
         const typename FpExtT::value_type res = xy.get_element();
         BOOST_CHECK(res == x_val * y_val);
         BOOST_CHECK(bp.is_satisfied());
@@ -222,12 +222,12 @@ void test_sqr() {
     VarT<FpExtT> x(bp);
     VarT<FpExtT> xsq(bp);
     SqrT<FpExtT> sqr(bp, x, xsq);
-    sqr.generate_r1cs_constraints();
+    sqr.generate_gates();
 
     for (size_t i = 0; i < 10; ++i) {
-        const typename FpExtT::value_type x_val = crypto3::algebra::random_element<FpExtT>();
-        x.generate_r1cs_witness(x_val);
-        sqr.generate_r1cs_witness();
+        const typename FpExtT::value_type x_val = algebra::random_element<FpExtT>();
+        x.generate_assignments(x_val);
+        sqr.generate_assignments();
         const typename FpExtT::value_type res = xsq.get_element();
         BOOST_CHECK(res == x_val.squared());
         BOOST_CHECK(bp.is_satisfied());
@@ -244,14 +244,14 @@ void test_cyclotomic_sqr() {
     VarT<FpExtT> x(bp);
     VarT<FpExtT> xsq(bp);
     CycloSqrT<FpExtT> sqr(bp, x, xsq);
-    sqr.generate_r1cs_constraints();
+    sqr.generate_gates();
 
     for (size_t i = 0; i < 10; ++i) {
         FpExtT::value_type x_val = crypto3::algebra::random_element<FpExtT>();
         x_val = final_exponentiation<CurveType>(x_val);
 
-        x.generate_r1cs_witness(x_val);
-        sqr.generate_r1cs_witness();
+        x.generate_assignments(x_val);
+        sqr.generate_assignments();
         const typename FpExtT::value_type res = xsq.get_element();
         BOOST_CHECK(res == x_val.squared());
         BOOST_CHECK(bp.is_satisfied());
@@ -268,8 +268,8 @@ void test_Frobenius() {
         VarT<FpExtT> x(bp);
         VarT<FpExtT> x_frob = x.Frobenius_map(i);
 
-        const typename FpExtT::value_type x_val = crypto3::algebra::random_element<FpExtT>();
-        x.generate_r1cs_witness(x_val);
+        const typename FpExtT::value_type x_val = algebra::random_element<FpExtT>();
+        x.generate_assignments(x_val);
         x_frob.evaluate();
         const typename FpExtT::value_type res = x_frob.get_element();
         BOOST_CHECK(res == x_val.Frobenius_map(i));
@@ -304,17 +304,17 @@ void test_full_pair() {
     result_is_one.allocate(bp);
     final_exp_component<CurveType> finexp(bp, miller_result, result_is_one);
 
-    compute_prec_P.generate_r1cs_constraints();
-    compute_prec_Q.generate_r1cs_constraints();
-    miller.generate_r1cs_constraints();
-    finexp.generate_r1cs_constraints();
+    compute_prec_P.generate_gates();
+    compute_prec_Q.generate_gates();
+    miller.generate_gates();
+    finexp.generate_gates();
 
-    P.generate_r1cs_witness(P_val);
-    compute_prec_P.generate_r1cs_witness();
-    Q.generate_r1cs_witness(Q_val);
-    compute_prec_Q.generate_r1cs_witness();
-    miller.generate_r1cs_witness();
-    finexp.generate_r1cs_witness();
+    P.generate_assignments(P_val);
+    compute_prec_P.generate_assignments();
+    Q.generate_assignments(Q_val);
+    compute_prec_Q.generate_assignments();
+    miller.generate_assignments();
+    finexp.generate_assignments();
     BOOST_CHECK(bp.is_satisfied());
 
     typename pairing_policy::affine_ate_g1_precomp native_prec_P = pairing_policy::affine_ate_precompute_g1(P_val);
@@ -354,11 +354,11 @@ void test_full_precomputed_pair() {
     result_is_one.allocate(bp);
     final_exp_component<CurveType> finexp(bp, miller_result, result_is_one);
 
-    miller.generate_r1cs_constraints();
-    finexp.generate_r1cs_constraints();
+    miller.generate_gates();
+    finexp.generate_gates();
 
-    miller.generate_r1cs_witness();
-    finexp.generate_r1cs_witness();
+    miller.generate_assignments();
+    finexp.generate_assignments();
     BOOST_CHECK(bp.is_satisfied());
 
     typename pairing_policy::affine_ate_g1_precomp native_prec_P = pairing_policy::affine_ate_precompute_g1(P_val);
@@ -390,33 +390,30 @@ BOOST_AUTO_TEST_CASE(benes_components_mnt4_test) {
 
     test_mul<fq4_type, element_fp4, element_fp4_mul>();
     test_sqr<fq4_type, element_fp4, element_fp4_squared>();
-    test_cyclotomic_sqr<curve_type, element_fp4, 
-        element_fp4_cyclotomic_squared>();
-    test_exponentiation_component<fq4_type, element_fp4, element_fp4_mul, element_fp4_squared,
-                                  algebra::mnt4_q_limbs>(curve_type::pairing::final_exponent_last_chunk_abs_of_w0);
+    test_cyclotomic_sqr<curve_type, element_fp4, element_fp4_cyclotomic_squared>();
+    test_exponentiation_component<fq4_type, element_fp4, element_fp4_mul, element_fp4_squared, algebra::mnt4_q_limbs>(
+        curve_type::pairing::final_exponent_last_chunk_abs_of_w0);
     test_Frobenius<fq4_type, element_fp4>();
 
     test_element_g2_is_well_formed<curve_type>();
-    
+
     test_element_g1_precomp<curve_type>();
-    
+
     test_element_g2_precomp<curve_type>();
-    
+
     test_mnt_miller_loop<curve_type>();
-    
+
     test_mnt_e_over_e_miller_loop<curve_type>();
-    
+
     test_mnt_e_times_e_over_e_miller_loop<curve_type>();
-    
+
     test_full_pairing<curve_type>();
-    
+
     test_full_precomputed_pairing<curve_type>();
-    
-    test_verifier<curve_type, 
-        typename curve_type::pairing::pair_curve_type>();
-    
-    test_hardcoded_verifier<curve_type, 
-        typename curve_type::pairing::pair_curve_type>();
+
+    test_verifier<curve_type, typename curve_type::pairing::pair_curve_type>();
+
+    test_hardcoded_verifier<curve_type, typename curve_type::pairing::pair_curve_type>();
 }
 
 BOOST_AUTO_TEST_CASE(benes_components_mnt6_test) {
@@ -433,8 +430,9 @@ BOOST_AUTO_TEST_CASE(benes_components_mnt6_test) {
     test_mul<fq6_2over3_type, components::element_fp6_2over3, element_fp6_2over3_mul>();
     test_sqr<fq6_2over3_type, components::element_fp6_2over3, element_fp6_2over3_squared>();
     test_cyclotomic_sqr<curve_type, components::element_fp6_2over3, element_fp6_2over3_cyclotomic_squared>();
-    test_exponentiation_component<fq6_2over3_type, components::element_fp6_2over3, element_fp6_2over3_mul, element_fp6_2over3_squared,
-                                  algebra::mnt6_q_limbs>(curve_type::pairing::final_exponent_last_chunk_abs_of_w0);
+    test_exponentiation_component<fq6_2over3_type, components::element_fp6_2over3, element_fp6_2over3_mul,
+                                  element_fp6_2over3_squared, algebra::mnt6_q_limbs>(
+        curve_type::pairing::final_exponent_last_chunk_abs_of_w0);
     test_Frobenius<fq6_2over3_type, components::element_fp6_2over3>();
 
     test_element_g2_is_well_formed<curve_type>();
@@ -453,11 +451,9 @@ BOOST_AUTO_TEST_CASE(benes_components_mnt6_test) {
 
     test_full_precomputed_pairing<curve_type>();
 
-    test_verifier<curve_type, 
-        typename curve_type::pairing::pair_curve_type>();
+    test_verifier<curve_type, typename curve_type::pairing::pair_curve_type>();
 
-    test_hardcoded_verifier<curve_type, 
-        typename curve_type::pairing::pair_curve_type>();
+    test_hardcoded_verifier<curve_type, typename curve_type::pairing::pair_curve_type>();
 }
 
 BOOST_AUTO_TEST_SUITE_END()

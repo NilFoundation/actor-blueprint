@@ -38,7 +38,7 @@
 
 using namespace nil::crypto3::algebra;
 using namespace nil::crypto3;
-using namespace nil::crypto3::zk;
+using namespace nil::actor::zk;
 
 BOOST_AUTO_TEST_SUITE(sha2_256_component_test_suite)
 BOOST_AUTO_TEST_CASE(sha256_component_test_bls12_381_case) {

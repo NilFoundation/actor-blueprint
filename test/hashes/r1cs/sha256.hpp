@@ -23,19 +23,19 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef ACTOR_ZK_BLUEPRINT_SHA256_COMPONENT_TEST_HPP
-#define ACTOR_ZK_BLUEPRINT_SHA256_COMPONENT_TEST_HPP
+#ifndef ACTOR_BLUEPRINT_COMPONENTS_SHA256_COMPONENT_TEST_HPP
+#define ACTOR_BLUEPRINT_COMPONENTS_SHA256_COMPONENT_TEST_HPP
 
-#include <nil/actor/zk/components/hashes/sha256/sha256_component.hpp>
-#include <nil/actor/zk/components/hashes/hash_io.hpp>
-
-#include <nil/actor/zk/components/blueprint.hpp>
+#include <nil/actor_blueprint/components/hashes/sha256/r1cs/sha256_component.hpp>
+#include <nil/actor_blueprint/components/hashes/hash_io.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/circuit.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/assignment.hpp>
 
 #include <nil/crypto3/hash/sha2.hpp>
 
 using namespace nil::crypto3;
 using namespace nil::crypto3::algebra;
-using namespace nil::crypto3::zk;
+using namespace nil::actor::zk;
 
 template<typename FieldType>
 blueprint<FieldType> sha2_two_to_one_bp() {
@@ -47,7 +47,7 @@ blueprint<FieldType> sha2_two_to_one_bp() {
 
     components::sha256_two_to_one_hash_component<FieldType> f(bp, left, right, output);
 
-    f.generate_r1cs_constraints();
+    f.generate_gates();
     std::cout << "Number of constraints for sha256_two_to_one_hash_component: " << bp.num_constraints() << std::endl;
 
     std::array<std::uint32_t, 8> array_a_intermediate;
@@ -64,31 +64,31 @@ blueprint<FieldType> sha2_two_to_one_bp() {
     std::vector<bool> left_bv(hashes::sha2<256>::digest_bits), right_bv(hashes::sha2<256>::digest_bits),
         hash_bv(hashes::sha2<256>::digest_bits);
 
-    detail::pack<stream_endian::big_octet_little_bit, stream_endian::little_octet_big_bit, 32, 32>(
+    nil::crypto3::detail::pack<stream_endian::big_octet_little_bit, stream_endian::little_octet_big_bit, 32, 32>(
         array_a.begin(), array_a.end(), array_a_intermediate.begin());
 
-    detail::pack<stream_endian::big_octet_little_bit, stream_endian::little_octet_big_bit, 32, 32>(
+    nil::crypto3::detail::pack<stream_endian::big_octet_little_bit, stream_endian::little_octet_big_bit, 32, 32>(
         array_b.begin(), array_b.end(), array_b_intermediate.begin());
 
-    detail::pack<stream_endian::big_octet_little_bit, stream_endian::little_octet_big_bit, 32, 32>(
+    nil::crypto3::detail::pack<stream_endian::big_octet_little_bit, stream_endian::little_octet_big_bit, 32, 32>(
         array_c.begin(), array_c.end(), array_c_intermediate.begin());
 
-    detail::pack_to<stream_endian::big_octet_big_bit, 32, 1>(array_a_intermediate, left_bv.begin());
+    nil::crypto3::detail::pack_to<stream_endian::big_octet_big_bit, 32, 1>(array_a_intermediate, left_bv.begin());
 
-    detail::pack_to<stream_endian::big_octet_big_bit, 32, 1>(array_b_intermediate, right_bv.begin());
+    nil::crypto3::detail::pack_to<stream_endian::big_octet_big_bit, 32, 1>(array_b_intermediate, right_bv.begin());
 
-    detail::pack_to<stream_endian::big_octet_big_bit, 32, 1>(array_c_intermediate, hash_bv.begin());
+    nil::crypto3::detail::pack_to<stream_endian::big_octet_big_bit, 32, 1>(array_c_intermediate, hash_bv.begin());
 
-    left.generate_r1cs_witness(left_bv);
+    left.generate_assignments(left_bv);
 
-    right.generate_r1cs_witness(right_bv);
+    right.generate_assignments(right_bv);
 
-    f.generate_r1cs_witness();
-    output.generate_r1cs_witness(hash_bv);
+    f.generate_assignments();
+    output.generate_assignments(hash_bv);
 
     BOOST_CHECK(bp.is_satisfied());
 
     return bp;
 }
 
-#endif    // ACTOR_ZK_BLUEPRINT_SHA256_COMPONENT_TEST_HPP
+#endif    // ACTOR_BLUEPRINT_COMPONENTS_SHA256_COMPONENT_TEST_HPP

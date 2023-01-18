@@ -18,16 +18,36 @@ if (NOT CMAKE_WORKSPACE_NAME OR NOT ("${CMAKE_WORKSPACE_NAME}" STREQUAL "actor")
     cm_workspace(actor)
 endif ()
 
-option(ZK_PLACEHOLDER_PROFILING_ENABLED "Build with placeholder profiling" FALSE)
-option(ZK_PLACEHOLDER_DEBUG_ENABLED "Build with placeholder testing inside" FALSE)
+option(ZK_PLACEHOLDER_PROFILING "Build with placeholder profiling" FALSE)
+option(ZK_PLACEHOLDER_DEBUG "Build with placeholder debug ouput" FALSE)
 
 if (ZK_PLACEHOLDER_PROFILING)
     add_definitions(-DZK_PLACEHOLDER_PROFILING_ENABLED)
 endif ()
 
-if(ZK_PLACEHOLDER_DEBUG)
+if (ZK_PLACEHOLDER_DEBUG)
     add_definitions(-DZK_PLACEHOLDER_DEBUG_ENABLED)
-endif()
+endif ()
+
+option(BLUEPRINT_DEBUG "Build with blueprint debug output" FALSE)
+
+if (BLUEPRINT_DEBUG)
+    message(STATUS "BLUEPRINT DEBUG enabled")
+    add_definitions(-DBLUEPRINT_DEBUG_ENABLED)
+endif ()
+
+option(BLUEPRINT_TESTS_PROFILING "Build tests with blueprint table profiling" FALSE)
+option(BLUEPRINT_PLACEHOLDER_PROOF_GEN "Build with placeholder proof generation running" FALSE)
+
+if (BLUEPRINT_TESTS_PROFILING)
+    message(STATUS "BLUEPRINT TESTS PROFILING enabled")
+    add_definitions(-DBLUEPRINT_PLONK_PROFILING_ENABLED)
+endif ()
+
+if (BLUEPRINT_PLACEHOLDER_PROOF_GEN)
+    message(STATUS "BLUEPRINT PROOF GENERATION enabled")
+    add_definitions(-DBLUEPRINT_PLACEHOLDER_PROOF_GEN_ENABLED)
+endif ()
 
 macro(cm_find_package NAME)
     foreach (ITERATOR ${CMAKE_WORKSPACE_LIST})
@@ -62,55 +82,44 @@ if (UNIX AND BUILD_WITH_PROCPS)
 endif ()
 
 list(APPEND ${CURRENT_PROJECT_NAME}_PUBLIC_HEADERS
-        include/nil/actor/zk/components/algebra/curves/edwards/element_g1.hpp
-        include/nil/actor/zk/components/algebra/curves/weierstrass/element_g1.hpp
-        include/nil/actor/zk/components/algebra/curves/weierstrass/element_g2.hpp
-        include/nil/actor/zk/components/algebra/curves/scalar_mul.hpp
+        include/nil/actor/zk/components/algebra/curves/edwards/r1cs/element_g1.hpp
+        include/nil/actor/zk/components/algebra/curves/weierstrass/r1cs/element_g1.hpp
+        include/nil/actor/zk/components/algebra/curves/weierstrass/r1cs/element_g2.hpp
+        include/nil/actor/zk/components/algebra/curves/detail/r1cs/scalar_mul.hpp
 
-        include/nil/actor/zk/components/algebra/fields/exponentiation.hpp
-        include/nil/actor/zk/components/algebra/fields/element_fp2.hpp
-        include/nil/actor/zk/components/algebra/fields/element_fp3.hpp
-        include/nil/actor/zk/components/algebra/fields/element_fp4.hpp
-        include/nil/actor/zk/components/algebra/fields/element_fp6.hpp
+        include/nil/actor/zk/components/algebra/fields/r1cs/exponentiation.hpp
+        include/nil/actor/zk/components/algebra/fields/r1cs/element_fp2.hpp
+        include/nil/actor/zk/components/algebra/fields/r1cs/element_fp3.hpp
+        include/nil/actor/zk/components/algebra/fields/r1cs/element_fp4.hpp
+        include/nil/actor/zk/components/algebra/fields/r1cs/element_fp6.hpp
 
-        include/nil/actor/zk/components/hashes/knapsack/knapsack_component.hpp
-        include/nil/actor/zk/components/hashes/sha256/sha256_aux.hpp
-        include/nil/actor/zk/components/hashes/sha256/sha256_components.hpp
-        include/nil/actor/zk/components/hashes/sha256/sha256_component.hpp
-        include/nil/actor/zk/components/hashes/crh_component.hpp
-        include/nil/actor/zk/components/hashes/digest_selector_component.hpp
-        include/nil/actor/zk/components/hashes/hash_io.hpp
+        include/nil/actor/zk/components/hashes/knapsack/r1cs/knapsack.hpp
+        include/nil/actor/zk/components/hashes/sha256/r1cs/sha256_aux.hpp
+        include/nil/actor/zk/components/hashes/sha256/r1cs/sha256_components.hpp
+        include/nil/actor/zk/components/hashes/sha256/r1cs/sha256_component.hpp
 
-        include/nil/actor/zk/components/merkle_tree/authentication_path.hpp
-        include/nil/actor/zk/components/merkle_tree/check_read.hpp
-        include/nil/actor/zk/components/merkle_tree/check_update.hpp
+        include/nil/actor/zk/components/merkle_tree/r1cs/authentication_path.hpp
+        include/nil/actor/zk/components/merkle_tree/r1cs/check_read.hpp
+        include/nil/actor/zk/components/merkle_tree/r1cs/check_update.hpp
 
-        include/nil/actor/zk/components/algebra/pairing/detail/mnt4.hpp
-        include/nil/actor/zk/components/algebra/pairing/detail/mnt6.hpp
-        include/nil/actor/zk/components/algebra/pairing/weierstrass/pairing_checks.hpp
-        include/nil/actor/zk/components/algebra/pairing/weierstrass/final_exponentiation.hpp
-        include/nil/actor/zk/components/algebra/pairing/weierstrass/miller_loop.hpp
-        include/nil/actor/zk/components/algebra/pairing/weierstrass/precomputation.hpp
-
-        include/nil/actor/zk/components/routing/as_waksman_routing_component.hpp
-        include/nil/actor/zk/components/routing/benes_routing_component.hpp
-
-        include/nil/actor/zk/components/systems/set_commitment/set_commitment_component.hpp
-        include/nil/actor/zk/components/systems/set_commitment/set_membership_proof_variable.hpp
+        include/nil/actor/zk/components/algebra/pairing/detail/r1cs/mnt4.hpp
+        include/nil/actor/zk/components/algebra/pairing/detail/r1cs/mnt6.hpp
+        include/nil/actor/zk/components/algebra/pairing/weierstrass/r1cs/pairing_checks.hpp
+        include/nil/actor/zk/components/algebra/pairing/weierstrass/r1cs/final_exponentiation.hpp
+        include/nil/actor/zk/components/algebra/pairing/weierstrass/r1cs/miller_loop.hpp
+        include/nil/actor/zk/components/algebra/pairing/weierstrass/r1cs/precomputation.hpp
 
         include/nil/actor/zk/components/systems/snark/r1cs_pp_zksnark/verifier.hpp
-        include/nil/actor/zk/components/packing.hpp
-        include/nil/actor/zk/components/comparison.hpp
-        include/nil/actor/zk/components/conjunction.hpp
-        include/nil/actor/zk/components/disjunction.hpp
-        include/nil/actor/zk/components/inner_product.hpp
-        include/nil/actor/zk/components/loose_multiplexing.hpp
+        include/nil/actor/zk/components/detail/r1cs/packing.hpp
+        include/nil/actor/zk/components/boolean/r1cs/comparison.hpp
+        include/nil/actor/zk/components/boolean/r1cs/conjunction.hpp
+        include/nil/actor/zk/components/boolean/r1cs/disjunction.hpp
+        include/nil/actor/zk/components/boolean/r1cs/inner_product.hpp
+        include/nil/actor/zk/components/detail/r1cs/loose_multiplexing.hpp
         include/nil/actor/zk/components/component_from_r1cs.hpp
         include/nil/actor/zk/component.hpp
         include/nil/actor/zk/blueprint/r1cs.hpp
-        include/nil/actor/zk/blueprint/plonk.hpp
-
-        include/nil/actor/zk/merkle_tree.hpp)
+        include/nil/actor/zk/blueprint/plonk.hpp)
 
 list(APPEND ${CURRENT_PROJECT_NAME}_UNGROUPED_SOURCES)
 

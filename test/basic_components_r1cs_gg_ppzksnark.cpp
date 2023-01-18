@@ -47,18 +47,18 @@
 #include <nil/crypto3/algebra/curves/params/multiexp/mnt6.hpp>
 #include <nil/crypto3/algebra/curves/params/wnaf/mnt6.hpp>
 
-#include <nil/actor/zk/components/disjunction.hpp>
-#include <nil/actor/zk/components/conjunction.hpp>
-#include <nil/actor/zk/components/comparison.hpp>
-#include <nil/actor/zk/components/inner_product.hpp>
-#include <nil/actor/zk/components/loose_multiplexing.hpp>
+#include <nil/actor_blueprint/components/disjunction.hpp>
+#include <nil/actor_blueprint/components/conjunction.hpp>
+#include <nil/actor_blueprint/components/comparison.hpp>
+#include <nil/actor_blueprint/components/inner_product.hpp>
+#include <nil/actor_blueprint/components/loose_multiplexing.hpp>
 
-#include <nil/actor/zk/snark/schemes/ppzksnark/r1cs_gg_ppzksnark.hpp>
+#include <nil/actor/zk/snark/systems/ppzksnark/r1cs_gg_ppzksnark.hpp>
 
 #include "verify_r1cs_scheme.hpp"
 
 using namespace nil::crypto3;
-using namespace nil::crypto3::zk;
+using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
 template<typename CurveType>
@@ -67,26 +67,25 @@ void test_disjunction_component(std::size_t w) {
     using field_type = typename CurveType::scalar_field_type;
     using curve_type = CurveType;
 
-    std::size_t n = std::log2(w) + 
-        ((w > (1ul << std::size_t(std::log2(w))))? 1 : 0);
+    std::size_t n = std::log2(w) + ((w > (1ul << std::size_t(std::log2(w)))) ? 1 : 0);
 
     blueprint<field_type> bp;
-    components::blueprint_variable<field_type> output;
+    nil::actor::zk::detail::blueprint_variable<field_type> output;
     output.allocate(bp);
 
     bp.set_input_sizes(1);
 
-    components::blueprint_variable_vector<field_type> inputs;
+    nil::actor::zk::detail::blueprint_variable_vector<field_type> inputs;
     inputs.allocate(bp, n);
 
     components::disjunction<field_type> d(bp, inputs, output);
-    d.generate_r1cs_constraints();
+    d.generate_gates();
 
     for (std::size_t j = 0; j < n; ++j) {
         bp.val(inputs[j]) = typename field_type::value_type((w & (1ul << j)) ? 1 : 0);
     }
 
-    d.generate_r1cs_witness();
+    d.generate_assignments();
 
     BOOST_CHECK(bp.val(output) == (w ? field_type::value_type::one() : field_type::value_type::zero()));
     BOOST_CHECK(bp.is_satisfied());
@@ -100,27 +99,26 @@ void test_conjunction_component(std::size_t w) {
     using field_type = typename CurveType::scalar_field_type;
     using curve_type = CurveType;
 
-    std::size_t n = std::log2(w) + 
-        ((w > (1ul << std::size_t(std::log2(w))))? 1 : 0);
+    std::size_t n = std::log2(w) + ((w > (1ul << std::size_t(std::log2(w)))) ? 1 : 0);
 
     blueprint<field_type> bp;
 
-    components::blueprint_variable<field_type> output;
+    nil::actor::zk::detail::blueprint_variable<field_type> output;
     output.allocate(bp);
 
     bp.set_input_sizes(1);
 
-    components::blueprint_variable_vector<field_type> inputs;
+    nil::actor::zk::detail::blueprint_variable_vector<field_type> inputs;
     inputs.allocate(bp, n);
 
     components::conjunction<field_type> c(bp, inputs, output);
-    c.generate_r1cs_constraints();
+    c.generate_gates();
 
     for (std::size_t j = 0; j < n; ++j) {
         bp.val(inputs[j]) = (w & (1ul << j)) ? field_type::value_type::one() : field_type::value_type::zero();
     }
 
-    c.generate_r1cs_witness();
+    c.generate_assignments();
 
     BOOST_CHECK(bp.val(output) ==
                 (w == (1ul << n) - 1 ? field_type::value_type::one() : field_type::value_type::zero()));
@@ -131,29 +129,29 @@ void test_conjunction_component(std::size_t w) {
 
 template<typename CurveType>
 void test_comparison_component(std::size_t a, std::size_t b) {
-    
+
     using field_type = typename CurveType::scalar_field_type;
     using curve_type = CurveType;
 
     blueprint<field_type> bp;
 
-    components::blueprint_variable<field_type> A, B, less, less_or_eq;
+    nil::actor::zk::detail::blueprint_variable<field_type> A, B, less, less_or_eq;
     A.allocate(bp);
     B.allocate(bp);
     less.allocate(bp);
     less_or_eq.allocate(bp);
 
     bp.set_input_sizes(1);
-    std::size_t n = std::log2(std::max(a, b)) + 
-        ((std::max(a, b) > (1ul << std::size_t(std::log2(std::max(a, b)))))? 1 : 0);
+    std::size_t n =
+        std::log2(std::max(a, b)) + ((std::max(a, b) > (1ul << std::size_t(std::log2(std::max(a, b))))) ? 1 : 0);
 
     components::comparison<field_type> cmp(bp, n, A, B, less, less_or_eq);
-    cmp.generate_r1cs_constraints();
+    cmp.generate_gates();
     
     bp.val(A) = typename field_type::value_type(a);
     bp.val(B) = typename field_type::value_type(b);
 
-    cmp.generate_r1cs_witness();
+    cmp.generate_assignments();
 
     BOOST_CHECK(bp.val(less) == (a < b ? field_type::value_type::one() : field_type::value_type::zero()));
     BOOST_CHECK(bp.val(less_or_eq) == (a <= b ? field_type::value_type::one() : field_type::value_type::zero()));

@@ -23,12 +23,12 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef ACTOR_ZK_BLUEPRINT_ELEMENT_FP2_COMPONENT_TEST_HPP
-#define ACTOR_ZK_BLUEPRINT_ELEMENT_FP2_COMPONENT_TEST_HPP
+#ifndef ACTOR_BLUEPRINT_COMPONENTS_ELEMENT_FP2_COMPONENT_TEST_HPP
+#define ACTOR_BLUEPRINT_COMPONENTS_ELEMENT_FP2_COMPONENT_TEST_HPP
 
 #include <boost/test/unit_test.hpp>
 
-using namespace nil::crypto3::zk;
+using namespace nil::actor::zk;
 
 template <typename FieldType, template<class> class Fpk_variableT, 
           template<class> class Fpk_mul_componentT>
@@ -46,8 +46,8 @@ blueprint<typename FieldType::base_field_type> test_field_element_mul(typename F
     element_component result(bp);
 
     element_mul_component el_mul_instance(bp, A, B, result);
-    el_mul_instance.generate_r1cs_constraints();
-    el_mul_instance.generate_r1cs_witness();
+    el_mul_instance.generate_gates();
+    el_mul_instance.generate_assignments();
 
     const typename field_type::value_type res = result.get_element();
 
@@ -71,8 +71,8 @@ blueprint<typename FieldType::base_field_type> test_field_element_squared(typena
     element_component result(bp);
 
     element_squared_component el_squared_instance(bp, A, result);
-    el_squared_instance.generate_r1cs_constraints();
-    el_squared_instance.generate_r1cs_witness();
+    el_squared_instance.generate_gates();
+    el_squared_instance.generate_assignments();
 
     const typename field_type::value_type res = result.get_element();
 
@@ -82,4 +82,4 @@ blueprint<typename FieldType::base_field_type> test_field_element_squared(typena
     return bp;
 }
 
-#endif    // ACTOR_ZK_BLUEPRINT_ELEMENT_FP2_COMPONENT_TEST_HPP
+#endif    // ACTOR_BLUEPRINT_COMPONENTS_ELEMENT_FP2_COMPONENT_TEST_HPP

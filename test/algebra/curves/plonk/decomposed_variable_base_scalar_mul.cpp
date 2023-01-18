@@ -40,10 +40,10 @@
 
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/components/algebra/curves/pasta/plonk/decomposed_variable_base_scalar_mul_15_wires.hpp>
-#include "test_plonk_component.hpp"
+#include <nil/actor_blueprint_mc/blueprint/plonk.hpp>
+#include <nil/actor_blueprint_mc/assignment/plonk.hpp>
+#include <nil/actor_blueprint_mc/components/algebra/curves/pasta/plonk/decomposed_variable_base_scalar_mul_15_wires.hpp>
+#include "test_plonk_component_mc.hpp"
 
 #include "../../../profiling.hpp"
 
@@ -65,10 +65,10 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_decomposed_variable_base_scalar_mul) {
         PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType,
                 ArithmetizationParams>;
-    using AssignmentType = zk::blueprint_assignment_table<ArithmetizationType>;
+    using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
 	using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
-    using component_type = zk::components::curve_element_decomposed_variable_base_scalar_mul<ArithmetizationType, curve_type, 
+    using component_type = nil::actor_blueprint_mc::components::curve_element_decomposed_variable_base_scalar_mul<ArithmetizationType, curve_type,
                                                             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
 	using var = zk::snark::plonk_variable<BlueprintFieldType>;
     typename BlueprintScalarType::value_type b_scalar = crypto3::algebra::random_element<BlueprintScalarType>();
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_decomposed_variable_base_scalar_mul) {
 			assert(expected.X == assignment.var_value(real_res.X));
 			assert(expected.Y == assignment.var_value(real_res.Y));
     };
-    test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (assignment_params, public_input, result_check);
+    nil::actor_blueprint_mc::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (assignment_params, public_input, result_check);
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
     std::cout << "base_scalar_mul: " << duration.count() << "ms" << std::endl;

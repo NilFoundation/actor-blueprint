@@ -38,11 +38,11 @@
 
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/zkpm_evaluate.hpp>
+#include <nil/actor_blueprint_mc/components/systems/snark/plonk/kimchi/detail/zkpm_evaluate.hpp>
+#include <nil/actor_blueprint_mc/blueprint/plonk.hpp>
+#include <nil/actor_blueprint_mc/assignment/plonk.hpp>
 
-#include "test_plonk_component.hpp"
+#include "../../../test_plonk_component_mc.hpp"
 
 using namespace nil::crypto3;
 
@@ -60,13 +60,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_zkpm) {
     using ArithmetizationParams =
         zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = zk::blueprint_assignment_table<ArithmetizationType>;
+    using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
 
     using var = zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = zk::components::zkpm_evaluate<ArithmetizationType, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+    using component_type = nil::actor_blueprint_mc::components::zkpm_evaluate<ArithmetizationType, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
                                                                             11, 12, 13, 14>;
 
     typename BlueprintFieldType::value_type group_gen = crypto3::algebra::random_element<BlueprintFieldType>();
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_zkpm) {
         assert(expected_res == assignment.var_value(real_res.output));
     };
 
-    test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(params, public_input, result_check);
+    nil::actor_blueprint_mc::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(params, public_input, result_check);
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
     std::cout << "zkpm_evaluate: " << duration.count() << "ms" << std::endl;

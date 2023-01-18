@@ -24,8 +24,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP
-#define ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP
+#ifndef ACTOR_BLUEPRINT_COMPONENTS_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP
+#define ACTOR_BLUEPRINT_COMPONENTS_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/curves/vesta.hpp>
@@ -41,9 +41,9 @@
 #include <nil/actor/zk/snark/systems/plonk/pickles/proof.hpp>
 #include <nil/actor/zk/commitments/polynomial/lpc.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_base_field.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/circuit.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
+#include <nil/actor_blueprint/components/systems/snark/plonk/kimchi/verifier_base_field.hpp>
 
 using curve_type = crypto3::algebra::curves::vesta;
 using FpType = typename curve_type::base_field_type;
@@ -136,4 +136,4 @@ using proof_type_scalar = zk::snark::placeholder_proof<FrType, commitment_scheme
 using proof_generator_result_type_scalar = proof_generator_result_type<FrType, 
         ArithmetizationParamsScalar, proof_type_scalar>;
 
-#endif    // ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP
+#endif    // ACTOR_BLUEPRINT_COMPONENTS_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP

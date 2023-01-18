@@ -30,8 +30,8 @@
 
 #include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor_blueprint_mc/blueprint/plonk.hpp>
+#include <nil/actor_blueprint_mc/assignment/plonk.hpp>
 
 namespace nil {
     namespace actor {

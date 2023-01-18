@@ -45,20 +45,13 @@
 
 #include <nil/actor/zk/commitments/polynomial/lpc.hpp>
 
-#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
-#include <nil/actor/zk/snark/systems/plonk/pickles/proof.hpp>
-#include <nil/actor/zk/snark/systems/plonk/placeholder/proof.hpp>
-#include <nil/actor/zk/snark/systems/plonk/placeholder/prover.hpp>
-#include <nil/actor/zk/snark/systems/plonk/placeholder/verifier.hpp>
+#include <nil/actor_blueprint_mc/blueprint/plonk.hpp>
+#include <nil/actor_blueprint_mc/assignment/plonk.hpp>
+#include <nil/actor_blueprint_mc/algorithms/allocate.hpp>
+#include <nil/actor_blueprint_mc/algorithms/generate_circuit.hpp>
+#include <nil/actor_blueprint_mc/components/algebra/curves/pasta/plonk/unified_addition.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/algorithms/allocate.hpp>
-#include <nil/actor/zk/algorithms/generate_circuit.hpp>
-
-#include <nil/actor/zk/components/algebra/curves/pasta/plonk/unified_addition.hpp>
-
-#include "proof_data.hpp"
+#include "proof_data_mc.hpp"
 
 using namespace nil::actor;
 
@@ -131,9 +124,9 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
         nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
 
-    nil::actor::zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
+    auto kimchi_proof = test_proof();
 
-    using component_type = nil::actor::zk::components::curve_element_unified_addition<ArithmetizationType, curve_type, 0, 1, 2, 3,
+    using component_type = nil::actor_blueprint_mc::components::curve_element_unified_addition<ArithmetizationType, curve_type, 0, 1, 2, 3,
                                                                           4, 5, 6, 7, 8, 9, 10>;
     using var = nil::actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
@@ -146,12 +139,12 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
 
     nil::actor::zk::snark::plonk_table_description<BlueprintFieldType, ArithmetizationParams> desc;
 
-    nil::actor::zk::blueprint<ArithmetizationType> bp(desc);
-    nil::actor::zk::blueprint_private_assignment_table<ArithmetizationType> private_assignment(desc);
-    nil::actor::zk::blueprint_public_assignment_table<ArithmetizationType> public_assignment(desc);
-    nil::actor::zk::blueprint_assignment_table<ArithmetizationType> assignment_bp(private_assignment, public_assignment);
+    nil::actor_blueprint_mc::blueprint<ArithmetizationType> bp(desc);
+    nil::actor_blueprint_mc::blueprint_private_assignment_table<ArithmetizationType> private_assignment(desc);
+    nil::actor_blueprint_mc::blueprint_public_assignment_table<ArithmetizationType> public_assignment(desc);
+    nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType> assignment_bp(private_assignment, public_assignment);
 
-    std::size_t start_row = nil::actor::zk::components::allocate<component_type>(bp, complexity);
+    std::size_t start_row = nil::actor_blueprint_mc::components::allocate<component_type>(bp, complexity);
 
     std::vector<component_type::result_type> result(complexity);
 
@@ -165,7 +158,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
         std::size_t row = start_row + i * component_type::rows_amount;
         result[i] = component_type::result_type(component_params, row);
 
-        nil::actor::zk::components::generate_circuit<component_type>(bp, public_assignment, component_params, row);
+        nil::actor_blueprint_mc::components::generate_circuit<component_type>(bp, public_assignment, component_params, row);
 
         component_type::generate_assignments(assignment_bp, component_params, row);
     }

@@ -26,13 +26,13 @@
 #ifndef ACTOR_BLUEPRINT_EXAMPLE_TEST_COMPONENT_HPP
 #define ACTOR_BLUEPRINT_EXAMPLE_TEST_COMPONENT_HPP
 
-#include <nil/actor/zk/component.hpp>
+#include <nil/actor_blueprint/component.hpp>
 
 #include <nil/actor/zk/blueprint/r1cs.hpp>
 
 #include <nil/actor/zk/snark/arithmetization/constraint_satisfaction_problems/r1cs.hpp>
 
-using namespace nil::crypto3::zk;
+using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
 template<typename FieldType>
@@ -57,7 +57,7 @@ public:
       sym_2.allocate(this->bp);
     }
 
-    void generate_r1cs_constraints() {
+    void generate_gates() {
       // x*x = sym_1
       this->bp.add_r1cs_constraint(snark::r1cs_constraint<field_type>(x, x, sym_1));
 
@@ -71,7 +71,7 @@ public:
       this->bp.add_r1cs_constraint(snark::r1cs_constraint<field_type>(sym_2 + 5, 1, out));
     }
 
-    void generate_r1cs_witness() {
+    void generate_assignments() {
       this->bp.val(sym_1) = this->bp.val(x) * this->bp.val(x);
       this->bp.val(y) = this->bp.val(sym_1) * this->bp.val(x);
       this->bp.val(sym_2) = this->bp.val(y) + this->bp.val(x);

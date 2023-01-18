@@ -26,8 +26,8 @@
 // R1CS examples with prescribed parameters (according to some distribution).
 //---------------------------------------------------------------------------//
 
-#ifndef ACTOR_ZK_BLUEPRINT_R1CS_EXAMPLES_TEST_HPP
-#define ACTOR_ZK_BLUEPRINT_R1CS_EXAMPLES_TEST_HPP
+#ifndef ACTOR_BLUEPRINT_COMPONENTS_R1CS_EXAMPLES_TEST_HPP
+#define ACTOR_BLUEPRINT_COMPONENTS_R1CS_EXAMPLES_TEST_HPP
 
 #include <nil/actor/zk/snark/arithmetization/constraint_satisfaction_problems/r1cs.hpp>
 
@@ -213,4 +213,4 @@ namespace nil {
     }            // namespace actor
 }    // namespace nil
 
-#endif    // ACTOR_ZK_BLUEPRINT_R1CS_EXAMPLES_TEST_HPP
+#endif    // ACTOR_BLUEPRINT_COMPONENTS_R1CS_EXAMPLES_TEST_HPP

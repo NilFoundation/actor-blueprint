@@ -34,25 +34,23 @@
 #include <nil/crypto3/algebra/curves/ed25519.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/ed25519.hpp>
 
-#include <nil/crypto3/hash/algorithm/hash.hpp>
-#include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/components/non_native/algebra/fields/plonk/signatures_verification.hpp>
-#include <nil/actor/zk/components/non_native/algebra/fields/plonk/ed25519.hpp>
+#include <nil/actor_blueprint_mc/blueprint/plonk.hpp>
+#include <nil/actor_blueprint_mc/assignment/plonk.hpp>
+#include <nil/actor_blueprint_mc/components/non_native/algebra/fields/plonk/signatures_verification.hpp>
+#include <nil/actor_blueprint_mc/components/non_native/algebra/fields/plonk/ed25519.hpp>
 
-#include "../../test_plonk_component.hpp"
+#include "../../test_plonk_component_mc.hpp"
 
 using namespace nil::actor;
 
 template<typename ed25519_type>
 typename ed25519_type::scalar_field_type::value_type
-    sha512(typename ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type R,
-           typename ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type pk,
+    sha512(typename ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type R,
+           typename ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type pk,
            std::array<typename ed25519_type::base_field_type::integral_type, 4>
                M) {
     std::array<typename ed25519_type::base_field_type::integral_type, 80> round_constant = {
@@ -346,21 +344,21 @@ ACTOR_THREAD_TEST_CASE(blueprint_signatures_verification) {
     using ArithmetizationParams =
         zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = zk::blueprint_assignment_table<ArithmetizationType>;
+    using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
     using var = zk::snark::plonk_variable<BlueprintFieldType>;
     constexpr const std::size_t k = 1;
-    using component_type = zk::components::signatures_verification<ArithmetizationType, curve_type, ed25519_type, k, 0,
+    using component_type = nil::actor_blueprint_mc::components::signatures_verification<ArithmetizationType, curve_type, ed25519_type, k, 0,
                                                                    1, 2, 3, 4, 5, 6, 7, 8>;
     using ed25519_component =
-        zk::components::eddsa25519<ArithmetizationType, curve_type, ed25519_type, 0, 1, 2, 3, 4, 5, 6, 7, 8>;
+        nil::actor_blueprint_mc::components::eddsa25519<ArithmetizationType, curve_type, ed25519_type, 0, 1, 2, 3, 4, 5, 6, 7, 8>;
     using var_ec_point = typename ed25519_component::params_type::var_ec_point;
     using signature = typename ed25519_component::params_type::signature;
 
-    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type B =
-        ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type::one();
+    ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type B =
+        ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type::one();
     auto M = 0x40000000000000000000000000000000224698fc094cf91b992d30ed00000001_cppui256;
 
     std::vector<typename BlueprintFieldType::value_type> public_input;
@@ -369,17 +367,17 @@ ACTOR_THREAD_TEST_CASE(blueprint_signatures_verification) {
 
     std::array<signature, k> signatures;
     std::array<var_ec_point, k> public_keys;
-    std::array<ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type, k> signatures_point;
+    std::array<ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type, k> signatures_point;
     std::array<ed25519_type::scalar_field_type::value_type, k> signatures_scalar;
-    std::array<ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type, k> public_keys_values;
+    std::array<ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type, k> public_keys_values;
 
     for (std::size_t i = 0; i < k; i++) {
-        ed25519_type::scalar_field_type::value_type r = crypto3::algebra::random_element<ed25519_type::scalar_field_type>();
-        ed25519_type::scalar_field_type::value_type c = crypto3::algebra::random_element<ed25519_type::scalar_field_type>();
+        ed25519_type::scalar_field_type::value_type r = nil::crypto3::algebra::random_element<ed25519_type::scalar_field_type>();
+        ed25519_type::scalar_field_type::value_type c = nil::crypto3::algebra::random_element<ed25519_type::scalar_field_type>();
 
-        ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type R = r * B;
+        ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type R = r * B;
         signatures_point[i] = R;
-        ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type P = c * B;
+        ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type P = c * B;
         public_keys_values[i] = P;
 
         auto sha_output = sha512<ed25519_type>(R, P,
@@ -434,7 +432,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_signatures_verification) {
 
     auto result_check = [](AssignmentType &assignment, component_type::result_type &real_res) {};
 
-    test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(params, public_input,
+    nil::actor_blueprint_mc::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(params, public_input,
                                                                                                  result_check);
 
     auto duration =

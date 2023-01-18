@@ -31,34 +31,36 @@
 #include <nil/crypto3/algebra/curves/mnt4.hpp>
 #include <nil/crypto3/algebra/curves/mnt6.hpp>
 
-#include <nil/actor/zk/components/disjunction.hpp>
-#include <nil/actor/zk/components/conjunction.hpp>
-#include <nil/actor/zk/components/comparison.hpp>
-#include <nil/actor/zk/components/inner_product.hpp>
-#include <nil/actor/zk/components/loose_multiplexing.hpp>
+#include <nil/actor_blueprint/components/disjunction.hpp>
+#include <nil/actor_blueprint/components/conjunction.hpp>
+#include <nil/actor_blueprint/components/comparison.hpp>
+#include <nil/actor_blueprint/components/inner_product.hpp>
+#include <nil/actor_blueprint/components/loose_multiplexing.hpp>
+
+#include <nil/actor/zk/blueprint/r1cs.hpp>
 
 using namespace nil::crypto3;
-using namespace nil::crypto3::zk;
+using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
 template<typename FieldType>
 void test_disjunction_component(size_t n) {
     blueprint<FieldType> bp;
-    components::blueprint_variable_vector<FieldType> inputs;
+    nil::actor::zk::detail::blueprint_variable_vector<FieldType> inputs;
     inputs.allocate(bp, n);
 
-    components::blueprint_variable<FieldType> output;
+    nil::actor::zk::detail::blueprint_variable<FieldType> output;
     output.allocate(bp);
 
     components::disjunction<FieldType> d(bp, inputs, output);
-    d.generate_r1cs_constraints();
+    d.generate_gates();
 
     for (std::size_t w = 0; w < 1ul << n; ++w) {
         for (std::size_t j = 0; j < n; ++j) {
             bp.val(inputs[j]) = typename FieldType::value_type((w & (1ul << j)) ? 1 : 0);
         }
 
-        d.generate_r1cs_witness();
+        d.generate_assignments();
 
         BOOST_CHECK(bp.val(output) == (w ? FieldType::value_type::one() : FieldType::value_type::zero()));
         BOOST_CHECK(bp.is_satisfied());
@@ -71,21 +73,21 @@ void test_disjunction_component(size_t n) {
 template<typename FieldType>
 void test_conjunction_component(size_t n) {
     blueprint<FieldType> bp;
-    components::blueprint_variable_vector<FieldType> inputs;
+    nil::actor::zk::detail::blueprint_variable_vector<FieldType> inputs;
     inputs.allocate(bp, n);
 
-    components::blueprint_variable<FieldType> output;
+    nil::actor::zk::detail::blueprint_variable<FieldType> output;
     output.allocate(bp);
 
     components::conjunction<FieldType> c(bp, inputs, output);
-    c.generate_r1cs_constraints();
+    c.generate_gates();
 
     for (std::size_t w = 0; w < 1ul << n; ++w) {
         for (std::size_t j = 0; j < n; ++j) {
             bp.val(inputs[j]) = (w & (1ul << j)) ? FieldType::value_type::one() : FieldType::value_type::zero();
         }
 
-        c.generate_r1cs_witness();
+        c.generate_assignments();
 
         BOOST_CHECK(bp.val(output) ==
                     (w == (1ul << n) - 1 ? FieldType::value_type::one() : FieldType::value_type::zero()));
@@ -100,21 +102,21 @@ template<typename FieldType>
 void test_comparison_component(size_t n) {
     blueprint<FieldType> bp;
 
-    components::blueprint_variable<FieldType> A, B, less, less_or_eq;
+    nil::actor::zk::detail::blueprint_variable<FieldType> A, B, less, less_or_eq;
     A.allocate(bp);
     B.allocate(bp);
     less.allocate(bp);
     less_or_eq.allocate(bp);
 
     components::comparison<FieldType> cmp(bp, n, A, B, less, less_or_eq);
-    cmp.generate_r1cs_constraints();
+    cmp.generate_gates();
 
     for (std::size_t a = 0; a < 1ul << n; ++a) {
         for (std::size_t b = 0; b < 1ul << n; ++b) {
             bp.val(A) = typename FieldType::value_type(a);
             bp.val(B) = typename FieldType::value_type(b);
 
-            cmp.generate_r1cs_witness();
+            cmp.generate_assignments();
 
             BOOST_CHECK(bp.val(less) == (a < b ? FieldType::value_type::one() : FieldType::value_type::zero()));
             BOOST_CHECK(bp.val(less_or_eq) == (a <= b ? FieldType::value_type::one() : FieldType::value_type::zero()));
@@ -126,16 +128,16 @@ void test_comparison_component(size_t n) {
 template<typename FieldType>
 void test_inner_product_component(size_t n) {
     blueprint<FieldType> bp;
-    components::blueprint_variable_vector<FieldType> A;
+    nil::actor::zk::detail::blueprint_variable_vector<FieldType> A;
     A.allocate(bp, n);
-    components::blueprint_variable_vector<FieldType> B;
+    nil::actor::zk::detail::blueprint_variable_vector<FieldType> B;
     B.allocate(bp, n);
 
-    components::blueprint_variable<FieldType> result;
+    nil::actor::zk::detail::blueprint_variable<FieldType> result;
     result.allocate(bp);
 
     components::inner_product<FieldType> g(bp, A, B, result);
-    g.generate_r1cs_constraints();
+    g.generate_gates();
 
     for (std::size_t i = 0; i < 1ul << n; ++i) {
         for (std::size_t j = 0; j < 1ul << n; ++j) {
@@ -146,7 +148,7 @@ void test_inner_product_component(size_t n) {
                 correct += ((i & (1ul << k)) && (j & (1ul << k)) ? 1 : 0);
             }
 
-            g.generate_r1cs_witness();
+            g.generate_assignments();
 
             BOOST_CHECK(bp.val(result) == typename FieldType::value_type(correct));
             BOOST_CHECK(bp.is_satisfied());
@@ -161,15 +163,15 @@ template<typename FieldType>
 void test_loose_multiplexing_component(size_t n) {
     blueprint<FieldType> bp;
 
-    components::blueprint_variable_vector<FieldType> arr;
+    nil::actor::zk::detail::blueprint_variable_vector<FieldType> arr;
     arr.allocate(bp, 1ul << n);
-    components::blueprint_variable<FieldType> index, result, success_flag;
+    nil::actor::zk::detail::blueprint_variable<FieldType> index, result, success_flag;
     index.allocate(bp);
     result.allocate(bp);
     success_flag.allocate(bp);
 
     components::loose_multiplexing<FieldType> g(bp, arr, index, result, success_flag);
-    g.generate_r1cs_constraints();
+    g.generate_gates();
 
     for (std::size_t i = 0; i < 1ul << n; ++i) {
         bp.val(arr[i]) = typename FieldType::value_type((19 * i) % (1ul << n));
@@ -178,8 +180,7 @@ void test_loose_multiplexing_component(size_t n) {
     for (int idx = -1; idx <= (int)(1ul << n); ++idx) {
 
         bp.val(index) = typename FieldType::value_type(idx);
-        g.generate_r1cs_witness();
-
+        g.generate_assignments();
 
         if (0 <= idx && idx <= (int)(1ul << n) - 1) {
             BOOST_CHECK(bp.val(result) == typename FieldType::value_type((19 * idx) % (1ul << n)));

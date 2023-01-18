@@ -30,60 +30,60 @@
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
-#include <nil/crypto3/algebra/random_element.hpp>
 
-#include <nil/crypto3/hash/algorithm/hash.hpp>
-#include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/components/hashes/sha256/plonk/sha256.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/circuit.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
+#include <nil/actor_blueprint/components/hashes/sha256/plonk/sha256.hpp>
 
 #include "../../test_plonk_component.hpp"
 
-#include <chrono>
+using namespace nil;
 
-using namespace nil::crypto3;
-
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
-
-BOOST_AUTO_TEST_CASE(blueprint_plonk_sha256) {
-    auto start = std::chrono::high_resolution_clock::now();
-
-    using curve_type = crypto3::algebra::curves::pallas;
-    using BlueprintFieldType = typename curve_type::base_field_type;
-    using FieldType = typename curve_type::base_field_type;
-
+template <typename BlueprintFieldType>
+void test_sha256(std::vector<typename BlueprintFieldType::value_type> public_input){
     constexpr std::size_t WitnessColumns = 9;
     constexpr std::size_t PublicInputColumns = 5;
     constexpr std::size_t ConstantColumns = 2;
-    constexpr std::size_t SelectorColumns = 800;
+    constexpr std::size_t SelectorColumns = 12;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = zk::blueprint_assignment_table<ArithmetizationType>;
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+    using AssignmentType = blueprint::assignment<ArithmetizationType>;
+    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = zk::components::sha256<ArithmetizationType, curve_type, 0, 1, 2, 3, 4, 5, 6, 7, 8>;
+    using component_type = blueprint::components::sha256<ArithmetizationType, 9>;
 
-    std::array<typename ArithmetizationType::field_type::value_type, 4> public_input = {0, 0, 0, 0};
     std::array<var, 4> input_state_var = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),
         var(0, 2, false, var::column_type::public_input), var(0, 3, false, var::column_type::public_input)};
 
-    typename component_type::params_type params = {input_state_var};
-    auto result_check = [](AssignmentType &assignment, component_type::result_type &real_res) {};
-    test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(params, public_input,
-                                                                                                 result_check);
+    typename component_type::input_type instance_input = {input_state_var};
+    auto result_check = [](AssignmentType &assignment, 
+        typename component_type::result_type &real_res) {
+    };
 
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
-    std::cout << "Time_execution: " << duration.count() << "ms" << std::endl;
+    component_type component_instance({0, 1, 2, 3, 4, 5, 6, 7, 8},{0},{});
+
+    crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
+        component_instance, public_input, result_check, instance_input);
+}
+
+BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
+
+BOOST_AUTO_TEST_CASE(blueprint_plonk_sha256_test0) {
+
+    using BlueprintFieldType = typename crypto3::algebra::curves::pallas::base_field_type;
+
+    typename BlueprintFieldType::value_type s = typename BlueprintFieldType::value_type(2).pow(126);
+
+    test_sha256<BlueprintFieldType>({s, s + 1, s + 2, s + 3});
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -32,12 +32,12 @@
 #include <nil/crypto3/algebra/curves/babyjubjub.hpp>
 #include <nil/crypto3/algebra/curves/jubjub.hpp>
 
-#include <nil/actor/zk/components/algebra/curves/twisted_edwards/element_g1.hpp>
+#include <nil/actor_blueprint/components/algebra/curves/twisted_edwards/element_g1.hpp>
 
 #include "test_utils.hpp"
 
 using namespace nil::crypto3;
-using namespace nil::crypto3::zk;
+using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
 // TODO: extend tests

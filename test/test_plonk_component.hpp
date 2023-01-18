@@ -32,19 +32,20 @@
 #include <random>
 
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/padding.hpp>
 #include <nil/actor/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
 #include <nil/actor/zk/snark/systems/plonk/placeholder/prover.hpp>
 #include <nil/actor/zk/snark/systems/plonk/placeholder/verifier.hpp>
 #include <nil/actor/zk/snark/systems/plonk/placeholder/params.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/algorithms/allocate.hpp>
-#include <nil/actor/zk/algorithms/generate_circuit.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/circuit.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
+#include <nil/actor_blueprint/utils/table_profiling.hpp>
+#include <nil/actor_blueprint/utils/satisfiability_check.hpp>
+
 #include <nil/crypto3/math/algorithms/calculate_domain_set.hpp>
 
-#include "profiling_plonk_circuit.hpp"
-#include "profiling.hpp"
+// #include "profiling_plonk_circuit.hpp"
 
 #include <nil/marshalling/status_type.hpp>
 #include <nil/marshalling/field_type.hpp>
@@ -94,44 +95,64 @@ namespace nil {
         }
 
         template<typename ComponentType, typename BlueprintFieldType, typename ArithmetizationParams, typename Hash,
-                 std::size_t Lambda, typename FunctorResultCheck, typename PublicInput,
+                 std::size_t Lambda, typename FunctorResultCheck, typename PublicInputContainerType,
                  typename std::enable_if<
                      std::is_same<typename BlueprintFieldType::value_type,
-                                  typename std::iterator_traits<typename PublicInput::iterator>::value_type>::value,
+                                  typename std::iterator_traits<typename PublicInputContainerType::iterator>::value_type>::value,
                      bool>::type = true>
-        auto prepare_component(typename ComponentType::params_type params, const PublicInput &public_input,
-                               const FunctorResultCheck &result_check) {
+        auto prepare_component(ComponentType component_instance, const PublicInputContainerType &public_input,
+                               const FunctorResultCheck &result_check,
+                               typename ComponentType::input_type instance_input) {
 
             using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
             using component_type = ComponentType;
 
-            zk::snark::plonk_table_description<BlueprintFieldType, ArithmetizationParams> desc;
+            actor_blueprint::circuit<ArithmetizationType> bp;
+            actor_blueprint::assignment<ArithmetizationType> assignment;
 
-            zk::blueprint<ArithmetizationType> bp(desc);
-            zk::blueprint_private_assignment_table<ArithmetizationType> private_assignment(desc);
-            zk::blueprint_public_assignment_table<ArithmetizationType> public_assignment(desc);
-            zk::blueprint_assignment_table<ArithmetizationType> assignment_bp(private_assignment, public_assignment);
-
-            std::size_t start_row = zk::components::allocate<component_type>(bp);
-            if (public_input.size() > component_type::rows_amount) {
-                bp.allocate_rows(public_input.size() - component_type::rows_amount);
-            }
+            std::size_t start_row = 0;
 
             for (std::size_t i = 0; i < public_input.size(); i++) {
-                auto allocated_pi = assignment_bp.allocate_public_input(public_input[i]);
+                assignment.public_input(0, start_row +i) = (public_input[i]);
             }
 
-            zk::components::generate_circuit<component_type>(bp, public_assignment, params, start_row);
+            actor_blueprint::components::generate_circuit<BlueprintFieldType, ArithmetizationParams>(
+                component_instance, bp, assignment, instance_input, start_row);
             typename component_type::result_type component_result =
-                component_type::generate_assignments(assignment_bp, params, start_row);
+                actor_blueprint::components::generate_assignments<BlueprintFieldType, ArithmetizationParams>(
+                    component_instance, assignment, instance_input, start_row);
+            result_check(assignment, component_result);
+
+            zk::snark::plonk_table_description<BlueprintFieldType, ArithmetizationParams> desc;
+            desc.usable_rows_amount = assignment.rows_amount();
+            desc.rows_amount = zk::snark::basic_padding(assignment);
+
+#ifdef BLUEPRINT_PLONK_PROFILING_ENABLED
+            std::cout << "Usable rows: " << desc.usable_rows_amount << std::endl;
+            std::cout << "Padded rows: " << desc.rows_amount << std::endl;
             
-            result_check(assignment_bp, component_result);
+            profiling(assignment);
+#endif
 
-            assignment_bp.padding();
+            assert(actor_blueprint::is_satisfied(bp, assignment));
 
-            zk::snark::plonk_assignment_table<BlueprintFieldType, ArithmetizationParams> assignments(private_assignment,
-                                                                                                     public_assignment);
+            return std::make_tuple(desc, bp, assignment);
+        }
 
+        template<typename ComponentType, typename BlueprintFieldType, typename ArithmetizationParams, typename Hash,
+                 std::size_t Lambda, typename PublicInputContainerType, typename FunctorResultCheck>
+        typename std::enable_if<
+            std::is_same<typename BlueprintFieldType::value_type,
+                         typename std::iterator_traits<typename PublicInputContainerType::iterator>::value_type>::value>::type
+            test_component(ComponentType component_instance, const PublicInputContainerType &public_input,
+                           FunctorResultCheck result_check,
+                           typename ComponentType::input_type instance_input) {
+
+            auto [desc, bp, assignments] =
+                prepare_component<ComponentType, BlueprintFieldType, ArithmetizationParams, Hash, Lambda,
+                                  FunctorResultCheck>(component_instance, public_input, result_check, instance_input);
+
+#ifdef BLUEPRINT_PLACEHOLDER_PROOF_GEN_ENABLED
             using placeholder_params =
                 zk::snark::placeholder_params<BlueprintFieldType, ArithmetizationParams, Hash, Hash, Lambda>;
             using types = zk::snark::detail::placeholder_policy<BlueprintFieldType, placeholder_params>;
@@ -149,30 +170,11 @@ namespace nil {
             typename zk::snark::placeholder_public_preprocessor<
                 BlueprintFieldType, placeholder_params>::preprocessed_data_type public_preprocessed_data =
                 zk::snark::placeholder_public_preprocessor<BlueprintFieldType, placeholder_params>::process(
-                    bp, public_assignment, desc, fri_params, permutation_size).get();
+                    bp, assignments.public_table(), desc, fri_params, permutation_size).get();
             typename zk::snark::placeholder_private_preprocessor<
                 BlueprintFieldType, placeholder_params>::preprocessed_data_type private_preprocessed_data =
                 zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(
-                    bp, private_assignment, desc, fri_params).get();
-
-            return std::make_tuple(desc, bp, fri_params, assignments, public_preprocessed_data,
-                                   private_preprocessed_data);
-        }
-
-        template<typename ComponentType, typename BlueprintFieldType, typename ArithmetizationParams, typename Hash,
-                 std::size_t Lambda, typename PublicInput, typename FunctorResultCheck>
-        typename std::enable_if<
-            std::is_same<typename BlueprintFieldType::value_type,
-                         typename std::iterator_traits<typename PublicInput::iterator>::value_type>::value>::type
-            test_component(typename ComponentType::params_type params, const PublicInput &public_input,
-                           FunctorResultCheck result_check, bool verification_result = true) {
-
-            using placeholder_params =
-                zk::snark::placeholder_params<BlueprintFieldType, ArithmetizationParams, Hash, Hash, Lambda>;
-
-            auto [desc, bp, fri_params, assignments, public_preprocessed_data, private_preprocessed_data] =
-                prepare_component<ComponentType, BlueprintFieldType, ArithmetizationParams, Hash, Lambda,
-                                  FunctorResultCheck>(params, public_input, result_check);
+                    bp, assignments.private_table(), desc, fri_params).get();
 
             auto proof = zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params>::process(
                 public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params);
@@ -180,44 +182,8 @@ namespace nil {
             bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
               public_preprocessed_data, proof, bp, fri_params);
 
-#ifdef BLUEPRINT_PLONK_PROFILING_ENABLED
-            profiling_plonk_circuit<BlueprintFieldType, ArithmetizationParams, Hash, Lambda>::process(std::cout, bp, public_preprocessed_data);
-            profiling(assignments);
+            assert(verifier_res);
 #endif
-            if(verification_result) {
-                BOOST_CHECK(verifier_res);
-            } else {
-                BOOST_CHECK(!verifier_res);
-            }
-        }
-
-        template<typename ComponentType, typename BlueprintFieldType, typename ArithmetizationParams, typename Hash,
-                 std::size_t Lambda, typename PublicInput, typename FunctorResultCheck,
-                 typename std::enable_if<
-                     std::is_same<typename BlueprintFieldType::value_type,
-                                  typename std::iterator_traits<typename PublicInput::iterator>::value_type>::value,
-                     bool>::type = true>
-        auto create_component_proof(typename ComponentType::params_type params, const PublicInput &public_input,
-                                    const FunctorResultCheck &result_check, bool verification_result = true) {
-
-            using placeholder_params =
-                zk::snark::placeholder_params<BlueprintFieldType, ArithmetizationParams, Hash, Hash, Lambda>;
-
-            auto [desc, bp, fri_params, assignments, public_preprocessed_data, private_preprocessed_data] =
-                prepare_component<ComponentType, BlueprintFieldType, ArithmetizationParams, Hash, Lambda>(
-                    params, public_input, result_check);
-
-            auto proof = zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params>::process(
-                public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params);
-
-            bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
-                public_preprocessed_data, proof, bp, fri_params);
-            if (verification_result) {
-                BOOST_CHECK(verifier_res);
-            } else {
-                BOOST_CHECK(!verifier_res);
-            }
-            return std::make_tuple(proof, fri_params, public_preprocessed_data, bp);
         }
     }    // namespace actor
 }    // namespace nil
