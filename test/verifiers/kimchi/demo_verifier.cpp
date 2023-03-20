@@ -35,23 +35,29 @@
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
 #include <nil/crypto3/algebra/random_element.hpp>
 
-#include <nil/crypto3/math/algorithms/calculate_domain_set.hpp>
 
 #include <nil/crypto3/hash/algorithm/hash.hpp>
 #include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
+#include <nil/actor/math/algorithms/calculate_domain_set.hpp>
 #include <nil/actor/math/polynomial/polynomial.hpp>
-
 #include <nil/actor/zk/commitments/polynomial/lpc.hpp>
 
-#include <nil/actor_blueprint_mc/blueprint/plonk.hpp>
-#include <nil/actor_blueprint_mc/assignment/plonk.hpp>
-#include <nil/actor_blueprint_mc/algorithms/allocate.hpp>
-#include <nil/actor_blueprint_mc/algorithms/generate_circuit.hpp>
-#include <nil/actor_blueprint_mc/components/algebra/curves/pasta/plonk/unified_addition.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/systems/plonk/pickles/proof.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/proof.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/prover.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/verifier.hpp>
 
-#include "proof_data_mc.hpp"
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/algorithms/allocate.hpp>
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
+
+#include <nil/actor/zk/components/algebra/curves/pasta/plonk/unified_addition.hpp>
+
+#include "proof_data.hpp"
 
 using namespace nil::actor;
 
@@ -95,7 +101,7 @@ typename fri_type::params_type create_fri_params(std::size_t degree_log, const i
     std::size_t r = degree_log - 1;
 
     std::vector<std::shared_ptr<nil::crypto3::math::evaluation_domain<FieldType>>> domain_set =
-        nil::crypto3::math::calculate_domain_set<FieldType>(degree_log + expand_factor, r);
+        math::calculate_domain_set<FieldType>(degree_log + expand_factor, r).get();
 
     params.r = r;
     params.D = domain_set;
@@ -110,7 +116,7 @@ typename fri_type::params_type create_fri_params(std::size_t degree_log, const i
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
     constexpr std::size_t complexity = 16000;
 
-    using curve_type = crypto3::algebra::curves::vesta;
+    using curve_type = algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::base_field_type;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
@@ -124,9 +130,9 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
         nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
 
-    auto kimchi_proof = test_proof();
+    nil::actor::zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
 
-    using component_type = nil::actor_blueprint_mc::components::curve_element_unified_addition<ArithmetizationType, curve_type, 0, 1, 2, 3,
+    using component_type = nil::actor::zk::components::curve_element_unified_addition<ArithmetizationType, curve_type, 0, 1, 2, 3,
                                                                           4, 5, 6, 7, 8, 9, 10>;
     using var = nil::actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
@@ -139,12 +145,12 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
 
     nil::actor::zk::snark::plonk_table_description<BlueprintFieldType, ArithmetizationParams> desc;
 
-    nil::actor_blueprint_mc::blueprint<ArithmetizationType> bp(desc);
-    nil::actor_blueprint_mc::blueprint_private_assignment_table<ArithmetizationType> private_assignment(desc);
-    nil::actor_blueprint_mc::blueprint_public_assignment_table<ArithmetizationType> public_assignment(desc);
-    nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType> assignment_bp(private_assignment, public_assignment);
+    nil::actor::zk::blueprint<ArithmetizationType> bp(desc);
+    nil::actor::zk::blueprint_private_assignment_table<ArithmetizationType> private_assignment(desc);
+    nil::actor::zk::blueprint_public_assignment_table<ArithmetizationType> public_assignment(desc);
+    nil::actor::zk::blueprint_assignment_table<ArithmetizationType> assignment_bp(private_assignment, public_assignment);
 
-    std::size_t start_row = nil::actor_blueprint_mc::components::allocate<component_type>(bp, complexity);
+    std::size_t start_row = nil::actor::zk::components::allocate<component_type>(bp, complexity);
 
     std::vector<component_type::result_type> result(complexity);
 
@@ -158,7 +164,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
         std::size_t row = start_row + i * component_type::rows_amount;
         result[i] = component_type::result_type(component_params, row);
 
-        nil::actor_blueprint_mc::components::generate_circuit<component_type>(bp, public_assignment, component_params, row);
+        nil::actor::zk::components::generate_circuit<component_type>(bp, public_assignment, component_params, row);
 
         component_type::generate_assignments(assignment_bp, component_params, row);
     }
