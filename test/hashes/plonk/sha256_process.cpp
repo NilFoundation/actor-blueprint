@@ -58,14 +58,14 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_sha256_process) {
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
-    using ArithmetizationParams = crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns,
+    using ArithmetizationParams = actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType,
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
                 ArithmetizationParams>;
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
-    using AssignmentType = blueprint::assignment<ArithmetizationType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
+    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
 
-    using component_type = blueprint::components::sha256_process<ArithmetizationType, 9, 1>;
+    using component_type = actor_blueprint::components::sha256_process<ArithmetizationType, 9, 1>;
 
     typename BlueprintFieldType::value_type s = typename BlueprintFieldType::value_type(2).pow(29);
     std::array<typename ArithmetizationType::field_type::value_type, 24> public_input = {
@@ -209,7 +209,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_sha256_process) {
     typename component_type::input_type instance_input = {input_state_var, input_words_var};
 
     component_type component_instance({0, 1, 2, 3, 4, 5, 6, 7, 8},{0},{});
-    crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
+    actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
         component_instance, public_input, result_check, instance_input);
 }
 
