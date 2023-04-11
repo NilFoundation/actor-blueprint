@@ -43,7 +43,7 @@ namespace nil {
         }
 
         template<typename FieldType, typename ArithmetizationParams>
-        void profiling(crypto3::zk::snark::plonk_assignment_table<FieldType, ArithmetizationParams> assignments, std::ostream &out = std::cout) {
+        void profiling(actor::zk::snark::plonk_assignment_table<FieldType, ArithmetizationParams> assignments, std::ostream &out = std::cout) {
 
             for (std::size_t row_index = 0; row_index < assignments.rows_amount(); row_index++) {
                 out << "\t" << row_index;
@@ -78,7 +78,7 @@ namespace nil {
 
         template<typename FieldType, typename ArithmetizationParams>
         void profiling_assignment_table(
-            crypto3::zk::snark::plonk_assignment_table<FieldType, ArithmetizationParams> assignments, 
+            actor::zk::snark::plonk_assignment_table<FieldType, ArithmetizationParams> assignments, 
             std::size_t usable_rows, 
             std::ostream &out = std::cout
         ) {
