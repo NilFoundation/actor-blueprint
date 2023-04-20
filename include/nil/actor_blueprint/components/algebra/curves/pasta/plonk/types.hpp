@@ -39,13 +39,13 @@ namespace nil {
 
                 template<typename BlueprintFieldType>
                 struct var_ec_point {
-                    using var = snark::plonk_variable<BlueprintFieldType>;
+                    using var = nil::crypto3::snark::plonk_variable<BlueprintFieldType>;
                     var X;
                     var Y;
                 };
             }    // namespace components
-        }        // namespace blueprint
-    }            // namespace actor
+        }        // namespace actor_blueprint
+    } // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_BLUEPRINT_COMPONENTS_PLONK_TYPES_HPP
