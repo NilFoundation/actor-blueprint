@@ -42,10 +42,7 @@
 #include <nil/actor_blueprint_mc/algorithms/allocate.hpp>
 #include <nil/actor_blueprint_mc/algorithms/generate_circuit.hpp>
 
-#include <nil/crypto3/math/algorithms/calculate_domain_set.hpp>
-
-//#include "profiling_plonk_circuit_mc.hpp"
-//#include "profiling.hpp"
+#include <nil/actor/math/algorithms/calculate_domain_set.hpp>
 
 #include <nil/marshalling/status_type.hpp>
 #include <nil/marshalling/field_type.hpp>
@@ -85,8 +82,8 @@ namespace nil {
             constexpr std::size_t expand_factor = 0;
             std::size_t r = degree_log - 1;
 
-            std::vector<std::shared_ptr<math::evaluation_domain<FieldType>>> domain_set =
-                math::calculate_domain_set<FieldType>(degree_log + expand_factor, r);
+            std::vector<std::shared_ptr<nil::actor::math::evaluation_domain<FieldType>>> domain_set =
+                nil::actor::math::calculate_domain_set<FieldType>(degree_log + expand_factor, r).get();
 
             params.r = r;
             params.D = domain_set;

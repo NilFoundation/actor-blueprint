@@ -64,8 +64,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 25;
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     using var_ec_point = typename nil::actor_blueprint_mc::components::var_ec_point<BlueprintFieldType>;
@@ -120,7 +120,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
 
     using opening_proof_type =
         typename nil::actor_blueprint_mc::components::kimchi_opening_proof_base<BlueprintFieldType, commitment_params::eval_rounds>;
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using binding = typename nil::actor_blueprint_mc::components::binding<ArithmetizationType, BlueprintFieldType, kimchi_params>;
 
@@ -130,7 +130,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
 
     using kimchi_constants = nil::actor_blueprint_mc::components::kimchi_inner_constants<kimchi_params>;
 
-    // zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
+    // actor::zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
 
     std::vector<typename BlueprintFieldType::value_type> public_input;
     std::vector<var_ec_point> shifted_var;
@@ -337,8 +337,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 25;
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     using var_ec_point = typename nil::actor_blueprint_mc::components::var_ec_point<BlueprintFieldType>;
@@ -393,7 +393,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
 
     using opening_proof_type =
         typename nil::actor_blueprint_mc::components::kimchi_opening_proof_base<BlueprintFieldType, commitment_params::eval_rounds>;
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using binding = typename nil::actor_blueprint_mc::components::binding<ArithmetizationType, BlueprintFieldType, kimchi_params>;
 
@@ -403,7 +403,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
 
     using kimchi_constants = nil::actor_blueprint_mc::components::kimchi_inner_constants<kimchi_params>;
 
-    // zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
+    // actor::zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
 
     std::vector<typename BlueprintFieldType::value_type> public_input;
     std::vector<var_ec_point> shifted_var;

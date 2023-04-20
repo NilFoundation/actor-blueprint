@@ -24,9 +24,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_non_native_field_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -129,11 +128,9 @@ void test_field_mul(std::vector<typename BlueprintFieldType::value_type> public_
 
     component_type component_instance({0, 1, 2, 3, 4, 5, 6, 7, 8}, {}, {});
 
-    crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
+    actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
         component_instance, public_input, result_check, instance_input);
 }
-
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
 template<typename FieldType, typename NonNativeFieldType>
 void test_field_mul_useable(typename NonNativeFieldType::value_type a, typename NonNativeFieldType::value_type b) {
@@ -197,10 +194,8 @@ void test_field_mul_all_cases() {
     }
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_multiplication_pallas) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_multiplication_pallas) {
     using non_native_field_type = typename crypto3::algebra::fields::curve25519_base_field;
     using field_type = crypto3::algebra::curves::pallas::base_field_type;
     test_field_mul_all_cases<field_type, non_native_field_type>();
 }
-
-BOOST_AUTO_TEST_SUITE_END()

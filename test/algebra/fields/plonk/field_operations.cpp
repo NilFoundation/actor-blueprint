@@ -22,9 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_unified_addition_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/fields/bls12/scalar_field.hpp>
 #include <nil/crypto3/algebra/curves/vesta.hpp>
@@ -84,7 +83,7 @@ void test_add(std::vector<typename FieldType::value_type> public_input){
 
     component_type component_instance({0, 1, 2},{},{});
 
-    nil::crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
+    nil::actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
 }
 
 template <typename FieldType>
@@ -123,7 +122,7 @@ void test_sub(std::vector<typename FieldType::value_type> public_input){
 
     component_type component_instance({0, 1, 2},{},{});
 
-    nil::crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
+    nil::actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
 }
 
 template <typename FieldType>
@@ -162,7 +161,7 @@ void test_mul(std::vector<typename FieldType::value_type> public_input){
 
     component_type component_instance({0, 1, 2},{},{});
 
-    nil::crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
+    nil::actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
 }
 
 template <typename FieldType>
@@ -202,7 +201,7 @@ void test_mul_by_const(std::vector<typename FieldType::value_type> public_input,
 
     component_type component_instance({0, 1},{0},{});
 
-    nil::crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
+    nil::actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
 }
 
 template <typename FieldType>
@@ -234,7 +233,7 @@ void test_div(std::vector<typename FieldType::value_type> public_input,
 
     component_type component_instance({0, 1, 2, 3},{},{});
 
-    nil::crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
+    nil::actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
 }
 
 template <typename FieldType>
@@ -278,7 +277,7 @@ void test_div_or_zero(std::vector<typename FieldType::value_type> public_input){
 
     component_type component_instance({0, 1, 2, 3, 4},{},{});
 
-    nil::crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
+    nil::actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
 }
 
 template <typename FieldType>
@@ -324,21 +323,17 @@ void field_operations_test() {
 
 constexpr static const std::size_t random_tests_amount = 10;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
-
-BOOST_AUTO_TEST_CASE(blueprint_plonk_field_operations_test_vesta) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_field_operations_test_vesta) {
     using field_type =  typename crypto3::algebra::curves::vesta::base_field_type;
     field_operations_test<field_type, random_tests_amount>();
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_field_operations_test_pallas) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_field_operations_test_pallas) {
     using field_type = typename crypto3::algebra::curves::pallas::base_field_type;
     field_operations_test<field_type, random_tests_amount>();
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_field_operations_test_bls12) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_field_operations_test_bls12) {
     using field_type =  typename crypto3::algebra::fields::bls12_fr<381>;
     field_operations_test<field_type, random_tests_amount>();
 }
-
-BOOST_AUTO_TEST_SUITE_END()

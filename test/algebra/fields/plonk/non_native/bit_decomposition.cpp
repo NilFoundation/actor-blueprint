@@ -22,9 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_non_native_bit_decomposition_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -88,11 +87,9 @@ void test_bit_decomposition(std::vector<typename BlueprintFieldType::value_type>
 
     component_type component_instance({0, 1, 2, 3, 4, 5, 6, 7, 8},{},{});
 
-    crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
+    actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
         component_instance, public_input, result_check, instance_input);
 }
-
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
 constexpr static const std::size_t random_tests_amount = 10;
 
@@ -118,7 +115,7 @@ void calculate_expected_and_test_bit_decomposition(typename FieldType::value_typ
     test_bit_decomposition<FieldType>({input}, expected_res);
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_bit_decomposition_test1) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_bit_decomposition_test1) {
     using field_type = typename crypto3::algebra::curves::pallas::base_field_type;
 
     calculate_expected_and_test_bit_decomposition<field_type>(1);
@@ -135,5 +132,3 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_bit_decomposition_test1) {
         calculate_expected_and_test_bit_decomposition<field_type>(rand());
     }
 }
-
-BOOST_AUTO_TEST_SUITE_END()

@@ -39,7 +39,7 @@
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
 #include <nil/crypto3/algebra/random_element.hpp>
 
-#include <nil/crypto3/math/algorithms/calculate_domain_set.hpp>
+#include <nil/actor/math/algorithms/calculate_domain_set.hpp>
 
 #include <nil/crypto3/hash/algorithm/hash.hpp>
 #include <nil/crypto3/hash/sha2.hpp>
@@ -117,8 +117,8 @@ typename fri_type::params_type create_fri_params(std::size_t degree_log, const i
     constexpr std::size_t expand_factor = 0;
     std::size_t r = degree_log - 1;
 
-    std::vector<std::shared_ptr<math::evaluation_domain<FieldType>>> domain_set =
-        math::calculate_domain_set<FieldType>(degree_log + expand_factor, r);
+    std::vector<std::shared_ptr<nil::actor::math::evaluation_domain<FieldType>>> domain_set =
+        nil::actor::math::calculate_domain_set<FieldType>(degree_log + expand_factor, r).get();
 
     params.r = r;
     params.D = domain_set;
@@ -128,9 +128,7 @@ typename fri_type::params_type create_fri_params(std::size_t degree_log, const i
     return params;
 }
 /*
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_demo_verifier_test_suite)
-
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
 
     constexpr std::size_t complexity = 1;
 
@@ -284,13 +282,10 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
     std::cout << "Proof check: " << verifier_res << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()
 */
 
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_demo_verifier_test_suite)
-
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
     auto start = std::chrono::high_resolution_clock::now();
 
     constexpr std::size_t complexity = 1;
@@ -445,5 +440,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
     std::cout << "Time_execution: " << duration.count() << "ms" << std::endl;
 }
-
-//BOOST_AUTO_TEST_SUITE_END()

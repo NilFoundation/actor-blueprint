@@ -14,7 +14,8 @@
 #ifndef ACTOR_BLUEPRINT_COMPONENTS_WEIERSTRASS_MILLER_LOOP_TEST_HPP
 #define ACTOR_BLUEPRINT_COMPONENTS_WEIERSTRASS_MILLER_LOOP_TEST_HPP
 
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/algorithms/pair.hpp>
 

@@ -22,9 +22,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_variable_base_decomposition_edward25519
 #include <fstream>
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -85,7 +86,7 @@ void test_reduction(std::vector<typename BlueprintFieldType::value_type> public_
 
     component_type component_instance({0, 1, 2, 3, 4, 5, 6, 7, 8},{},{});
 
-    crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
+    actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
         component_instance, public_input, result_check, instance_input);
 }
 
@@ -110,9 +111,7 @@ void test_reduction_input_expended_integral_calculate_expected(typename crypto3:
     test_reduction<FieldType>(vector_from_extended_integral<FieldType>(input), typename FieldType::value_type(input % ed25519_scalar_modulus));
 }
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
-
-BOOST_AUTO_TEST_CASE(blueprint_variable_base_decomposition_edward25519) {
+ACTOR_THREAD_TEST_CASE(blueprint_variable_base_decomposition_edward25519) {
 
     using curve_type = nil::crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
@@ -129,5 +128,3 @@ BOOST_AUTO_TEST_CASE(blueprint_variable_base_decomposition_edward25519) {
     test_reduction_input_expended_integral_calculate_expected<BlueprintFieldType>(ed25519_scalar_modulus << 256);
     test_reduction_input_expended_integral_calculate_expected<BlueprintFieldType>(max512 - 0x399411b7c309a3dceec73d217f5be65d00e1ba768859347a40611e3449c0f00_cppui512);
 }
-
-BOOST_AUTO_TEST_SUITE_END()

@@ -23,9 +23,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE weierstrass_precomputation_components_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/mnt4.hpp>
 #include <nil/crypto3/algebra/curves/mnt6.hpp>
@@ -96,12 +95,8 @@ void test_element_g2_precomp() {
     std::cout << "number of constraints for G2 precomp: " << bp.num_constraints() << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE(weierstrass_precomputation_components_test_suite)
-
-BOOST_AUTO_TEST_CASE(weierstrass_precomputation_components_test) {
+ACTOR_THREAD_TEST_CASE(weierstrass_precomputation_components_test) {
 
     test_all_set_commitment_components<curves::mnt4<298>>();
     test_all_set_commitment_components<curves::mnt6<298>>();
 }
-
-BOOST_AUTO_TEST_SUITE_END()

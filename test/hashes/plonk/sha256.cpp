@@ -72,7 +72,7 @@ void test_sha256(std::vector<typename BlueprintFieldType::value_type> public_inp
             std::cout << std::hex << "real_res: " << var_value(assignment, real_res.output[0]).data << " " << var_value(assignment, real_res.output[1]).data << std::endl;
     };
 
-    crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
+    actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
         component_instance, public_input, result_check, instance_input);
 }
 
