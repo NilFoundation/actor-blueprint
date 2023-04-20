@@ -57,7 +57,7 @@ namespace nil {
                 class from_limbs;
 
                 template<typename BlueprintFieldType, typename ArithmetizationParams>
-                class from_limbs<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, 3>:
+                class from_limbs<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, 3>:
                     public plonk_component<BlueprintFieldType, ArithmetizationParams, 3, 0, 0> {
 
                     using component_type = plonk_component<BlueprintFieldType, ArithmetizationParams, 3, 0, 0>;
@@ -103,14 +103,14 @@ namespace nil {
                 };
 
                     template<typename BlueprintFieldType, typename ArithmetizationParams>
-                    using plonk_from_limbs = from_limbs<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, 3>;
+                    using plonk_from_limbs = from_limbs<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, 3>;
 
                     template<typename BlueprintFieldType, typename ArithmetizationParams>
                     typename plonk_from_limbs<BlueprintFieldType, ArithmetizationParams>::result_type
                         generate_circuit(
                         const plonk_from_limbs<BlueprintFieldType, ArithmetizationParams> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_from_limbs<BlueprintFieldType, ArithmetizationParams>::input_type &instance_input,
                         const std::uint32_t start_row_index) {
 
@@ -135,7 +135,7 @@ namespace nil {
                     typename plonk_from_limbs<BlueprintFieldType, ArithmetizationParams>::result_type
                         generate_assignments(
                         const plonk_from_limbs<BlueprintFieldType, ArithmetizationParams> &component,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_from_limbs<BlueprintFieldType, ArithmetizationParams>::input_type instance_input,
                         const std::uint32_t start_row_index) {
 
@@ -154,8 +154,8 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams>
                         void generate_gates(
                         const plonk_from_limbs<BlueprintFieldType, ArithmetizationParams> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_from_limbs<BlueprintFieldType, ArithmetizationParams>::input_type &instance_input,
                         const std::size_t first_selector_index) {
 
@@ -170,8 +170,8 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams>
                         void generate_copy_constraints(
                         const plonk_from_limbs<BlueprintFieldType, ArithmetizationParams> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_from_limbs<BlueprintFieldType, ArithmetizationParams>::input_type &instance_input,
                         const std::uint32_t start_row_index) {
 
@@ -194,14 +194,14 @@ namespace nil {
                 class to_limbs;
 
                 template<typename BlueprintFieldType, typename ArithmetizationParams>
-                class to_limbs<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, 15>:
+                class to_limbs<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, 15>:
                     public plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 1, 0> {
 
                     using component_type = plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 1, 0>;
 
                     constexpr static const std::size_t chunk_size = 64;
                     using range_check_component = nil::blueprint::components::range_check<
-                        crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                        actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                         chunk_size, 15>;
 
                 public:
@@ -247,20 +247,20 @@ namespace nil {
                 };
 
                     template<typename BlueprintFieldType, typename ArithmetizationParams>
-                    using plonk_to_limbs = to_limbs<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, 15>;
+                    using plonk_to_limbs = to_limbs<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, 15>;
 
                     template<typename BlueprintFieldType, typename ArithmetizationParams>
                     typename plonk_to_limbs<BlueprintFieldType, ArithmetizationParams>::result_type
                         generate_circuit(
                         const plonk_to_limbs<BlueprintFieldType, ArithmetizationParams> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_to_limbs<BlueprintFieldType, ArithmetizationParams>::input_type &instance_input,
                         const std::uint32_t start_row_index) {
 
                         using var = typename plonk_to_limbs<BlueprintFieldType, ArithmetizationParams>::var;
 
-                        using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+                        using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
                         range_check<ArithmetizationType, component.chunk_size_public, 15> range_check_instance(
                                 {component.W(0), component.W(1), component.W(2), component.W(3), component.W(4),
                                     component.W(5), component.W(6), component.W(7), component.W(8), component.W(9),
@@ -311,13 +311,13 @@ namespace nil {
                     typename plonk_to_limbs<BlueprintFieldType, ArithmetizationParams>::result_type
                         generate_assignments(
                         const plonk_to_limbs<BlueprintFieldType, ArithmetizationParams> &component,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_to_limbs<BlueprintFieldType, ArithmetizationParams>::input_type instance_input,
                         const std::uint32_t start_row_index) {
 
                         using var = typename plonk_to_limbs<BlueprintFieldType, ArithmetizationParams>::var;
 
-                        using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+                        using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
                         range_check<ArithmetizationType, component.chunk_size_public, 15> range_check_instance(
                                 {component.W(0), component.W(1), component.W(2), component.W(3), component.W(4),
                                     component.W(5), component.W(6), component.W(7), component.W(8), component.W(9),
@@ -395,8 +395,8 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams>
                         void generate_gates(
                         const plonk_to_limbs<BlueprintFieldType, ArithmetizationParams> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_to_limbs<BlueprintFieldType, ArithmetizationParams>::input_type &instance_input,
                         const std::size_t first_selector_index) {
 
@@ -438,8 +438,8 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams>
                         void generate_copy_constraints(
                         const plonk_to_limbs<BlueprintFieldType, ArithmetizationParams> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_to_limbs<BlueprintFieldType, ArithmetizationParams>::input_type &instance_input,
                         const std::uint32_t start_row_index) {
 

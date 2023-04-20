@@ -55,15 +55,15 @@ void test_add(std::vector<typename FieldType::value_type> public_input){
     constexpr std::size_t ConstantColumns = 0;
     constexpr std::size_t SelectorColumns = 1;
     using ArithmetizationParams =
-        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
-    using AssignmentType = nil::blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
 
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = blueprint::components::addition<ArithmetizationType, BlueprintFieldType, 3, nil::blueprint::basic_non_native_policy<BlueprintFieldType>>;
+    using component_type = actor_blueprint::components::addition<ArithmetizationType, BlueprintFieldType, 3, nil::blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename component_type::input_type instance_input = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input)};
@@ -94,15 +94,15 @@ void test_sub(std::vector<typename FieldType::value_type> public_input){
     constexpr std::size_t ConstantColumns = 0;
     constexpr std::size_t SelectorColumns = 1;
     using ArithmetizationParams =
-        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
-    using AssignmentType = nil::blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
 
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = blueprint::components::subtraction<ArithmetizationType, BlueprintFieldType, 3, nil::blueprint::basic_non_native_policy<BlueprintFieldType>>;
+    using component_type = actor_blueprint::components::subtraction<ArithmetizationType, BlueprintFieldType, 3, nil::blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename component_type::input_type instance_input = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input)};
@@ -133,15 +133,15 @@ void test_mul(std::vector<typename FieldType::value_type> public_input){
     constexpr std::size_t ConstantColumns = 0;
     constexpr std::size_t SelectorColumns = 1;
     using ArithmetizationParams =
-        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
-    using AssignmentType = nil::blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
 
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = blueprint::components::multiplication<ArithmetizationType, BlueprintFieldType, 3, nil::blueprint::basic_non_native_policy<BlueprintFieldType>>;
+    using component_type = actor_blueprint::components::multiplication<ArithmetizationType, BlueprintFieldType, 3, nil::blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename component_type::input_type instance_input = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input)};
@@ -173,15 +173,15 @@ void test_mul_by_const(std::vector<typename FieldType::value_type> public_input,
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 1;
     using ArithmetizationParams =
-        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
-    using AssignmentType = nil::blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
 
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = blueprint::components::mul_by_constant<ArithmetizationType, BlueprintFieldType, 2>;
+    using component_type = actor_blueprint::components::mul_by_constant<ArithmetizationType, BlueprintFieldType, 2>;
 
     typename component_type::input_type instance_input = {
         var(0, 0, false, var::column_type::public_input), y};
@@ -213,15 +213,15 @@ void test_div(std::vector<typename FieldType::value_type> public_input,
     constexpr std::size_t ConstantColumns = 0;
     constexpr std::size_t SelectorColumns = 1;
     using ArithmetizationParams =
-        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
-    using AssignmentType = nil::blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
 
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = blueprint::components::division<ArithmetizationType, BlueprintFieldType, 4, nil::blueprint::basic_non_native_policy<BlueprintFieldType>>;
+    using component_type = actor_blueprint::components::division<ArithmetizationType, BlueprintFieldType, 4, nil::blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename component_type::input_type instance_input = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input)};
@@ -244,15 +244,15 @@ void test_div_or_zero(std::vector<typename FieldType::value_type> public_input){
     constexpr std::size_t ConstantColumns = 0;
     constexpr std::size_t SelectorColumns = 1;
     using ArithmetizationParams =
-        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
-    using AssignmentType = nil::blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
 
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = blueprint::components::division_or_zero<ArithmetizationType, BlueprintFieldType, 5>;
+    using component_type = actor_blueprint::components::division_or_zero<ArithmetizationType, BlueprintFieldType, 5>;
 
     typename component_type::input_type instance_input = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input)};

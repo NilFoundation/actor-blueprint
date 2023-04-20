@@ -45,7 +45,7 @@ namespace nil {
             class bool_scalar_multiplication;
 
             template<typename BlueprintFieldType, typename ArithmetizationParams>
-            class bool_scalar_multiplication<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class bool_scalar_multiplication<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                 typename crypto3::algebra::curves::ed25519, 9, basic_non_native_policy<BlueprintFieldType>>:
                 public plonk_component<BlueprintFieldType, ArithmetizationParams, 9, 0, 0> {
 
@@ -118,7 +118,7 @@ namespace nil {
                      typename ArithmetizationParams,
                      std::int32_t WitnessesAmount>
             using plonk_bool_scalar_multiplication =
-                bool_scalar_multiplication<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                bool_scalar_multiplication<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                 typename crypto3::algebra::curves::ed25519,
                 WitnessesAmount,
                 basic_non_native_policy<BlueprintFieldType>>;
@@ -127,7 +127,7 @@ namespace nil {
             typename plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::result_type
                 generate_assignments(
                     const plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                     const typename plonk_bool_scalar_multiplication<BlueprintFieldType,
                         ArithmetizationParams, 9>::input_type instance_input,
                     const std::uint32_t start_row_index) {
@@ -172,8 +172,8 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams>
             void generate_gates(
                 const plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                 const typename plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::input_type &instance_input,
                 const std::size_t first_selector_index) {
                 using var = typename plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::var;
@@ -209,8 +209,8 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams>
             void generate_copy_constraints(
                 const plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                 const typename plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::input_type &instance_input,
                 const std::size_t start_row_index) {
                 using var = typename plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::var;
@@ -233,8 +233,8 @@ namespace nil {
             typename plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::result_type
                 generate_circuit(
                     const plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                    circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                    circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                     const typename plonk_bool_scalar_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::input_type &instance_input,
                     const std::size_t start_row_index){
 

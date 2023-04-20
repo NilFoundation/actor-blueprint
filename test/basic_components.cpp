@@ -172,7 +172,7 @@ void test_loose_multiplexing_component(size_t n) {
     result.allocate(bp);
     success_flag.allocate(bp);
 
-    nil::crypto3::blueprint::components::loose_multiplexing<FieldType> g(bp, arr, index, result, success_flag);
+    nil::crypto3::actor_blueprint::components::loose_multiplexing<FieldType> g(bp, arr, index, result, success_flag);
     g.generate_gates();
 
     for (std::size_t i = 0; i < 1ul << n; ++i) {

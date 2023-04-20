@@ -58,13 +58,13 @@ void test_sha512(std::vector<typename BlueprintFieldType::value_type> public_inp
     constexpr std::size_t Lambda = 1;
 
     using ArithmetizationParams =
-        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
 
     using component_type = actor_blueprint::components::sha512<ArithmetizationType, 9>;
     
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
 
     std::array<var, 4> e_R_x = {

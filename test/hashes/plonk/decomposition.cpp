@@ -54,12 +54,12 @@ void test_decomposition(std::vector<typename BlueprintFieldType::value_type> pub
     constexpr std::size_t Lambda = 40;
 
     using ArithmetizationParams =
-        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using AssignmentType = blueprint::assignment<ArithmetizationType>;
-    using component_type = blueprint::components::decomposition<ArithmetizationType,
+    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using component_type = actor_blueprint::components::decomposition<ArithmetizationType,
         BlueprintFieldType, 9>;
 
     std::array<var, 2> input_state_var = {var(0, 0, false, var::column_type::public_input),

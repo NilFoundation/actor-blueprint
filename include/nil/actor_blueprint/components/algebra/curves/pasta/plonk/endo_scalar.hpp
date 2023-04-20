@@ -79,7 +79,7 @@ namespace nil {
                 };
 
                 template<typename BlueprintFieldType, typename ArithmetizationParams, typename CurveType, std::size_t ScalarSize>
-                class endo_scalar<nil::crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, CurveType, ScalarSize, 15>:
+                class endo_scalar<nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, CurveType, ScalarSize, 15>:
                     public plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 0, 0> {
                     using component_type = plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 0, 0>;
 
@@ -124,7 +124,7 @@ namespace nil {
                 template<typename BlueprintFieldType, typename ArithmetizationParams, typename CurveType, std::size_t ScalarSize>
                 using plonk_endo_scalar =
                     endo_scalar<
-                        crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                        actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                         CurveType,
                         ScalarSize,
                         15
@@ -134,8 +134,8 @@ namespace nil {
                     typename plonk_endo_scalar<BlueprintFieldType, ArithmetizationParams, CurveType, ScalarSize>::result_type
                         generate_circuit(
                         const plonk_endo_scalar<BlueprintFieldType, ArithmetizationParams, CurveType, ScalarSize> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_endo_scalar<BlueprintFieldType, ArithmetizationParams, CurveType, ScalarSize>::input_type instance_input,
                         const std::uint32_t start_row_index) {
 
@@ -162,7 +162,7 @@ namespace nil {
                     typename plonk_endo_scalar<BlueprintFieldType, ArithmetizationParams, CurveType, ScalarSize>::result_type
                         generate_assignments(
                         const plonk_endo_scalar<BlueprintFieldType, ArithmetizationParams, CurveType, ScalarSize> &component,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_endo_scalar<BlueprintFieldType, ArithmetizationParams, CurveType, ScalarSize>::input_type instance_input,
                         const std::uint32_t start_row_index) {
 
@@ -239,8 +239,8 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams, typename CurveType, std::size_t ScalarSize>
                         void generate_gates(
                         const plonk_endo_scalar<BlueprintFieldType, ArithmetizationParams, CurveType, ScalarSize> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_endo_scalar<BlueprintFieldType, ArithmetizationParams, CurveType, ScalarSize>::input_type instance_input,
                         const std::size_t first_selector_index) {
 
@@ -301,8 +301,8 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams, typename CurveType, std::size_t ScalarSize>
                         void generate_copy_constraints(
                         const plonk_endo_scalar<BlueprintFieldType, ArithmetizationParams, CurveType, ScalarSize> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_endo_scalar<BlueprintFieldType, ArithmetizationParams, CurveType, ScalarSize>::input_type instance_input,
                         const std::uint32_t start_row_index) {
 

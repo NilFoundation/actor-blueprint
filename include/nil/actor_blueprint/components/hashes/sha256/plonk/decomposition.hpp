@@ -46,7 +46,7 @@ namespace nil {
             class decomposition;
 
             template<typename BlueprintFieldType, typename ArithmetizationParams>
-            class decomposition<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class decomposition<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                                 BlueprintFieldType, 9>
                 : public plonk_component<BlueprintFieldType, ArithmetizationParams, 9, 0, 0> {
 
@@ -99,14 +99,14 @@ namespace nil {
 
             template<typename BlueprintFieldType, typename ArithmetizationParams, std::int32_t WitnessAmount>
             using plonk_native_decomposition =
-                decomposition<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                decomposition<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                               BlueprintFieldType, WitnessAmount>;
 
             template<typename BlueprintFieldType, typename ArithmetizationParams>
             typename plonk_native_decomposition<BlueprintFieldType, ArithmetizationParams, 9>::result_type
                 generate_assignments(
                     const plonk_native_decomposition<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                         &assignment,
                     const typename plonk_native_decomposition<BlueprintFieldType, ArithmetizationParams, 9>::input_type
                         instance_input,
@@ -146,8 +146,8 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams>
             void generate_gates(
                 const plonk_native_decomposition<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                     &assignment,
                 const typename plonk_native_decomposition<BlueprintFieldType, ArithmetizationParams, 9>::input_type
                     &instance_input,
@@ -189,8 +189,8 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams>
             void generate_copy_constraints(
                 const plonk_native_decomposition<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                     &assignment,
                 const typename plonk_native_decomposition<BlueprintFieldType, ArithmetizationParams, 9>::input_type
                     &instance_input,
@@ -201,8 +201,8 @@ namespace nil {
             typename plonk_native_decomposition<BlueprintFieldType, ArithmetizationParams, 9>::result_type
                 generate_circuit(
                     const plonk_native_decomposition<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                    circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                    circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                         &assignment,
                     const typename plonk_native_decomposition<BlueprintFieldType, ArithmetizationParams, 9>::input_type
                         &instance_input,

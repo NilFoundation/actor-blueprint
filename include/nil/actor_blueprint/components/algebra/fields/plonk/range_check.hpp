@@ -58,7 +58,7 @@ namespace nil {
                 // ...
                 // The last sum = x
                 template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t R>
-                class range_check<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, R, 15>:
+                class range_check<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, R, 15>:
                     public plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 1, 0> {
 
                     using component_type = plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 1, 0>;
@@ -107,14 +107,14 @@ namespace nil {
 
 
                 template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t R>
-                    using plonk_range_check = range_check<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, R, 15>;
+                    using plonk_range_check = range_check<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, R, 15>;
 
                     template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t R>
                     typename plonk_range_check<BlueprintFieldType, ArithmetizationParams, R>::result_type
                         generate_circuit(
                         const plonk_range_check<BlueprintFieldType, ArithmetizationParams, R> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_range_check<BlueprintFieldType, ArithmetizationParams, R>::input_type &instance_input,
                         const std::uint32_t start_row_index) {
 
@@ -143,7 +143,7 @@ namespace nil {
                     typename plonk_range_check<BlueprintFieldType, ArithmetizationParams, R>::result_type
                         generate_assignments(
                         const plonk_range_check<BlueprintFieldType, ArithmetizationParams, R> &component,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_range_check<BlueprintFieldType, ArithmetizationParams, R>::input_type instance_input,
                         const std::uint32_t start_row_index) {
 
@@ -200,8 +200,8 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t R>
                         void generate_gates(
                         const plonk_range_check<BlueprintFieldType, ArithmetizationParams, R> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_range_check<BlueprintFieldType, ArithmetizationParams, R>::input_type &instance_input,
                         const std::size_t first_selector_index) {
 
@@ -209,11 +209,11 @@ namespace nil {
 
                         typename BlueprintFieldType::value_type base_two = 2;
 
-                        std::vector<crypto3::zk::snark::plonk_constraint<BlueprintFieldType>> constraints;
+                        std::vector<actor::zk::snark::plonk_constraint<BlueprintFieldType>> constraints;
 
                         // assert chunk size
                         for (std::size_t i = 0; i < component.chunks_per_row; i++) {
-                            crypto3::zk::snark::plonk_constraint<BlueprintFieldType> chunk_range_constraint =
+                            actor::zk::snark::plonk_constraint<BlueprintFieldType> chunk_range_constraint =
                                 var(component.W(0 + component.reserved_columns + i), 0, true);
                             for (std::size_t j = 1; j < (1 << component.chunk_size); j++) {
                                 chunk_range_constraint =
@@ -224,7 +224,7 @@ namespace nil {
                         }
 
                         // assert sum
-                        crypto3::zk::snark::plonk_constraint<BlueprintFieldType> sum_constraint =
+                        actor::zk::snark::plonk_constraint<BlueprintFieldType> sum_constraint =
                             var(component.W(0 + component.reserved_columns), 0, true);
                         for (std::size_t i = 1; i < component.chunks_per_row; i++) {
                             sum_constraint =
@@ -235,7 +235,7 @@ namespace nil {
                                          var(component.W(0), 0, true);
                         constraints.push_back(bp.add_constraint(sum_constraint));
 
-                        crypto3::zk::snark::plonk_gate<BlueprintFieldType, crypto3::zk::snark::plonk_constraint<BlueprintFieldType>> gate(
+                        actor::zk::snark::plonk_gate<BlueprintFieldType, actor::zk::snark::plonk_constraint<BlueprintFieldType>> gate(
                             first_selector_index, constraints);
                         bp.add_gate(gate);
                     }
@@ -243,8 +243,8 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t R>
                         void generate_copy_constraints(
                         const plonk_range_check<BlueprintFieldType, ArithmetizationParams, R> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_range_check<BlueprintFieldType, ArithmetizationParams, R>::input_type &instance_input,
                         const std::uint32_t start_row_index) {
 
@@ -263,7 +263,7 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t R>
                         void generate_assignments_constants(
                         const plonk_range_check<BlueprintFieldType, ArithmetizationParams, R> &component,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_range_check<BlueprintFieldType, ArithmetizationParams, R>::input_type &instance_input,
                         const std::uint32_t start_row_index) {
 

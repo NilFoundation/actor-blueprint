@@ -62,7 +62,7 @@ namespace nil {
 
                 template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t ExponentSize>
                 class exponentiation<
-                    crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                    actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                     BlueprintFieldType,
                     ExponentSize,
                     15
@@ -128,7 +128,7 @@ namespace nil {
                 template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t ExponentSize, std::uint32_t WitnessesAmount>
                 using plonk_exponentiation =
                     exponentiation<
-                        crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                        actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                         BlueprintFieldType,
                         ExponentSize,
                         15
@@ -138,8 +138,8 @@ namespace nil {
                     typename plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15>::result_type
                         generate_circuit(
                         const plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15>::input_type instance_input,
                         const std::uint32_t start_row_index) {
                         auto selector_iterator = assignment.find_selector(component);
@@ -164,7 +164,7 @@ namespace nil {
                     typename plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15>::result_type
                         generate_assignments(
                         const plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15> &component,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15>::input_type instance_input,
                         const std::uint32_t start_row_index) {
 
@@ -239,8 +239,8 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t ExponentSize>
                         void generate_gates(
                         const plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15>::input_type instance_input,
                         const std::size_t first_selector_index) {
 
@@ -249,20 +249,20 @@ namespace nil {
                         typename BlueprintFieldType::value_type exponent_shift = 2;
                         exponent_shift = power(exponent_shift, component.bits_per_row);
 
-                        std::vector<crypto3::zk::snark::plonk_constraint<BlueprintFieldType>> constraints;
+                        std::vector<actor::zk::snark::plonk_constraint<BlueprintFieldType>> constraints;
 
-                        nil::crypto3::zk::snark::plonk_constraint<BlueprintFieldType> accumulated_n_constraint;
+                        nil::actor::zk::snark::plonk_constraint<BlueprintFieldType> accumulated_n_constraint;
                         for (std::size_t j = 0; j < component.intermediate_results_per_row; j++) {
-                            nil::crypto3::zk::snark::plonk_constraint<BlueprintFieldType> intermediate_result_constraint =
+                            nil::actor::zk::snark::plonk_constraint<BlueprintFieldType> intermediate_result_constraint =
                                 j == 0 ? var(component.W(component.intermediate_start + component.intermediate_results_per_row - 1), -1) :
                                          var(component.W(component.intermediate_start + j - 1), 0);
 
                             for (std::size_t bit_column = 0; bit_column < component.bits_per_intermediate_result; bit_column++) {
                                 std::size_t column_idx = 14 - j * (component.bits_per_intermediate_result)-bit_column;
-                                nil::crypto3::zk::snark::plonk_constraint<BlueprintFieldType> bit_check_constraint = bp.add_bit_check(var(component.W(column_idx), 0));
+                                nil::actor::zk::snark::plonk_constraint<BlueprintFieldType> bit_check_constraint = bp.add_bit_check(var(component.W(column_idx), 0));
                                 constraints.push_back(bit_check_constraint); // fail on oracles scalar 
 
-                                nil::crypto3::zk::snark::plonk_constraint<BlueprintFieldType> bit_res = var(component.W(0), 0) * var(component.W(column_idx), 0);
+                                nil::actor::zk::snark::plonk_constraint<BlueprintFieldType> bit_res = var(component.W(0), 0) * var(component.W(column_idx), 0);
                                 if (j == 0 && bit_column == 0) {
                                     accumulated_n_constraint = var(component.W(column_idx), 0);
                                 } else {
@@ -282,15 +282,15 @@ namespace nil {
 
                         constraints.push_back(accumulated_n_constraint);
 
-                        nil::crypto3::zk::snark::plonk_gate<BlueprintFieldType, nil::crypto3::zk::snark::plonk_constraint<BlueprintFieldType>> gate(first_selector_index, constraints);
+                        nil::actor::zk::snark::plonk_gate<BlueprintFieldType, nil::actor::zk::snark::plonk_constraint<BlueprintFieldType>> gate(first_selector_index, constraints);
                         bp.add_gate(gate);
                     }
 
                     template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t ExponentSize>
                         void generate_copy_constraints(
                         const plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15> &component,
-                        circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                        assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                        circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                        assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                         const typename plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15>::input_type instance_input,
                         const std::uint32_t start_row_index) {
 
@@ -314,8 +314,8 @@ namespace nil {
                     template<typename BlueprintFieldType, typename ArithmetizationParams, std::size_t ExponentSize>
                         void generate_assignments_constants(
                             const plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15> &component,
-                            circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                            assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                            circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                            assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                             const typename plonk_exponentiation<BlueprintFieldType, ArithmetizationParams, ExponentSize, 15>::input_type instance_input,
                             const std::uint32_t start_row_index) {
 

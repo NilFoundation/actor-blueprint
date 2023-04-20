@@ -44,10 +44,10 @@ namespace nil {
                      typename Ed25519Type, std::size_t W0, std::size_t W1, std::size_t W2, std::size_t W3,
                      std::size_t W4, std::size_t W5, std::size_t W6, std::size_t W7, std::size_t W8>
             class variable_base_multiplication<
-                crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, CurveType,
+                actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, CurveType,
                 Ed25519Type, W0, W1, W2, W3, W4, W5, W6, W7, W8> {
 
-                typedef crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>
+                typedef actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>
                     ArithmetizationType;
 
                 using mult_per_bit_component =
@@ -60,7 +60,7 @@ namespace nil {
                 using bit_decomposition_component =
                     bit_decomposition<ArithmetizationType, CurveType, Ed25519Type, W0, W1, W2, W3, W4, W5, W6, W7, W8>;
 
-                using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+                using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
                 constexpr static const std::size_t selector_seed = 0xfcc2;
 
             public:

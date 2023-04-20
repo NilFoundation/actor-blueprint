@@ -37,7 +37,7 @@
 
 #include <nil/actor_blueprint/blueprint/plonk/circuit.hpp>
 #include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
-#include <nil/actor_blueprint/components/algebra/fields/plonk/non_native/scalar_non_native_range.hpp>
+#include <nil/actor_blueprint/components/algebra/curves/edwards/plonk/non_native/scalar_non_native_range.hpp>
 
 #include "../../test_plonk_component.hpp"
 
@@ -52,15 +52,15 @@ void test_scalar_non_native_range(std::vector<typename BlueprintFieldType::value
     constexpr std::size_t ConstantColumns = 0;
     constexpr std::size_t SelectorColumns = 2;
     using ArithmetizationParams =
-        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = blueprint::assignment<ArithmetizationType>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = blueprint::components::scalar_non_native_range<ArithmetizationType,
+    using component_type = actor_blueprint::components::scalar_non_native_range<ArithmetizationType,
         ed25519_type, 9>;
 
     typename component_type::input_type instance_input = {var(0, 0, false, var::column_type::public_input)};

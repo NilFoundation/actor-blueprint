@@ -56,7 +56,7 @@ namespace nil {
                      std::size_t W7,
                      std::size_t W8>
             class variable_base_multiplication_per_bit<
-                crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                 CurveType,
                 Ed25519Type,
                 W0,
@@ -69,7 +69,7 @@ namespace nil {
                 W7,
                 W8> {
 
-                typedef crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>
+                typedef actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>
                     ArithmetizationType;
 
                 using doubling_component =
@@ -91,7 +91,7 @@ namespace nil {
                                                                                         W7,
                                                                                         W8>;
 
-                using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+                using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
                 constexpr static const std::size_t selector_seed = 0xff82;
 
             public:

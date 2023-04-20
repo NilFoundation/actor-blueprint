@@ -42,14 +42,14 @@ namespace nil {
             template<typename BlueprintFieldType,
                      typename ArithmetizationParams,
                      typename CurveType>
-            class poseidon<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, 9>:
-                public component<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class poseidon<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, 9>:
+                public component<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                     9,0,0> {
             
                 constexpr static const std::int32_t WitnessAmount = 9;
             
                 using component_type = component<
-                    crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                    actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                     WitnessAmount,0,0>;
 
                 const algebra::matrix<typename CurveType::scalar_field_type::value_type, 3, 3> M;

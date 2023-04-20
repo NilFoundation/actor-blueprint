@@ -54,7 +54,7 @@ namespace nil {
                      std::size_t W7,
                      std::size_t W8>
             class complete_addition<
-                crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                 CurveType,
                 Ed25519Type,
                 W0,
@@ -67,7 +67,7 @@ namespace nil {
                 W7,
                 W8> {
 
-                typedef crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>
+                typedef actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>
                     ArithmetizationType;
 
                 using non_native_range_component =

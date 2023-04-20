@@ -56,7 +56,7 @@ namespace nil {
                      std::size_t W6,
                      std::size_t W7,
                      std::size_t W8>
-            class ec_point<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class ec_point<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                                                    CurveType,
                                                     Ed25519Type,
                                                    W0,

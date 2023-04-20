@@ -46,7 +46,7 @@ namespace nil {
             class blueprint;
 
             template<typename BlueprintFieldType>
-            class blueprint<crypto3::zk::snark::r1cs_constraint_system<BlueprintFieldType>> {
+            class blueprint<actor::zk::snark::r1cs_constraint_system<BlueprintFieldType>> {
                 typedef zk::snark::r1cs_constraint_system<BlueprintFieldType> ArithmetizationType;
 
                 zk::snark::r1cs_variable_assignment<BlueprintFieldType>

@@ -81,7 +81,7 @@ void test_disjunction_component(std::size_t w) {
     nil::actor::blueprint::detail::blueprint_variable_vector<field_type> inputs;
     inputs.allocate(bp, n);
 
-    nil::crypto3::blueprint::components::disjunction<field_type> d(bp, inputs, output);
+    nil::crypto3::actor_blueprint::components::disjunction<field_type> d(bp, inputs, output);
     d.generate_gates();
 
     for (std::size_t j = 0; j < n; ++j) {
@@ -114,7 +114,7 @@ void test_conjunction_component(std::size_t w) {
     nil::actor::blueprint::detail::blueprint_variable_vector<field_type> inputs;
     inputs.allocate(bp, n);
 
-    nil::crypto3::blueprint::components::conjunction<field_type> c(bp, inputs, output);
+    nil::crypto3::actor_blueprint::components::conjunction<field_type> c(bp, inputs, output);
     c.generate_gates();
 
     for (std::size_t j = 0; j < n; ++j) {
@@ -148,7 +148,7 @@ void test_comparison_component(std::size_t a, std::size_t b) {
     std::size_t n =
         std::log2(std::max(a, b)) + ((std::max(a, b) > (1ul << std::size_t(std::log2(std::max(a, b))))) ? 1 : 0);
 
-    nil::crypto3::blueprint::components::comparison<field_type> cmp(bp, n, A, B, less, less_or_eq);
+    nil::crypto3::actor_blueprint::components::comparison<field_type> cmp(bp, n, A, B, less, less_or_eq);
     cmp.generate_gates();
 
     bp.val(A) = typename field_type::value_type(a);

@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_transcript_0) {
         PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType,
                 ArithmetizationParams>;
-    using AssignmentType = blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
 
     constexpr size_t num_squeezes = 1;
     using component_type = zk::components::aux_fr<num_squeezes, ArithmetizationType, curve_type,

@@ -69,15 +69,15 @@ typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates:
     constexpr std::size_t SelectorColumns = 4;
 	using BlueprintFieldType = typename CurveType::base_field_type;
     using BlueprintScalarType = typename CurveType::scalar_field_type;
-    using ArithmetizationParams = nil::crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns,
+    using ArithmetizationParams = nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = nil::crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+    using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
 	using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 	using component_type = nil::actor_blueprint::components::curve_element_decomposed_variable_base_scalar_mul<ArithmetizationType, CurveType, 15>;
 
-	using var = nil::crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+	using var = nil::actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
 	var scalar_var1 = {0, 2, false, var::column_type::public_input};
 	var scalar_var2 = {0, 3, false, var::column_type::public_input};

@@ -140,9 +140,9 @@ void test_endo_scalar(std::vector<typename CurveType::scalar_field_type::value_t
     constexpr std::size_t PublicInputColumns = 1;
     constexpr std::size_t ConstantColumns = 0;
     constexpr std::size_t SelectorColumns = 2;
-    using ArithmetizationParams = nil::crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns,
+    using ArithmetizationParams = nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = nil::crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+    using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
 	using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
@@ -150,7 +150,7 @@ void test_endo_scalar(std::vector<typename CurveType::scalar_field_type::value_t
 
     using component_type = nil::actor_blueprint::components::endo_scalar<ArithmetizationType, CurveType, num_bits, 15>;
 
-	using var = nil::crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+	using var = nil::actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     var challenge_var(0, 0, false, var::column_type::public_input);
     typename component_type::input_type instance_input = {challenge_var};

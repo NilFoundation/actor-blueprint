@@ -58,7 +58,7 @@ namespace nil {
                      std::size_t W6,
                      std::size_t W7,
                      std::size_t W8>
-            class verification<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class verification<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                                CurveType,
                                Ed25519Type,
                                W0,

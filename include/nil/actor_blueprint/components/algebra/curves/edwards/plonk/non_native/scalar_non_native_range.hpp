@@ -42,7 +42,7 @@ namespace nil {
             class scalar_non_native_range;
 
             template<typename BlueprintFieldType, typename ArithmetizationParams>
-            class scalar_non_native_range<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class scalar_non_native_range<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                 typename crypto3::algebra::curves::ed25519, 9>:
                 public plonk_component<BlueprintFieldType, ArithmetizationParams, 9, 0, 0> {
 
@@ -95,7 +95,7 @@ namespace nil {
                      typename ArithmetizationParams,
                      std::int32_t WitnessesAmount>
             using plonk_scalar_range =
-                scalar_non_native_range<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                scalar_non_native_range<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                 typename crypto3::algebra::curves::ed25519,
                 WitnessesAmount>;
 
@@ -103,7 +103,7 @@ namespace nil {
             typename plonk_scalar_range<BlueprintFieldType, ArithmetizationParams, 9>::result_type
                 generate_assignments(
                     const plonk_scalar_range<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                     const typename plonk_scalar_range<BlueprintFieldType,
                         ArithmetizationParams, 9>::input_type instance_input,
                     const std::uint32_t start_row_index) {
@@ -161,8 +161,8 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams>
             void generate_gates(
                 const plonk_scalar_range<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                 const typename plonk_scalar_range<BlueprintFieldType, ArithmetizationParams, 9>::input_type &instance_input,
                 const std::size_t first_selector_index) {
                 using Ed25519Type = typename crypto3::algebra::curves::ed25519;
@@ -187,8 +187,8 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams>
             void generate_copy_constraints(
                 const plonk_scalar_range<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                 const typename plonk_scalar_range<BlueprintFieldType, ArithmetizationParams, 9>::input_type &instance_input,
                 const std::size_t start_row_index) {
                 std::size_t row = start_row_index;
@@ -200,8 +200,8 @@ namespace nil {
             typename plonk_scalar_range<BlueprintFieldType, ArithmetizationParams, 9>::result_type
                 generate_circuit(
                     const plonk_scalar_range<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                    circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                    circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                     const typename plonk_scalar_range<BlueprintFieldType, ArithmetizationParams, 9>::input_type &instance_input,
                     const std::size_t start_row_index) {
 

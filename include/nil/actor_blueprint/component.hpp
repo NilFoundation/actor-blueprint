@@ -133,7 +133,7 @@ namespace nil {
             //     struct component_hash {
             //         template<typename BlueprintFieldType, typename ArithmetizationParams, std::uint32_t WitnessAmount,
             //             ConstantAmount, PublicInputAmount>
-            //         std::size_t operator() (const component<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, WitnessAmount,
+            //         std::size_t operator() (const component<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, WitnessAmount,
             //                 ConstantAmount, PublicInputAmount> &node) const {
                         
             //         }

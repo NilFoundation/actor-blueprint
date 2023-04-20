@@ -51,7 +51,7 @@ namespace nil {
 
             template<typename BlueprintFieldType,
                      typename ArithmetizationParams>
-            class division_or_zero<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class division_or_zero<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                 BlueprintFieldType, 5>:
                 public plonk_component<BlueprintFieldType, ArithmetizationParams, 5, 0, 0> {
 
@@ -104,7 +104,7 @@ namespace nil {
                      typename ArithmetizationParams,
                      std::int32_t WitnessAmount>
             using plonk_division_or_zero =
-                division_or_zero<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                division_or_zero<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                 BlueprintFieldType, WitnessAmount>;
 
             template<typename BlueprintFieldType,
@@ -112,7 +112,7 @@ namespace nil {
             typename plonk_division_or_zero<BlueprintFieldType, ArithmetizationParams, 5>::result_type
                 generate_assignments(
                     const plonk_division_or_zero<BlueprintFieldType, ArithmetizationParams, 5> &component,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                     const typename plonk_division_or_zero<BlueprintFieldType, ArithmetizationParams, 5>::input_type instance_input,
                     const std::uint32_t start_row_index) {
 
@@ -137,8 +137,8 @@ namespace nil {
                      typename ArithmetizationParams>
             void generate_gates(
                 const plonk_division_or_zero<BlueprintFieldType, ArithmetizationParams, 5> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                 const typename plonk_division_or_zero<BlueprintFieldType, ArithmetizationParams, 5>::input_type &instance_input,
                 const std::size_t first_selector_index) {
 
@@ -156,8 +156,8 @@ namespace nil {
                      typename ArithmetizationParams>
             void generate_copy_constraints(
                 const plonk_division_or_zero<BlueprintFieldType, ArithmetizationParams, 5> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                 const typename plonk_division_or_zero<BlueprintFieldType, ArithmetizationParams, 5>::input_type &instance_input,
                 const std::size_t start_row_index) {
 
@@ -175,8 +175,8 @@ namespace nil {
             typename plonk_division_or_zero<BlueprintFieldType, ArithmetizationParams, 5>::result_type
                 generate_circuit(
                     const plonk_division_or_zero<BlueprintFieldType, ArithmetizationParams, 5> &component,
-                    circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
+                    circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &assignment,
                     const typename plonk_division_or_zero<BlueprintFieldType, ArithmetizationParams, 5>::input_type &instance_input,
                     const std::size_t start_row_index){
 

@@ -299,7 +299,8 @@ actor_add_test("verifiers/kimchi/demo_verifier")
 actor_add_test("algebra/curves/plonk/unified_addition")
 actor_add_test("algebra/fields/plonk/non_native/addition")
 
-actor_add_test("non_native/plonk/field_mul")
+actor_add_test("non_native/plonk/bool_scalar_multiplication")
+actor_add_test("non_native/plonk/scalar_non_native_range")
 
 actor_add_test("hashes/plonk/sha256_process")
 actor_add_test("hashes/plonk/sha512_process")

@@ -48,7 +48,7 @@ namespace nil {
                          std::size_t W4,
                          std::size_t W5,
                          std::size_t W6>
-                class element_g1_addition<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType>,
+                class element_g1_addition<actor::zk::snark::plonk_constraint_system<BlueprintFieldType>,
                                           CurveType,
                                           W0,
                                           W1,
