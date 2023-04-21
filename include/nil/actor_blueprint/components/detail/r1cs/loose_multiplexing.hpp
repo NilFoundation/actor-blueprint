@@ -49,7 +49,7 @@ namespace nil {
                   be 0)
                 */
                 template<typename FieldType>
-                class loose_multiplexing : public nil::blueprint::components::component<FieldType> {
+                class loose_multiplexing : public nil::actor_blueprint::components::component<FieldType> {
                 public:
                     detail::blueprint_variable_vector<FieldType> alpha;
 
@@ -67,7 +67,7 @@ namespace nil {
                                        const detail::blueprint_variable<FieldType> &index,
                                        const detail::blueprint_variable<FieldType> &result,
                                        const detail::blueprint_variable<FieldType> &success_flag) :
-                        nil::blueprint::components::component<FieldType>(bp),
+                        nil::actor_blueprint::components::component<FieldType>(bp),
                         arr(arr), index(index), result(result), success_flag(success_flag) {
                         alpha.allocate(bp, arr.size());
                         compute_result.reset(new inner_product<FieldType>(bp, alpha, arr, result));

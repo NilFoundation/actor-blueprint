@@ -48,7 +48,7 @@ namespace nil {
                 */
 
                 template<typename FieldType>
-                class disjunction : public nil::blueprint::components::component<FieldType> {
+                class disjunction : public nil::actor_blueprint::components::component<FieldType> {
                 private:
                     detail::blueprint_variable<FieldType> inv;
 
@@ -59,7 +59,7 @@ namespace nil {
                     disjunction(blueprint<FieldType> &bp,
                                 const detail::blueprint_variable_vector<FieldType> &inputs,
                                 const detail::blueprint_variable<FieldType> &output) :
-                        nil::blueprint::components::component<FieldType>(bp),
+                        nil::actor_blueprint::components::component<FieldType>(bp),
                         inputs(inputs), output(output) {
                         assert(inputs.size() >= 1);
                         inv.allocate(bp);

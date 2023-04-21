@@ -48,7 +48,7 @@ namespace nil {
                   if X != 0 then R = 1 and I = X^{-1}
                 */
                 template<typename FieldType>
-                class conjunction : public nil::blueprint::components::component<FieldType> {
+                class conjunction : public nil::actor_blueprint::components::component<FieldType> {
                 private:
                     detail::blueprint_variable<FieldType> inv;
 
@@ -59,7 +59,7 @@ namespace nil {
                     conjunction(blueprint<FieldType> &bp,
                                 const detail::blueprint_variable_vector<FieldType> &inputs,
                                 const detail::blueprint_variable<FieldType> &output) :
-                        nil::blueprint::components::component<FieldType>(bp),
+                        nil::actor_blueprint::components::component<FieldType>(bp),
                         inputs(inputs), output(output) {
                         assert(inputs.size() >= 1);
                         inv.allocate(bp);

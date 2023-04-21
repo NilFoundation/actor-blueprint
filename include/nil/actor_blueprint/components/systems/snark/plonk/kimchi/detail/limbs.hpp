@@ -200,7 +200,7 @@ namespace nil {
                     using component_type = plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 1, 0>;
 
                     constexpr static const std::size_t chunk_size = 64;
-                    using range_check_component = nil::blueprint::components::range_check<
+                    using range_check_component = nil::actor_blueprint::components::range_check<
                         actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                         chunk_size, 15>;
 

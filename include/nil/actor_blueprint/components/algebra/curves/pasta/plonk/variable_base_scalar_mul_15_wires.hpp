@@ -95,7 +95,7 @@ namespace nil {
                 >: public plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 1, 0> {
 
                     using add_component =
-                        nil::blueprint::components::unified_addition<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, CurveType, 11>;
+                        nil::actor_blueprint::components::unified_addition<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, CurveType, 11>;
 
                     using component_type = plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 1, 0>;
 
