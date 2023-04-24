@@ -43,7 +43,7 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams, typename CurveType,
                      std::size_t W0, std::size_t W1, std::size_t W2, std::size_t W3, std::size_t W4, std::size_t W5,
                      std::size_t W6, std::size_t W7, std::size_t W8>
-            class merkle_tree<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, CurveType,
+            class merkle_tree<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, CurveType,
                               W0, W1, W2, W3, W4, W5, W6, W7, W8> {
 
                 typedef snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>

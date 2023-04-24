@@ -47,7 +47,7 @@ namespace nil {
             class poseidon;
 
             template<typename BlueprintFieldType, typename ArithmetizationParams, typename FieldType>
-            class poseidon<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class poseidon<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                            FieldType, 15>
                 : public plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 0, 0> {
 
@@ -70,7 +70,7 @@ namespace nil {
 
                 constexpr static const std::size_t rate = 2;
                 constexpr static const std::size_t gates_amount = 11;
-                constexpr static const std::size_t rows_amount = 12;
+                constexpr static const std::size_t rows_amount = rounds_amount / rounds_per_row + 1;;
 
                 using var = typename component_type::var;
 
@@ -81,7 +81,7 @@ namespace nil {
                 struct result_type {
                     std::array<var, state_size> output_state = {var(0, 0, false), var(0, 0, false), var(0, 0, false)};
 
-                    result_type(const poseidon<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType,
+                    result_type(const poseidon<actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
                                                                                            ArithmetizationParams>,
                                                FieldType, WitnessAmount> &component,
                                 std::uint32_t start_row_index) {
@@ -117,14 +117,14 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams, typename FieldType,
                      std::int32_t WitnessAmount>
             using plonk_poseidon =
-                poseidon<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                poseidon<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                          FieldType, WitnessAmount>;
 
             template<typename BlueprintFieldType, typename ArithmetizationParams, typename FieldType>
             typename plonk_poseidon<BlueprintFieldType, ArithmetizationParams, FieldType, 15>::result_type
                 generate_assignments(
                     const plonk_poseidon<BlueprintFieldType, ArithmetizationParams, FieldType, 15> &component,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                         &assignment,
                     const typename plonk_poseidon<BlueprintFieldType, ArithmetizationParams, FieldType, 15>::input_type
                         instance_input,
@@ -144,6 +144,8 @@ namespace nil {
                 assignment.witness(component.W(0), row) = state[0];
                 assignment.witness(component.W(1), row) = state[1];
                 assignment.witness(component.W(2), row) = state[2];
+
+                static_assert(state_size == 3);
 
                 for (std::size_t i = row; i < row + component_type::rows_amount - 1; i++) {
                     for (int j = 0; j < state_size; j++) {
@@ -206,8 +208,8 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams, typename FieldType>
             void generate_gates(
                 const plonk_poseidon<BlueprintFieldType, ArithmetizationParams, FieldType, 15> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                     &assignment,
                 const typename plonk_poseidon<BlueprintFieldType, ArithmetizationParams, FieldType, 15>::input_type
                     &instance_input,
@@ -325,8 +327,8 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams, typename FieldType>
             void generate_copy_constraints(
                 const plonk_poseidon<BlueprintFieldType, ArithmetizationParams, FieldType, 15> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                     &assignment,
                 const typename plonk_poseidon<BlueprintFieldType, ArithmetizationParams, FieldType, 15>::input_type
                     &instance_input,
@@ -339,8 +341,8 @@ namespace nil {
             typename plonk_poseidon<BlueprintFieldType, ArithmetizationParams, FieldType, 15>::result_type
                 generate_circuit(
                     const plonk_poseidon<BlueprintFieldType, ArithmetizationParams, FieldType, 15> &component,
-                    circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                    circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                         &assignment,
                     const typename plonk_poseidon<BlueprintFieldType, ArithmetizationParams, FieldType, 15>::input_type
                         &instance_input,

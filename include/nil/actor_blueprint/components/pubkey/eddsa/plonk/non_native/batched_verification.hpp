@@ -53,7 +53,7 @@ namespace nil {
                      std::size_t W6,
                      std::size_t W7,
                      std::size_t W8>
-            class batched_verification<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class batched_verification<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                                                    CurveType,
                                                    Ed25519Type,
                                                    k,
@@ -67,13 +67,13 @@ namespace nil {
                                                    W7,
                                                    W8> {
 
-                typedef crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType,
+                typedef actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
                     ArithmetizationParams> ArithmetizationType;
 
                 using ed25519_component = eddsa25519<ArithmetizationType, CurveType, Ed25519Type,
                 W0, W1, W2, W3, W4, W5, W6, W7, W8>;
                 
-                using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+                using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
                 using var_ec_point = typename ed25519_component::params_type::var_ec_point;
                 using signature = typename ed25519_component::params_type::signature;
                 constexpr static const std::size_t selector_seed = 0xfcc7;

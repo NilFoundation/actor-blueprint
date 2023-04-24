@@ -48,7 +48,7 @@ using namespace nil::crypto3;
 /*
 BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = crypto3::algebra::curves::vesta;
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
     using ArithmetizationParams =
         zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
 
@@ -113,9 +113,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
 BOOST_AUTO_TEST_SUITE_END()
 */
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
-
-BOOST_AUTO_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = algebra::curves::vesta;
@@ -125,14 +123,14 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 4;
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
     constexpr typename BlueprintFieldType::value_type  vesta_base_field_modulus = 0x40000000000000000000000000000000224698fc0994a8dd8c46eb2100000001_cppui256;
     constexpr typename BlueprintFieldType::value_type pallas_base_field_modulus = 0x40000000000000000000000000000000224698fc094cf91b992d30ed00000001_cppui256;
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     constexpr std::size_t InputSize = 4;
 
@@ -211,5 +209,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
     std::cout << "prepare scalars: " << duration.count() << "ms" << std::endl;
 }
-
-BOOST_AUTO_TEST_SUITE_END()

@@ -22,9 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_element_powers_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -43,9 +42,7 @@
 
 using namespace nil::crypto3;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
-
-BOOST_AUTO_TEST_CASE(blueprint_plonk_element_powers) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_element_powers) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = crypto3::algebra::curves::pallas;
@@ -100,5 +97,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_element_powers) {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
     std::cout << "element_powers_component: " << duration.count() << "ms" << std::endl;
 }
-
-BOOST_AUTO_TEST_SUITE_END()

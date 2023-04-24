@@ -53,14 +53,14 @@ void test_poseidon(std::vector<typename BlueprintFieldType::value_type> public_i
     constexpr std::size_t SelectorColumns = 11;
 
     using ArithmetizationParams =
-        crypto3::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = blueprint::assignment<ArithmetizationType>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
 
     using component_type =
-        blueprint::components::poseidon<ArithmetizationType, FieldType, 15>;
+        actor_blueprint::components::poseidon<ArithmetizationType, FieldType, 15>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
-    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
     constexpr std::size_t Lambda = 5;
 
     std::array<var, component_type::state_size> input_state_var = {var(0, 0, false, var::column_type::public_input),
@@ -77,7 +77,7 @@ void test_poseidon(std::vector<typename BlueprintFieldType::value_type> public_i
 
     component_type component_instance({0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},{},{});
 
-    crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
+    actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
         component_instance, public_input, result_check, instance_input);
 }
 

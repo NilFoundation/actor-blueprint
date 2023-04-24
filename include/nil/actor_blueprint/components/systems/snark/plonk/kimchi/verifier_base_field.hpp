@@ -62,14 +62,14 @@ namespace nil {
                          std::size_t W0, std::size_t W1, std::size_t W2, std::size_t W3, std::size_t W4, std::size_t W5,
                          std::size_t W6, std::size_t W7, std::size_t W8, std::size_t W9, std::size_t W10,
                          std::size_t W11, std::size_t W12, std::size_t W13, std::size_t W14>
-                class base_field<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, CurveType,
+                class base_field<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>, CurveType,
                                  KimchiParamsType, KimchiCommitmentParamsType, BatchSize, W0, W1, W2, W3, W4, W5, W6,
                                  W7, W8, W9, W10, W11, W12, W13, W14> {
 
-                    typedef crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>
+                    typedef actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>
                         ArithmetizationType;
 
-                    using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+                    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
                     using var_ec_point = typename zk::components::var_ec_point<BlueprintFieldType>;
                     using sub_component = zk::components::subtraction<ArithmetizationType, W0, W1, W2>;
                     using mul_component = zk::components::multiplication<ArithmetizationType, W0, W1, W2>;

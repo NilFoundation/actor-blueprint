@@ -31,13 +31,16 @@
 #include <nil/crypto3/algebra/curves/mnt4.hpp>
 #include <nil/crypto3/algebra/curves/mnt6.hpp>
 
-#include <nil/actor_blueprint/components/disjunction.hpp>
-#include <nil/actor_blueprint/components/conjunction.hpp>
-#include <nil/actor_blueprint/components/comparison.hpp>
-#include <nil/actor_blueprint/components/inner_product.hpp>
-#include <nil/actor_blueprint/components/loose_multiplexing.hpp>
+#include <nil/actor_blueprint/components/boolean/r1cs/disjunction.hpp>
+#include <nil/actor_blueprint/components/boolean/r1cs/conjunction.hpp>
+#include <nil/actor_blueprint/components/boolean/r1cs/comparison.hpp>
+#include <nil/actor_blueprint/components/boolean/r1cs/inner_product.hpp>
+#include <nil/actor_blueprint/components/detail/r1cs/loose_multiplexing.hpp>
 
-#include <nil/actor/zk/blueprint/r1cs.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/detail/r1cs/blueprint_variable.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/detail/r1cs/blueprint_linear_combination.hpp>
+
+#include <nil/actor_blueprint/blueprint/r1cs/circuit.hpp>
 
 using namespace nil::crypto3;
 using namespace nil::actor::zk;
@@ -45,14 +48,14 @@ using namespace nil::crypto3::algebra;
 
 template<typename FieldType>
 void test_disjunction_component(size_t n) {
-    blueprint<FieldType> bp;
-    nil::actor::zk::detail::blueprint_variable_vector<FieldType> inputs;
+    actor_blueprint::blueprint<FieldType> bp;
+    actor_blueprint::detail::blueprint_variable_vector<FieldType> inputs;
     inputs.allocate(bp, n);
 
-    nil::actor::zk::detail::blueprint_variable<FieldType> output;
+    actor_blueprint::detail::blueprint_variable_vector<FieldType> output;
     output.allocate(bp);
 
-    components::disjunction<FieldType> d(bp, inputs, output);
+    actor_blueprint::components::disjunction<FieldType> d(bp, inputs, output);
     d.generate_gates();
 
     for (std::size_t w = 0; w < 1ul << n; ++w) {
@@ -72,14 +75,14 @@ void test_disjunction_component(size_t n) {
 
 template<typename FieldType>
 void test_conjunction_component(size_t n) {
-    blueprint<FieldType> bp;
-    nil::actor::zk::detail::blueprint_variable_vector<FieldType> inputs;
+    actor_blueprint::blueprint<FieldType> bp;
+    actor_blueprint::detail::blueprint_variable_vector<FieldType> inputs;
     inputs.allocate(bp, n);
 
-    nil::actor::zk::detail::blueprint_variable<FieldType> output;
+    actor_blueprint::detail::blueprint_variable<FieldType> output;
     output.allocate(bp);
 
-    components::conjunction<FieldType> c(bp, inputs, output);
+    actor_blueprint::components::conjunction<FieldType> c(bp, inputs, output);
     c.generate_gates();
 
     for (std::size_t w = 0; w < 1ul << n; ++w) {
@@ -100,15 +103,15 @@ void test_conjunction_component(size_t n) {
 
 template<typename FieldType>
 void test_comparison_component(size_t n) {
-    blueprint<FieldType> bp;
+    actor_blueprint::blueprint<FieldType> bp;
 
-    nil::actor::zk::detail::blueprint_variable<FieldType> A, B, less, less_or_eq;
+    actor_blueprint::detail::blueprint_variable<FieldType> A, B, less, less_or_eq;
     A.allocate(bp);
     B.allocate(bp);
     less.allocate(bp);
     less_or_eq.allocate(bp);
 
-    components::comparison<FieldType> cmp(bp, n, A, B, less, less_or_eq);
+    actor_blueprint::components::comparison<FieldType> cmp(bp, n, A, B, less, less_or_eq);
     cmp.generate_gates();
 
     for (std::size_t a = 0; a < 1ul << n; ++a) {
@@ -127,16 +130,16 @@ void test_comparison_component(size_t n) {
 
 template<typename FieldType>
 void test_inner_product_component(size_t n) {
-    blueprint<FieldType> bp;
-    nil::actor::zk::detail::blueprint_variable_vector<FieldType> A;
+    actor_blueprint::blueprint<FieldType> bp;
+    actor_blueprint::detail::blueprint_variable_vector<FieldType> A;
     A.allocate(bp, n);
-    nil::actor::zk::detail::blueprint_variable_vector<FieldType> B;
+    actor_blueprint::detail::blueprint_variable_vector<FieldType> B;
     B.allocate(bp, n);
 
-    nil::actor::zk::detail::blueprint_variable<FieldType> result;
+    actor_blueprint::detail::blueprint_variable<FieldType> result;
     result.allocate(bp);
 
-    components::inner_product<FieldType> g(bp, A, B, result);
+    actor_blueprint::components::inner_product<FieldType> g(bp, A, B, result);
     g.generate_gates();
 
     for (std::size_t i = 0; i < 1ul << n; ++i) {
@@ -161,16 +164,15 @@ void test_inner_product_component(size_t n) {
 
 template<typename FieldType>
 void test_loose_multiplexing_component(size_t n) {
-    blueprint<FieldType> bp;
-
-    nil::actor::zk::detail::blueprint_variable_vector<FieldType> arr;
+    blueprint::blueprint<FieldType> bp;
+    actor_blueprint::detail::blueprint_variable_vector<FieldType> arr;
     arr.allocate(bp, 1ul << n);
-    nil::actor::zk::detail::blueprint_variable<FieldType> index, result, success_flag;
+    actor_blueprint::detail::blueprint_variable<FieldType> index, result, success_flag;
     index.allocate(bp);
     result.allocate(bp);
     success_flag.allocate(bp);
 
-    components::loose_multiplexing<FieldType> g(bp, arr, index, result, success_flag);
+    nil::crypto3::actor_blueprint::components::loose_multiplexing<FieldType> g(bp, arr, index, result, success_flag);
     g.generate_gates();
 
     for (std::size_t i = 0; i < 1ul << n; ++i) {

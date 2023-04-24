@@ -52,10 +52,13 @@
 #include <nil/actor_blueprint/components/comparison.hpp>
 #include <nil/actor_blueprint/components/inner_product.hpp>
 #include <nil/actor_blueprint/components/loose_multiplexing.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/detail/r1cs/blueprint_variable.hpp>
 
 #include <nil/actor/zk/snark/systems/ppzksnark/r1cs_gg_ppzksnark.hpp>
 
 #include "verify_r1cs_scheme.hpp"
+
+#include <nil/blueprint/blueprint/r1cs/circuit.hpp>
 
 using namespace nil::crypto3;
 using namespace nil::actor::zk;
@@ -69,16 +72,16 @@ void test_disjunction_component(std::size_t w) {
 
     std::size_t n = std::log2(w) + ((w > (1ul << std::size_t(std::log2(w)))) ? 1 : 0);
 
-    blueprint<field_type> bp;
+    actor_blueprint::blueprint<field_type> bp;
     nil::actor::zk::detail::blueprint_variable<field_type> output;
     output.allocate(bp);
 
     bp.set_input_sizes(1);
 
-    nil::actor::zk::detail::blueprint_variable_vector<field_type> inputs;
+    nil::actor::blueprint::detail::blueprint_variable_vector<field_type> inputs;
     inputs.allocate(bp, n);
 
-    components::disjunction<field_type> d(bp, inputs, output);
+    nil::crypto3::actor_blueprint::components::disjunction<field_type> d(bp, inputs, output);
     d.generate_gates();
 
     for (std::size_t j = 0; j < n; ++j) {
@@ -101,17 +104,17 @@ void test_conjunction_component(std::size_t w) {
 
     std::size_t n = std::log2(w) + ((w > (1ul << std::size_t(std::log2(w)))) ? 1 : 0);
 
-    blueprint<field_type> bp;
+    blueprint::blueprint<field_type> bp;
 
-    nil::actor::zk::detail::blueprint_variable<field_type> output;
+    nil::actor::blueprint::detail::blueprint_variable<field_type> output;
     output.allocate(bp);
 
     bp.set_input_sizes(1);
 
-    nil::actor::zk::detail::blueprint_variable_vector<field_type> inputs;
+    nil::actor::blueprint::detail::blueprint_variable_vector<field_type> inputs;
     inputs.allocate(bp, n);
 
-    components::conjunction<field_type> c(bp, inputs, output);
+    nil::crypto3::actor_blueprint::components::conjunction<field_type> c(bp, inputs, output);
     c.generate_gates();
 
     for (std::size_t j = 0; j < n; ++j) {
@@ -133,9 +136,9 @@ void test_comparison_component(std::size_t a, std::size_t b) {
     using field_type = typename CurveType::scalar_field_type;
     using curve_type = CurveType;
 
-    blueprint<field_type> bp;
+    blueprint::blueprint<field_type> bp;
 
-    nil::actor::zk::detail::blueprint_variable<field_type> A, B, less, less_or_eq;
+    nil::actor::blueprint::detail::blueprint_variable<field_type> A, B, less, less_or_eq;
     A.allocate(bp);
     B.allocate(bp);
     less.allocate(bp);
@@ -145,9 +148,9 @@ void test_comparison_component(std::size_t a, std::size_t b) {
     std::size_t n =
         std::log2(std::max(a, b)) + ((std::max(a, b) > (1ul << std::size_t(std::log2(std::max(a, b))))) ? 1 : 0);
 
-    components::comparison<field_type> cmp(bp, n, A, B, less, less_or_eq);
+    nil::crypto3::actor_blueprint::components::comparison<field_type> cmp(bp, n, A, B, less, less_or_eq);
     cmp.generate_gates();
-    
+
     bp.val(A) = typename field_type::value_type(a);
     bp.val(B) = typename field_type::value_type(b);
 

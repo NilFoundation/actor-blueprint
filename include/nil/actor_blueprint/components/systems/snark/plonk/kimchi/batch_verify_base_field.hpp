@@ -75,7 +75,7 @@ namespace nil {
                      std::size_t W12,
                      std::size_t W13,
                      std::size_t W14>
-            class batch_verify_base_field<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class batch_verify_base_field<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                                     CurveType,
                                     KimchiParamsType,
                                     KimchiCommitmentParamsType,
@@ -96,11 +96,11 @@ namespace nil {
                                     W13,
                                     W14 > {
 
-                typedef crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType,
+                typedef actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
                     ArithmetizationParams> ArithmetizationType;
                 
 
-                using var = crypto3::zk::snark::plonk_variable<BlueprintFieldType>;
+                using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
                 using sub_component = subtraction<ArithmetizationType, W0, W1, W2>;
 
                 using kimchi_constants = kimchi_inner_constants<KimchiParamsType>;

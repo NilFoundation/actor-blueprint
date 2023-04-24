@@ -58,7 +58,7 @@ namespace nil {
             class multiplication;
 
             template<typename BlueprintFieldType, typename ArithmetizationParams>
-            class multiplication<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+            class multiplication<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                                  typename crypto3::algebra::fields::curve25519_base_field, 9,
                                  basic_non_native_policy<BlueprintFieldType>>
                 : public plonk_component<BlueprintFieldType, ArithmetizationParams, 9, 0, 0> {
@@ -67,7 +67,7 @@ namespace nil {
 
                 using component_type =
                     plonk_component<BlueprintFieldType, ArithmetizationParams, WitnessesAmount, 0, 0>;
-                using operating_field_type = typename crypto3::algebra::fields::curve25519_base_field;
+                using operating_field_type = crypto3::algebra::fields::curve25519_base_field;
                 using non_native_policy_type = basic_non_native_policy<BlueprintFieldType>;
 
             public:
@@ -77,7 +77,7 @@ namespace nil {
 
                 constexpr static const std::size_t rows_amount =
                     3 +
-                    2 * range<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                    2 * range<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                               typename crypto3::algebra::fields::curve25519_base_field, 9,
                               non_native_policy_type>::rows_amount;
 
@@ -119,7 +119,7 @@ namespace nil {
 
             template<typename BlueprintFieldType, typename ArithmetizationParams, std::int32_t WitnessesAmount>
             using plonk_ed25519_multiplication =
-                multiplication<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
+                multiplication<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                                typename crypto3::algebra::fields::curve25519_base_field, WitnessesAmount,
                                basic_non_native_policy<BlueprintFieldType>>;
 
@@ -127,13 +127,13 @@ namespace nil {
             typename plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::result_type
                 generate_assignments(
                     const plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                         &assignment,
                     const typename plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams,
                                                                 9>::input_type instance_input,
                     const std::uint32_t start_row_index) {
 
-                using ed25519_field_type = typename crypto3::algebra::fields::curve25519_base_field;
+                using ed25519_field_type = crypto3::algebra::fields::curve25519_base_field;
 
                 using var = typename plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::var;
 
@@ -246,7 +246,7 @@ namespace nil {
                 assignment.witness(component.W(7), row + 6) = u1_chunks[3];
 
                 using ArithmetizationType =
-                    crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+                    actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
 
                 range<ArithmetizationType, typename crypto3::algebra::fields::curve25519_base_field, 9,
                       basic_non_native_policy<BlueprintFieldType>>
@@ -276,14 +276,14 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams>
             void generate_gates(
                 const plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                     &assignment,
                 const typename plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::input_type
                     &instance_input,
                 const std::size_t first_selector_index) {
 
-                using ed25519_field_type = typename crypto3::algebra::fields::curve25519_base_field;
+                using ed25519_field_type = crypto3::algebra::fields::curve25519_base_field;
                 using var = typename plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::var;
 
                 typename BlueprintFieldType::integral_type base = 1;
@@ -299,7 +299,7 @@ namespace nil {
                 p[2] = (minus_eddsa_p >> 132) & (mask);
                 p[3] = (minus_eddsa_p >> 198) & (mask);
 
-                std::array<crypto3::zk::snark::plonk_constraint<BlueprintFieldType>, 5> t;
+                std::array<actor::zk::snark::plonk_constraint<BlueprintFieldType>, 5> t;
                 t[0] = var(component.W(0), -1) * var(component.W(4), -1) + p[0] * var(component.W(8), -1);
                 t[1] = var(component.W(1), -1) * var(component.W(4), -1) +
                        var(component.W(0), -1) * var(component.W(5), -1) + p[0] * var(component.W(0), 0) +
@@ -347,8 +347,8 @@ namespace nil {
             template<typename BlueprintFieldType, typename ArithmetizationParams>
             void generate_copy_constraints(
                 const plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                     &assignment,
                 const typename plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::input_type
                     &instance_input,
@@ -372,8 +372,8 @@ namespace nil {
             typename plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::result_type
                 generate_circuit(
                     const plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9> &component,
-                    circuit<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
-                    assignment<crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
+                    circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>> &bp,
+                    assignment<actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>>
                         &assignment,
                     const typename plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams,
                                                                 9>::input_type &instance_input,
@@ -393,7 +393,7 @@ namespace nil {
                 generate_copy_constraints(component, bp, assignment, instance_input, j);
 
                 using ArithmetizationType =
-                    crypto3::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+                    actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
                 using var = typename plonk_ed25519_multiplication<BlueprintFieldType, ArithmetizationParams, 9>::var;
 
                 range<ArithmetizationType, typename crypto3::algebra::fields::curve25519_base_field, 9,
