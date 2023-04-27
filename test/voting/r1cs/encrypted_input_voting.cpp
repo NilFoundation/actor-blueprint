@@ -23,9 +23,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE voting_encrypted_input_component_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/jubjub.hpp>
 
@@ -348,14 +347,13 @@ void test_jubjub_merkle_container_pedersen_encrypted_input_voting_component() {
     BOOST_CHECK(!bp.is_satisfied());
 }
 
-BOOST_AUTO_TEST_SUITE(voting_component_test_suite)
 
-BOOST_AUTO_TEST_CASE(voting_component_jubjub_pedersen_test) {
+
+ACTOR_THREAD_TEST_CASE(voting_component_jubjub_pedersen_test) {
     test_jubjub_pedersen_encrypted_input_voting_component();
 }
 
-BOOST_AUTO_TEST_CASE(voting_component_jubjub_merkle_container_pedersen_test) {
+ACTOR_THREAD_TEST_CASE(voting_component_jubjub_merkle_container_pedersen_test) {
     test_jubjub_merkle_container_pedersen_encrypted_input_voting_component();
 }
 
-BOOST_AUTO_TEST_SUITE_END()

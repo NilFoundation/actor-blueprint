@@ -346,7 +346,7 @@ void test_get_vanishing_polynomial(std::size_t m) {
     std::cout << "type name " << typeid(EvaluationDomainType).name() << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE(fft_evaluation_domain_test_suite)
+
 
 ACTOR_THREAD_TEST_CASE(fft) {
     test_fft<fields::bls12<381>>();
@@ -373,7 +373,7 @@ ACTOR_THREAD_TEST_CASE(compute_z) {
     test_compute_z<fields::mnt4<298>>();
 }
 
-BOOST_AUTO_TEST_CASE(curve_elements_fft) {
+ACTOR_THREAD_TEST_CASE(curve_elements_fft) {
     typedef curves::bls12<381>::scalar_field_type field_type;
     typedef curves::bls12<381>::g1_type<> group_type;
     using group_value_type = group_type::value_type;
@@ -401,7 +401,7 @@ BOOST_AUTO_TEST_CASE(curve_elements_fft) {
                             arithmetic_sequence_domain<field_type, group_value_type>>();
 }
 
-BOOST_AUTO_TEST_CASE(curve_elements_inverse_fft) {
+ACTOR_THREAD_TEST_CASE(curve_elements_inverse_fft) {
     typedef curves::bls12<381>::scalar_field_type field_type;
     typedef curves::bls12<381>::g1_type<> group_type;
     using group_value_type = group_type::value_type;
@@ -429,7 +429,7 @@ BOOST_AUTO_TEST_CASE(curve_elements_inverse_fft) {
                             arithmetic_sequence_domain<field_type, group_value_type>>();
 }
 
-BOOST_AUTO_TEST_CASE(lagrange_coefficients_from_powers) {
+ACTOR_THREAD_TEST_CASE(lagrange_coefficients_from_powers) {
     typedef curves::bls12<381>::scalar_field_type field_type;
     
     test_lagrange_coefficients_from_powers<field_type,
@@ -445,7 +445,7 @@ BOOST_AUTO_TEST_CASE(lagrange_coefficients_from_powers) {
                             arithmetic_sequence_domain<field_type>>(4);
 }
 
-BOOST_AUTO_TEST_CASE(curve_elements_lagrange_coefficients) {
+ACTOR_THREAD_TEST_CASE(curve_elements_lagrange_coefficients) {
     typedef curves::bls12<381>::scalar_field_type field_type;
     typedef curves::bls12<381>::g1_type<> group_type;
     using group_value_type = group_type::value_type;
@@ -473,7 +473,7 @@ BOOST_AUTO_TEST_CASE(curve_elements_lagrange_coefficients) {
                             arithmetic_sequence_domain<field_type, group_value_type>>(4);
 }
 
-BOOST_AUTO_TEST_CASE(get_vanishing_polynomial) {
+ACTOR_THREAD_TEST_CASE(get_vanishing_polynomial) {
     typedef curves::bls12<381>::scalar_field_type field_type;
     
     test_get_vanishing_polynomial<field_type,
@@ -489,4 +489,4 @@ BOOST_AUTO_TEST_CASE(get_vanishing_polynomial) {
                             arithmetic_sequence_domain<field_type>>(4);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

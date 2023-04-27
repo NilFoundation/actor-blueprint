@@ -22,9 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_kimchi_oracles_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/vesta.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/vesta.hpp>
@@ -51,13 +50,13 @@
 
 using namespace nil::crypto3;
 /*
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_oracles_test_suite)
+
 
 template<typename CurveType, typename BlueprintFieldType, typename KimchiParamsType, std::size_t EvelRounds>
-void prepare_proof(zk::snark::pickles_proof<CurveType> &original_proof,
+void prepare_proof(actor::zk::snark::pickles_proof<CurveType> &original_proof,
                    zk::components::kimchi_proof_scalar<BlueprintFieldType, KimchiParamsType, EvelRounds> &circuit_proof,
                    std::vector<typename BlueprintFieldType::value_type> &public_input) {
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     // eval_proofs
     for (std::size_t point_idx = 0; point_idx < 2; point_idx++) {
@@ -95,7 +94,7 @@ void prepare_proof(zk::snark::pickles_proof<CurveType> &original_proof,
     circuit_proof.ft_eval = var(0, public_input.size() - 1, false, var::column_type::public_input);
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_oracles_test) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_oracles_test) {
 
     using curve_type = algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
@@ -104,13 +103,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_oracles_test) {
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 10;
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = zk::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
 
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     constexpr static std::size_t public_input_size = 3;
     constexpr static std::size_t max_poly_size = 32;
@@ -134,7 +133,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_oracles_test) {
     using component_type = zk::components::evals_of_split_evals<ArithmetizationType, kimchi_params, split_size, 0, 1, 2,
                                                                 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
 
-    zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
+    actor::zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
 
     typename BlueprintFieldType::value_type zeta_val =
         0x0000000000000000000000000000000062F9AE3696EA8F0A85043221DE133E32_cppui256;
@@ -155,16 +154,16 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_oracles_test) {
                                                                                                  result_check);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+
 */
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_verifiers_pickles_scalar_details_evals_of_split_evals_test_suite)
+
 
 template<typename CurveType, typename BlueprintFieldType, typename KimchiParamsType, std::size_t EvelRounds>
-void prepare_proof(zk::snark::proof_type<CurveType> &original_proof,
+void prepare_proof(actor::zk::snark::proof_type<CurveType> &original_proof,
                    nil::actor_blueprint_mc::components::kimchi_proof_scalar<BlueprintFieldType, KimchiParamsType, EvelRounds> &circuit_proof,
                    std::vector<typename BlueprintFieldType::value_type> &public_input) {
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     // eval_proofs
     for (std::size_t point_idx = 0; point_idx < 2; point_idx++) {
@@ -202,7 +201,7 @@ void prepare_proof(zk::snark::proof_type<CurveType> &original_proof,
     circuit_proof.ft_eval = var(0, public_input.size() - 1, false, var::column_type::public_input);
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_verifiers_pickles_scalar_details_evals_of_split_evals_test) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_verifiers_pickles_scalar_details_evals_of_split_evals_test) {
 
     using curve_type = algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
@@ -211,13 +210,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_verifiers_pickles_scalar_details_evals_of_s
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 10;
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
 
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     constexpr static std::size_t public_input_size = 3;
     constexpr static std::size_t max_poly_size = 32;
@@ -242,7 +241,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_verifiers_pickles_scalar_details_evals_of_s
         nil::actor_blueprint_mc::components::evals_of_split_evals<ArithmetizationType, kimchi_params, split_size, 0, 1, 2, 3, 4,
                                        5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
 
-    zk::snark::proof_type<curve_type> kimchi_proof = test_proof();
+    actor::zk::snark::proof_type<curve_type> kimchi_proof = test_proof();
 
     typename BlueprintFieldType::value_type zeta_val =
         0x0000000000000000000000000000000062F9AE3696EA8F0A85043221DE133E32_cppui256;
@@ -263,4 +262,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_verifiers_pickles_scalar_details_evals_of_s
                                                                                                  result_check);
 }
 
-BOOST_AUTO_TEST_SUITE_END()

@@ -23,9 +23,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE exponentiation_components_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/mnt4.hpp>
 #include <nil/crypto3/algebra/fields/mnt4/base_field.hpp>
@@ -74,9 +75,9 @@ void test_exponentiation_component(const typename FpkT::integral_type &power) {
     std::cout << "Power: " << power << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE(exponentiation_component_test_suite)
 
-BOOST_AUTO_TEST_CASE(exponentiation_component_mnt4_298_test_case) {
+
+ACTOR_THREAD_TEST_CASE(exponentiation_component_mnt4_298_test_case) {
 
     std::cout << "Testing mnt4<298>: " << std::endl;
 
@@ -86,7 +87,7 @@ BOOST_AUTO_TEST_CASE(exponentiation_component_mnt4_298_test_case) {
 
 }
 
-BOOST_AUTO_TEST_CASE(exponentiation_component_mnt6_298_test_case) {
+ACTOR_THREAD_TEST_CASE(exponentiation_component_mnt6_298_test_case) {
 
     std::cout << "Testing mnt6<298>: " << std::endl;
 
@@ -95,4 +96,4 @@ BOOST_AUTO_TEST_CASE(exponentiation_component_mnt6_298_test_case) {
             curves::mnt6<298>::pairing::final_exponent_last_chunk_abs_of_w0);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

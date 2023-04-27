@@ -11,9 +11,10 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-#define BOOST_TEST_MODULE weierstrass_miller_loop_components_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/mnt4.hpp>
 #include <nil/crypto3/algebra/fields/mnt4/base_field.hpp>
@@ -33,30 +34,30 @@
 using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
-BOOST_AUTO_TEST_SUITE(weierstrass_miller_loop_components_test_suite)
 
-BOOST_AUTO_TEST_CASE(weierstrass_miller_loop_mnt4_miller_loop_components_test) {
+
+ACTOR_THREAD_TEST_CASE(weierstrass_miller_loop_mnt4_miller_loop_components_test) {
 	test_mnt_miller_loop<curves::mnt4<298>>();
 }
 
-BOOST_AUTO_TEST_CASE(weierstrass_miller_loop_mnt6_miller_loop_components_test) {
+ACTOR_THREAD_TEST_CASE(weierstrass_miller_loop_mnt6_miller_loop_components_test) {
 	test_mnt_miller_loop<curves::mnt6<298>>();
 }
 
-BOOST_AUTO_TEST_CASE(weierstrass_miller_loop_mnt4_e_over_e_miller_loop_components_test) {
+ACTOR_THREAD_TEST_CASE(weierstrass_miller_loop_mnt4_e_over_e_miller_loop_components_test) {
 	test_mnt_e_over_e_miller_loop<curves::mnt4<298>>();
 }
 
-BOOST_AUTO_TEST_CASE(weierstrass_miller_loop_mnt6_e_over_e_miller_loop_components_test) {
+ACTOR_THREAD_TEST_CASE(weierstrass_miller_loop_mnt6_e_over_e_miller_loop_components_test) {
 	test_mnt_e_over_e_miller_loop<curves::mnt6<298>>();
 }
 
-BOOST_AUTO_TEST_CASE(weierstrass_miller_loop_mnt4_e_times_e_miller_loop_components_test) {
+ACTOR_THREAD_TEST_CASE(weierstrass_miller_loop_mnt4_e_times_e_miller_loop_components_test) {
 	test_mnt_e_times_e_over_e_miller_loop<curves::mnt4<298>>();
 }
 
-BOOST_AUTO_TEST_CASE(weierstrass_miller_loop_mnt6_e_times_e_miller_loop_components_test) {
+ACTOR_THREAD_TEST_CASE(weierstrass_miller_loop_mnt6_e_times_e_miller_loop_components_test) {
 	test_mnt_e_times_e_over_e_miller_loop<curves::mnt6<298>>();
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

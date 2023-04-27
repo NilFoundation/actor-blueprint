@@ -24,9 +24,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_non_native_field_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -120,7 +121,7 @@ void test_field_sub(std::vector<typename BlueprintFieldType::value_type> public_
         component_instance, public_input, result_check, instance_input);
 }
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
+
 
 template <typename FieldType, typename NonNativeFieldType>
 void test_field_sub_useable(typename NonNativeFieldType::value_type a, typename NonNativeFieldType::value_type b){
@@ -181,4 +182,4 @@ ACTOR_THREAD_TEST_CASE(blueprint_non_native_subtraction_pallas) {
     test_field_sub_all_cases<field_type, non_native_field_type>();
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

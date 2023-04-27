@@ -22,9 +22,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_non_native_scalar_range_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -80,14 +81,14 @@ void test_scalar_non_native_range(std::vector<typename BlueprintFieldType::value
 
 constexpr static const std::size_t random_tests_amount = 10;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_scalar_range_test0) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_scalar_range_test0) {
     test_scalar_non_native_range<typename crypto3::algebra::curves::pallas::base_field_type>(
         {45524});
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_scalar_range_test1) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_scalar_range_test1) {
     using field_type = typename crypto3::algebra::curves::pallas::base_field_type;
 
 
@@ -121,7 +122,7 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_scalar_range_test1) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_scalar_range_test_must_fail) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_scalar_range_test_must_fail) {
     using field_type = crypto3::algebra::curves::pallas::base_field_type;
 
     nil::crypto3::random::algebraic_engine<field_type> rand;
@@ -141,4 +142,4 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_scalar_range_test_must_fail) {
     test_scalar_non_native_range<field_type>({-1});
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

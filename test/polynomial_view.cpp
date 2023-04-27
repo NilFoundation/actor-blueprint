@@ -24,12 +24,13 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE polynomial_view_test
+
 
 #include <vector>
 #include <cstdint>
 
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/data/monomorphic.hpp>
 
@@ -42,9 +43,9 @@ using namespace nil::actor::math;
 
 typedef fields::bls12_fr<381> FieldType;
 
-BOOST_AUTO_TEST_SUITE(polynomial_constructor_test_suite)
 
-BOOST_AUTO_TEST_CASE(polynomial_constructor) {
+
+ACTOR_THREAD_TEST_CASE(polynomial_constructor) {
 
     std::vector<typename FieldType::value_type> a_v = {0, 0, 0, 0, 0, 1};
     polynomial_view<typename FieldType::value_type> a(a_v);
@@ -54,11 +55,11 @@ BOOST_AUTO_TEST_CASE(polynomial_constructor) {
     }
 }
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE(polynomial_addition_test_suite)
 
-BOOST_AUTO_TEST_CASE(polynomial_addition_equal) {
+
+
+ACTOR_THREAD_TEST_CASE(polynomial_addition_equal) {
     std::vector<typename FieldType::value_type> a_v = {1, 3, 4, 25, 6, 7, 7, 2};
     std::vector<typename FieldType::value_type> b_v = {9, 3, 11, 14, 7, 1, 5, 8};
 
@@ -74,7 +75,7 @@ BOOST_AUTO_TEST_CASE(polynomial_addition_equal) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_addition_long_a) {
+ACTOR_THREAD_TEST_CASE(polynomial_addition_long_a) {
 
     std::vector<typename FieldType::value_type> a_v = {1, 3, 4, 25, 6, 7, 7, 2};
     std::vector<typename FieldType::value_type> b_v = {9, 3, 11, 14, 7};
@@ -91,7 +92,7 @@ BOOST_AUTO_TEST_CASE(polynomial_addition_long_a) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_addition_long_b) {
+ACTOR_THREAD_TEST_CASE(polynomial_addition_long_b) {
 
     std::vector<typename FieldType::value_type> a_v = {1, 3, 4, 25, 6};
     std::vector<typename FieldType::value_type> b_v = {9, 3, 11, 14, 7, 1, 5, 8};
@@ -108,7 +109,7 @@ BOOST_AUTO_TEST_CASE(polynomial_addition_long_b) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_addition_zero_a) {
+ACTOR_THREAD_TEST_CASE(polynomial_addition_zero_a) {
 
     std::vector<typename FieldType::value_type> a_v = {0, 0, 0};
     std::vector<typename FieldType::value_type> b_v = {1, 3, 4, 25, 6, 7, 7, 2};
@@ -125,7 +126,7 @@ BOOST_AUTO_TEST_CASE(polynomial_addition_zero_a) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_addition_zero_b) {
+ACTOR_THREAD_TEST_CASE(polynomial_addition_zero_b) {
 
     std::vector<typename FieldType::value_type> a_v = {1, 3, 4, 25, 6, 7, 7, 2};
     std::vector<typename FieldType::value_type> b_v = {0, 0, 0};
@@ -142,11 +143,11 @@ BOOST_AUTO_TEST_CASE(polynomial_addition_zero_b) {
     }
 }
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE(polynomial_subtraction_test_suite)
 
-BOOST_AUTO_TEST_CASE(polynomial_subtraction_equal) {
+
+
+ACTOR_THREAD_TEST_CASE(polynomial_subtraction_equal) {
 
     std::vector<typename FieldType::value_type> a_v = {1, 3, 4, 25, 6, 7, 7, 2};
     std::vector<typename FieldType::value_type> b_v = {9, 3, 11, 14, 7, 1, 5, 8};
@@ -163,7 +164,7 @@ BOOST_AUTO_TEST_CASE(polynomial_subtraction_equal) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_subtraction_long_a) {
+ACTOR_THREAD_TEST_CASE(polynomial_subtraction_long_a) {
 
     std::vector<typename FieldType::value_type> a_v = {1, 3, 4, 25, 6, 7, 7, 2};
     std::vector<typename FieldType::value_type> b_v = {9, 3, 11, 14, 7};
@@ -180,7 +181,7 @@ BOOST_AUTO_TEST_CASE(polynomial_subtraction_long_a) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_subtraction_long_b) {
+ACTOR_THREAD_TEST_CASE(polynomial_subtraction_long_b) {
 
     std::vector<typename FieldType::value_type> a_v = {1, 3, 4, 25, 6};
     std::vector<typename FieldType::value_type> b_v = {9, 3, 11, 14, 7, 1, 5, 8};
@@ -197,7 +198,7 @@ BOOST_AUTO_TEST_CASE(polynomial_subtraction_long_b) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_subtraction_zero_a) {
+ACTOR_THREAD_TEST_CASE(polynomial_subtraction_zero_a) {
 
     std::vector<typename FieldType::value_type> a_v = {0, 0, 0};
     std::vector<typename FieldType::value_type> b_v = {1, 3, 4, 25, 6, 7, 7, 2};
@@ -214,7 +215,7 @@ BOOST_AUTO_TEST_CASE(polynomial_subtraction_zero_a) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_subtraction_zero_b) {
+ACTOR_THREAD_TEST_CASE(polynomial_subtraction_zero_b) {
 
     std::vector<typename FieldType::value_type> a_v = {1, 3, 4, 25, 6, 7, 7, 2};
     std::vector<typename FieldType::value_type> b_v = {0, 0, 0};
@@ -231,11 +232,11 @@ BOOST_AUTO_TEST_CASE(polynomial_subtraction_zero_b) {
     }
 }
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE(polynomial_multiplication_test_suite)
 
-BOOST_AUTO_TEST_CASE(polynomial_multiplication_long_a) {
+
+
+ACTOR_THREAD_TEST_CASE(polynomial_multiplication_long_a) {
 
     std::vector<typename FieldType::value_type> a_v = {5, 0, 0, 13, 0, 1};
     std::vector<typename FieldType::value_type> b_v = {13, 0, 1};
@@ -252,7 +253,7 @@ BOOST_AUTO_TEST_CASE(polynomial_multiplication_long_a) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_multiplication_long_b) {
+ACTOR_THREAD_TEST_CASE(polynomial_multiplication_long_b) {
 
     std::vector<typename FieldType::value_type> a_v = {13, 0, 1};
     std::vector<typename FieldType::value_type> b_v = {5, 0, 0, 13, 0, 1};
@@ -269,7 +270,7 @@ BOOST_AUTO_TEST_CASE(polynomial_multiplication_long_b) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_multiplication_zero_a) {
+ACTOR_THREAD_TEST_CASE(polynomial_multiplication_zero_a) {
 
     std::vector<typename FieldType::value_type> a_v = {0};
     std::vector<typename FieldType::value_type> b_v = {5, 0, 0, 13, 0, 1};
@@ -286,7 +287,7 @@ BOOST_AUTO_TEST_CASE(polynomial_multiplication_zero_a) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_multiplication_zero_b) {
+ACTOR_THREAD_TEST_CASE(polynomial_multiplication_zero_b) {
 
     std::vector<typename FieldType::value_type> a_v = {5, 0, 0, 13, 0, 1};
     std::vector<typename FieldType::value_type> b_v = {0};
@@ -303,11 +304,11 @@ BOOST_AUTO_TEST_CASE(polynomial_multiplication_zero_b) {
     }
 }
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE(polynomial_division_test_suite)
 
-BOOST_AUTO_TEST_CASE(polynomial_div) {
+
+
+ACTOR_THREAD_TEST_CASE(polynomial_div) {
 
     std::vector<typename FieldType::value_type> a_v = {5, 0, 0, 13, 0, 1};
     std::vector<typename FieldType::value_type> b_v = {13, 0, 1};
@@ -324,7 +325,7 @@ BOOST_AUTO_TEST_CASE(polynomial_div) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_mod) {
+ACTOR_THREAD_TEST_CASE(polynomial_mod) {
 
     std::vector<typename FieldType::value_type> a_v = {5, 0, 0, 13, 0, 1};
     std::vector<typename FieldType::value_type> b_v = {13, 0, 1};
@@ -341,4 +342,3 @@ BOOST_AUTO_TEST_CASE(polynomial_mod) {
     }
 }
 
-BOOST_AUTO_TEST_SUITE_END()

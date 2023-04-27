@@ -25,7 +25,7 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-//#define BOOST_TEST_MODULE blueprint_plonk_non_native_range_test
+//
 
 #include <nil/actor/testing/test_case.hh>
 #include <nil/actor/testing/thread_test_case.hh>
@@ -88,7 +88,7 @@ void test_field_range(std::vector<typename BlueprintFieldType::value_type> publi
         component_instance, public_input, result_check, instance_input);
 }
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
+
 
 ACTOR_THREAD_TEST_CASE(blueprint_non_native_range_test0) {
     using non_native_field_type = typename crypto3::algebra::fields::curve25519_base_field;
@@ -136,4 +136,4 @@ ACTOR_THREAD_TEST_CASE(blueprint_non_native_range_test_must_fail) {
 
 }
 
-//BOOST_AUTO_TEST_SUITE_END()
+//

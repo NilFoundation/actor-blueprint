@@ -51,10 +51,10 @@ using FrType = typename curve_type::scalar_field_type;
 
 template <typename BlueprintFieldType, typename ArithmetizationParams, typename ProofType>
 struct proof_generator_result_type {
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType,
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
         ArithmetizationParams>;
-    using params = zk::snark::placeholder_params<BlueprintFieldType, ArithmetizationParams>;
-    using types = zk::snark::detail::placeholder_policy<BlueprintFieldType, params>;
+    using params = actor::zk::snark::placeholder_params<BlueprintFieldType, ArithmetizationParams>;
+    using types = actor::zk::snark::detail::placeholder_policy<BlueprintFieldType, params>;
 
     using fri_type = typename zk::commitments::fri<BlueprintFieldType,
         typename params::merkle_hash_type,
@@ -74,13 +74,13 @@ constexpr std::size_t PublicInputColumnsBase = 1;
 constexpr std::size_t ConstantColumnsBase = 0;
 constexpr std::size_t SelectorColumnsBase = 1;
 
-using ArithmetizationParamsBase = zk::snark::plonk_arithmetization_params<WitnessColumnsBase,
+using ArithmetizationParamsBase = actor::zk::snark::plonk_arithmetization_params<WitnessColumnsBase,
     PublicInputColumnsBase, ConstantColumnsBase, SelectorColumnsBase>;
-using ArithmetizationTypeBase = zk::snark::plonk_constraint_system<FpType,
+using ArithmetizationTypeBase = actor::zk::snark::plonk_constraint_system<FpType,
             ArithmetizationParamsBase>;
 
-using params_base = zk::snark::placeholder_params<FpType, ArithmetizationParamsBase>;
-using types_base = zk::snark::detail::placeholder_policy<FpType, params_base>;
+using params_base = actor::zk::snark::placeholder_params<FpType, ArithmetizationParamsBase>;
+using types_base = actor::zk::snark::detail::placeholder_policy<FpType, params_base>;
 
 typedef zk::commitments::list_polynomial_commitment<FpType,
                                                 typename params_base::commitment_params_type>
@@ -95,7 +95,7 @@ typedef zk::commitments::list_polynomial_commitment<FpType,
                                                 typename params_base::commitment_params_type>
     commitment_scheme_public_input_type_base;
 
-using proof_type_base = zk::snark::placeholder_proof<FpType, commitment_scheme_witness_type_base,
+using proof_type_base = actor::zk::snark::placeholder_proof<FpType, commitment_scheme_witness_type_base,
         commitment_scheme_permutation_type_base, commitment_scheme_quotient_type_base,
         commitment_scheme_public_input_type_base>;
 
@@ -108,13 +108,13 @@ constexpr std::size_t PublicInputColumnsScalar = 1;
 constexpr std::size_t ConstantColumnsScalar = 3;
 constexpr std::size_t SelectorColumnsScalar = 11;
 
-using ArithmetizationParamsScalar = zk::snark::plonk_arithmetization_params<WitnessColumnsScalar,
+using ArithmetizationParamsScalar = actor::zk::snark::plonk_arithmetization_params<WitnessColumnsScalar,
     PublicInputColumnsScalar, ConstantColumnsScalar, SelectorColumnsScalar>;
-using ArithmetizationTypeScalar = zk::snark::plonk_constraint_system<FrType,
+using ArithmetizationTypeScalar = actor::zk::snark::plonk_constraint_system<FrType,
             ArithmetizationParamsScalar>;
 
-using params_scalar = zk::snark::placeholder_params<FrType, ArithmetizationParamsScalar>;
-using types_scalar = zk::snark::detail::placeholder_policy<FrType, params_scalar>;
+using params_scalar = actor::zk::snark::placeholder_params<FrType, ArithmetizationParamsScalar>;
+using types_scalar = actor::zk::snark::detail::placeholder_policy<FrType, params_scalar>;
 
 typedef zk::commitments::list_polynomial_commitment<FrType,
                                                 typename params_scalar::commitment_params_type>
@@ -129,7 +129,7 @@ typedef zk::commitments::list_polynomial_commitment<FrType,
                                                 typename params_scalar::commitment_params_type>
     commitment_scheme_public_input_type_scalar;
 
-using proof_type_scalar = zk::snark::placeholder_proof<FrType, commitment_scheme_witness_type_scalar,
+using proof_type_scalar = actor::zk::snark::placeholder_proof<FrType, commitment_scheme_witness_type_scalar,
         commitment_scheme_permutation_type_scalar, commitment_scheme_quotient_type_scalar,
         commitment_scheme_public_input_type_scalar>;
 

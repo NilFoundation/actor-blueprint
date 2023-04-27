@@ -22,9 +22,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_kimchi_lagrange_denominators_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -43,9 +44,9 @@
 
 using namespace nil::crypto3;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_lagrange_denominators) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_lagrange_denominators) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = crypto3::algebra::curves::pallas;
@@ -56,13 +57,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_lagrange_denominators) {
     constexpr std::size_t SelectorColumns = 2;
     constexpr std::size_t n = 5;
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using component_type =
         nil::actor_blueprint_mc::components::lagrange_denominators<ArithmetizationType, n, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
@@ -107,7 +108,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_lagrange_denominators) {
     std::cout << "lagrange_denominators_component: " << duration.count() << "ms" << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_lagrange_denominators_real_data) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_lagrange_denominators_real_data) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = crypto3::algebra::curves::pallas;
@@ -118,13 +119,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_lagrange_denominators_real_data) {
     constexpr std::size_t SelectorColumns = 2;
     constexpr std::size_t n = 5;
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using component_type =
         nil::actor_blueprint_mc::components::lagrange_denominators<ArithmetizationType, n, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
@@ -174,4 +175,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_lagrange_denominators_real_data) {
     std::cout << "lagrange_denominators_component: " << duration.count() << "ms" << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()

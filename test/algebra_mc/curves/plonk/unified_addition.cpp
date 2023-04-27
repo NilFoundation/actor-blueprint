@@ -180,11 +180,11 @@ void test_unified_addition_random_data() {
         test_unified_addition<CurveType>(public_input, expected_res);
     }
 }
-BOOST_AUTO_TEST_SUITE_END()
+
 
 constexpr static const std::size_t random_tests_amount = 10;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
+
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_unified_addition_pallas) {
     using curve_type = crypto3::algebra::curves::pallas;
@@ -200,9 +200,9 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_unified_addition_vesta) {
     test_unified_addition_random_data<curve_type, random_tests_amount>();
 }
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE(blueprint_mc_plonk_test_suite)
+
+
 
 using namespace nil::crypto3;
 ACTOR_THREAD_TEST_CASE(blueprint_mc_plonk_unified_addition_double) {

@@ -23,7 +23,7 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-//#define BOOST_TEST_MODULE plonk_sha512_test
+//
 
 #include <chrono>
 #include <nil/actor/testing/test_case.hh>
@@ -218,4 +218,4 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_sha512_process) {
         component_instance, public_input, result_check, instance_input);
 }
 
-//BOOST_AUTO_TEST_SUITE_END()
+//

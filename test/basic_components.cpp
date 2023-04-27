@@ -23,9 +23,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE basic_components_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/bls12.hpp>
 #include <nil/crypto3/algebra/curves/mnt4.hpp>
@@ -164,7 +165,7 @@ void test_inner_product_component(size_t n) {
 
 template<typename FieldType>
 void test_loose_multiplexing_component(size_t n) {
-    blueprint::blueprint<FieldType> bp;
+    actor_blueprint::blueprint<FieldType> bp;
     actor_blueprint::detail::blueprint_variable_vector<FieldType> arr;
     arr.allocate(bp, 1ul << n);
     actor_blueprint::detail::blueprint_variable<FieldType> index, result, success_flag;
@@ -199,9 +200,9 @@ void test_loose_multiplexing_component(size_t n) {
     }
 }
 
-BOOST_AUTO_TEST_SUITE(basic_components_test_suite)
 
-BOOST_AUTO_TEST_CASE(basic_components_disjunction_test) {
+
+ACTOR_THREAD_TEST_CASE(basic_components_disjunction_test) {
     std::cout << "Disjunction component test started" << std::endl;
     std::cout << "Started for bls12<381>" << std::endl;
     test_disjunction_component<fields::bls12<381>>(10);
@@ -211,7 +212,7 @@ BOOST_AUTO_TEST_CASE(basic_components_disjunction_test) {
     test_disjunction_component<fields::mnt6<298>>(10);
 }
 
-BOOST_AUTO_TEST_CASE(basic_components_conjunction_test) {
+ACTOR_THREAD_TEST_CASE(basic_components_conjunction_test) {
     std::cout << "Conjunction component test started" << std::endl;
     std::cout << "Started for bls12<381>" << std::endl;
     test_conjunction_component<fields::bls12<381>>(10);
@@ -221,7 +222,7 @@ BOOST_AUTO_TEST_CASE(basic_components_conjunction_test) {
     test_conjunction_component<fields::mnt6<298>>(10);
 }
 
-BOOST_AUTO_TEST_CASE(basic_components_comparison_test) {
+ACTOR_THREAD_TEST_CASE(basic_components_comparison_test) {
     std::cout << "Comparison component test started" << std::endl;
     std::cout << "Started for bls12<381>" << std::endl;
     test_comparison_component<fields::bls12<381>>(5);
@@ -231,7 +232,7 @@ BOOST_AUTO_TEST_CASE(basic_components_comparison_test) {
     test_comparison_component<fields::mnt6<298>>(5);
 }
 
-BOOST_AUTO_TEST_CASE(basic_components_inner_product_test) {
+ACTOR_THREAD_TEST_CASE(basic_components_inner_product_test) {
     std::cout << "Inner product component test started" << std::endl;
     std::cout << "Started for bls12<381>" << std::endl;
     test_inner_product_component<fields::bls12<381>>(5);
@@ -241,7 +242,7 @@ BOOST_AUTO_TEST_CASE(basic_components_inner_product_test) {
     test_inner_product_component<fields::mnt6<298>>(5);
 }
 
-BOOST_AUTO_TEST_CASE(basic_components_loose_multiplexing_test) {
+ACTOR_THREAD_TEST_CASE(basic_components_loose_multiplexing_test) {
     std::cout << "Loose multiplexing component test started" << std::endl;
     std::cout << "Started for bls12<381>" << std::endl;
     test_loose_multiplexing_component<fields::bls12<381>>(5);
@@ -251,4 +252,4 @@ BOOST_AUTO_TEST_CASE(basic_components_loose_multiplexing_test) {
     test_loose_multiplexing_component<fields::mnt6<298>>(5);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

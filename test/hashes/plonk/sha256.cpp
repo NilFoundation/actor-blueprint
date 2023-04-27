@@ -24,9 +24,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE plonk_sha256_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -76,9 +77,9 @@ void test_sha256(std::vector<typename BlueprintFieldType::value_type> public_inp
         component_instance, public_input, result_check, instance_input);
 }
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_sha256_test0) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_sha256_test0) {
 
     using BlueprintFieldType = typename crypto3::algebra::curves::pallas::base_field_type;
 
@@ -90,4 +91,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_sha256_test0) {
     test_sha256<BlueprintFieldType>({1, 1, 1, 1});
 }
 
-BOOST_AUTO_TEST_SUITE_END()

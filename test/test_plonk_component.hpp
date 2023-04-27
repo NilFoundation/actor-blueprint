@@ -106,7 +106,7 @@ namespace nil {
                                typename ComponentType::input_type instance_input,
                                bool expected_to_pass) {
 
-            using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+            using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
             using component_type = ComponentType;
 
             actor_blueprint::circuit<ArithmetizationType> bp;
@@ -125,9 +125,9 @@ namespace nil {
                     component_instance, assignment, instance_input, start_row);
             result_check(assignment, component_result);
 
-            zk::snark::plonk_table_description<BlueprintFieldType, ArithmetizationParams> desc;
+            actor::zk::snark::plonk_table_description<BlueprintFieldType, ArithmetizationParams> desc;
             desc.usable_rows_amount = assignment.rows_amount();
-            desc.rows_amount = zk::snark::basic_padding(assignment);
+            desc.rows_amount = actor::zk::snark::basic_padding(assignment);
 
 #ifdef BLUEPRINT_PLONK_PROFILING_ENABLED
             std::cout << "Usable rows: " << desc.usable_rows_amount << std::endl;
@@ -156,8 +156,8 @@ namespace nil {
 
 #ifdef BLUEPRINT_PLACEHOLDER_PROOF_GEN_ENABLED
             using placeholder_params =
-                zk::snark::placeholder_params<BlueprintFieldType, ArithmetizationParams, Hash, Hash, Lambda>;
-            using types = zk::snark::detail::placeholder_policy<BlueprintFieldType, placeholder_params>;
+                actor::zk::snark::placeholder_params<BlueprintFieldType, ArithmetizationParams, Hash, Hash, Lambda>;
+            using types = actor::zk::snark::detail::placeholder_policy<BlueprintFieldType, placeholder_params>;
 
             using fri_type =
                 typename zk::commitments::fri<BlueprintFieldType, typename placeholder_params::merkle_hash_type,
@@ -169,18 +169,18 @@ namespace nil {
 
             std::size_t permutation_size = desc.witness_columns + desc.public_input_columns + desc.constant_columns;
 
-            typename zk::snark::placeholder_public_preprocessor<
+            typename actor::zk::snark::placeholder_public_preprocessor<
                 BlueprintFieldType, placeholder_params>::preprocessed_data_type public_preprocessed_data =
-                zk::snark::placeholder_public_preprocessor<BlueprintFieldType, placeholder_params>::process(
+                actor::zk::snark::placeholder_public_preprocessor<BlueprintFieldType, placeholder_params>::process(
                     bp, assignments.public_table(), desc, fri_params, permutation_size).get();
-            typename zk::snark::placeholder_private_preprocessor<
+            typename actor::zk::snark::placeholder_private_preprocessor<
                 BlueprintFieldType, placeholder_params>::preprocessed_data_type private_preprocessed_data =
-                zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(
+                actor::zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(
                     bp, assignments.private_table(), desc, fri_params).get();
-            auto proof = zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params>::process(
+            auto proof = actor::zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params>::process(
                 public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params).get();
 
-            bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
+            bool verifier_res = actor::zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
                 public_preprocessed_data, proof, bp, fri_params).get();
 
             if (expected_to_pass) {

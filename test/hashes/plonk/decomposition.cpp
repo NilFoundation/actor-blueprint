@@ -22,9 +22,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE plonk_decomposition_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -80,7 +81,7 @@ void test_decomposition(std::vector<typename BlueprintFieldType::value_type> pub
         component_instance, public_input, result_check, instance_input);
 }
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
+
 
 template<typename FieldType>
 std::vector<typename FieldType::value_type> calculate_decomposition(std::vector<typename FieldType::value_type> data_value) {
@@ -116,7 +117,7 @@ std::vector<typename FieldType::value_type> calculate_decomposition(std::vector<
                 return output_value;
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_decomposition_test0) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_decomposition_test0) {
     using field_type = typename crypto3::algebra::curves::pallas::base_field_type;
 
     test_decomposition<field_type>(
@@ -132,7 +133,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_decomposition_test0) {
         calculate_decomposition<field_type>({0xffffffffffffffffffffffffffffffff_cppui255, 0xffffffffffffffffffffffffffffffff_cppui255}));
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_decomposition_must_fail) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_decomposition_must_fail) {
     using field_type = typename crypto3::algebra::curves::pallas::base_field_type;
 
     typename field_type::value_type bad = 0x100000000000000000000000000000000_cppui255;
@@ -156,4 +157,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_decomposition_must_fail) {
         calculate_decomposition<field_type>({bad, 0}));
 }
 
-BOOST_AUTO_TEST_SUITE_END()

@@ -62,7 +62,7 @@ ACTOR_THREAD_TEST_CASE(polynomial_lagrange_interpolation_manual_test) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomial_lagrange_interpolation_random_test) {
+ACTOR_THREAD_TEST_CASE(polynomial_lagrange_interpolation_random_test) {
     using field_type = fields::bls12_fr<381>;
     using integral_type = typename field_type::integral_type;
     auto one = field_type::value_type::one();    
@@ -90,4 +90,4 @@ BOOST_AUTO_TEST_CASE(polynomial_lagrange_interpolation_random_test) {
     }
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

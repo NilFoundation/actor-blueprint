@@ -25,9 +25,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_base_field_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/vesta.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/vesta.hpp>
@@ -53,9 +54,9 @@
 
 using namespace nil::crypto3;
 /*
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_base_field_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
 
     using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::base_field_type;
@@ -323,12 +324,12 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
         params, public_input, result_check);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+
 */
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_base_field_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
 
     using curve_type = algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::base_field_type;
@@ -595,4 +596,4 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
         params, public_input, result_check);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

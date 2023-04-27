@@ -165,7 +165,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_fields_range_check_vesta) {
     test_range_check_random_inputs<field_type, random_tests_amount>();
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+
 
 template<typename FieldType>
 void test_range_check_fail_specific_inputs(){
@@ -192,7 +192,7 @@ void test_range_check_fail_random_inputs(){
 	}
 }
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_fields_range_check_fail_test_suite)
+
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_fields_range_check_fail_bls12) {
     using field_type = nil::crypto3::algebra::fields::bls12_fr<381>;

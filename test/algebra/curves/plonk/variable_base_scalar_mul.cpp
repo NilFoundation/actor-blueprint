@@ -89,7 +89,7 @@ typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates:
 			assert(expected.X == R.X);
 			assert(expected.Y - R.Y == 0); // not (expected.Y == R.Y) because of issue https://github.com/NilFoundation/crypto3-multiprecision/issues/38
     };
-    nil::crypto3::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
+    nil::actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
 }
 
 

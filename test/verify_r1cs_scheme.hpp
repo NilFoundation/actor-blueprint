@@ -26,7 +26,8 @@
 #ifndef ACTOR_BLUEPRINT_COMPONENTS_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
 #define ACTOR_BLUEPRINT_COMPONENTS_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
 
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/actor/zk/algorithms/generate.hpp>
 #include <nil/actor/zk/algorithms/verify.hpp>
@@ -40,7 +41,7 @@ using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
 template<typename CurveType, typename SchemeType = snark::r1cs_gg_ppzksnark<CurveType>>
-bool verify_component(blueprint::blueprint<typename CurveType::scalar_field_type> bp) {
+bool verify_component(actor_blueprint::blueprint<typename CurveType::scalar_field_type> bp) {
 
     if (bp.num_variables() == 0x00) {
         std::cout << "Empty blueprint!" << std::endl;
@@ -79,7 +80,7 @@ bool verify_component(blueprint::blueprint<typename CurveType::scalar_field_type
 
 template<>
 bool verify_component<curves::edwards<183>, snark::r1cs_gg_ppzksnark<curves::edwards<183>>>(
-    blueprint::blueprint<typename curves::edwards<183>::scalar_field_type> bp) {
+    actor_blueprint::blueprint<typename curves::edwards<183>::scalar_field_type> bp) {
     std::cout << "Warning! r1cs_gg_ppzksnark for Edwards-183 is not implemented yet" << std::endl;
 
     return false;

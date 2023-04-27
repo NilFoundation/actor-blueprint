@@ -23,10 +23,11 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE element_fp3_test
+
 
 #include <chrono>
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/mnt6.hpp>
 #include <nil/crypto3/algebra/random_element.hpp>
@@ -42,9 +43,9 @@ using namespace nil::crypto3;
 using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
-BOOST_AUTO_TEST_SUITE(field_element_arithmetic_component_test_suite)
 
-BOOST_AUTO_TEST_CASE(field_element_mul_component_test_mnt6_case) {
+
+ACTOR_THREAD_TEST_CASE(field_element_mul_component_test_mnt6_case) {
     using curve_type = typename curves::mnt6<298>;
     using field_type = typename curve_type::gt_type;
     using base_field_type = typename curve_type::base_field_type;
@@ -68,7 +69,7 @@ BOOST_AUTO_TEST_CASE(field_element_mul_component_test_mnt6_case) {
     std::cout << "Element Fp6_2over3 mul component test for MNT6-298 finished, average time: " << elapsed.count() * 1e-9 / tries_quantity << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(field_element_squared_component_test_mnt6_case) {
+ACTOR_THREAD_TEST_CASE(field_element_squared_component_test_mnt6_case) {
     using curve_type = typename curves::mnt6<298>;
     using field_type = typename curve_type::gt_type;
     using base_field_type = typename curve_type::base_field_type;
@@ -91,4 +92,3 @@ BOOST_AUTO_TEST_CASE(field_element_squared_component_test_mnt6_case) {
     std::cout << "Element Fp6_2over3 squared component test for MNT6-298 finished, average time: " << elapsed.count() * 1e-9 / tries_quantity << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()

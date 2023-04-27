@@ -24,9 +24,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE decomposed_variable_base_scalar_mul_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -45,7 +44,7 @@
 #include <nil/actor_blueprint/components/algebra/curves/pasta/plonk/decomposed_variable_base_scalar_mul_15_wires.hpp>
 #include "test_plonk_component.hpp"
 
-#include "../../zk/include/nil/crypto3/zk/snark/systems/plonk/placeholder/profiling.hpp"
+#include "../../zk/include/nil/actor/zk/snark/systems/plonk/placeholder/profiling.hpp"
 
 using namespace nil::crypto3;
 

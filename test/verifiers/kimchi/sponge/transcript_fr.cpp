@@ -22,9 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_auxiliary_transcript_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/vesta.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/vesta.hpp>
@@ -51,9 +50,9 @@
 using namespace nil::crypto3;
 
 /*
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_transcript_0) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_transcript_0) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = crypto3::algebra::curves::vesta;
@@ -62,9 +61,9 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_transcript_0) {
     constexpr std::size_t PublicInputColumns = 1;
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 16;
-    using ArithmetizationParams = zk::snark::plonk_arithmetization_params<WitnessColumns,
+    using ArithmetizationParams = actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType,
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
                 ArithmetizationParams>;
     using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
 
@@ -74,7 +73,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_transcript_0) {
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
 
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
     
     std::vector<var> input;
     var zero(0, 0, false, var::column_type::public_input);
@@ -91,13 +90,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_transcript_0) {
     std::cout << "kimchi transcript_fr: " << duration.count() << "ms" << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+
 */
 
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_transcript_1) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_transcript_1) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = algebra::curves::vesta;
@@ -117,9 +116,9 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_transcript_1) {
     constexpr static const std::size_t srs_len = 1;
     constexpr static const std::size_t prev_chal_size = 1; 
 
-    using ArithmetizationParams = zk::snark::plonk_arithmetization_params<WitnessColumns,
+    using ArithmetizationParams = actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType,
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
                 ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
 
@@ -138,7 +137,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_transcript_1) {
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
 
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
     
     std::vector<var> input = {var(0, 1, false, var::column_type::public_input), var(0, 2, false, var::column_type::public_input), var(0, 3, false, var::column_type::public_input),
                             var(0, 4, false, var::column_type::public_input)};
@@ -166,4 +165,4 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_transcript_1) {
     std::cout << "kimchi transcript_fr: " << duration.count() << "ms" << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

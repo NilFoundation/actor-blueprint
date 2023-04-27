@@ -45,11 +45,11 @@ namespace nil {
         template<typename FieldType, typename ArithmetizationParams, typename Hash, std::size_t Lambda>
         struct profiling_plonk_circuit {
             using placeholder_params =
-                zk::snark::placeholder_params<FieldType, ArithmetizationParams, Hash, Hash, Lambda>;
-            using types = zk::snark::detail::placeholder_policy<FieldType, placeholder_params>;
-            using ArithmetizationType = zk::snark::plonk_constraint_system<FieldType, ArithmetizationParams>;
+                actor::zk::snark::placeholder_params<FieldType, ArithmetizationParams, Hash, Hash, Lambda>;
+            using types = actor::zk::snark::detail::placeholder_policy<FieldType, placeholder_params>;
+            using ArithmetizationType = actor::zk::snark::plonk_constraint_system<FieldType, ArithmetizationParams>;
             using preprocessed_public_data_type =
-                typename zk::snark::placeholder_public_preprocessor<FieldType,
+                typename actor::zk::snark::placeholder_public_preprocessor<FieldType,
                                                                     placeholder_params>::preprocessed_data_type;
 
             template<typename FriType, typename ProofType>
@@ -114,16 +114,16 @@ namespace nil {
                               var.rotation) -
                     std::begin(public_preprocessed_data.common_data.columns_rotations.at(var.index));
                 os << "get_eval_i_by_rotation_idx(" << var.index << "," << rotation_idx << ", mload(add(gate_params, ";
-                if (zk::snark::plonk_variable<FieldType>::column_type::witness == var.type) {
+                if (actor::zk::snark::plonk_variable<FieldType>::column_type::witness == var.type) {
                     os << "WITNESS_EVALUATIONS_OFFSET";
                 }
-                if (zk::snark::plonk_variable<FieldType>::column_type::constant == var.type) {
+                if (actor::zk::snark::plonk_variable<FieldType>::column_type::constant == var.type) {
                     os << "CONSTANT_EVALUATIONS_OFFSET";
                 }
-                if (zk::snark::plonk_variable<FieldType>::column_type::public_input == var.type) {
+                if (actor::zk::snark::plonk_variable<FieldType>::column_type::public_input == var.type) {
                     os << "PUBLIC_INPUT_EVALUATIONS_OFFSET";
                 }
-                if (zk::snark::plonk_variable<FieldType>::column_type::selector == var.type) {
+                if (actor::zk::snark::plonk_variable<FieldType>::column_type::selector == var.type) {
                     os << "SELECTOR_EVALUATIONS_OFFSET";
                 }
                 os << ")))";
@@ -232,7 +232,7 @@ namespace nil {
             }
 
             static void process_split(std::ostream &os,
-                                      zk::snark::plonk_constraint_system<FieldType, ArithmetizationParams> &bp,
+                                      actor::zk::snark::plonk_constraint_system<FieldType, ArithmetizationParams> &bp,
                                       const preprocessed_public_data_type &public_preprocessed_data) {
                 std::size_t gate_index = 0;
                 for (const auto &gate : bp.gates()) {

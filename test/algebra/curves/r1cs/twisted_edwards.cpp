@@ -23,9 +23,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_twisted_edwards_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/data/monomorphic.hpp>
 
@@ -41,9 +42,9 @@ using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
 // TODO: extend tests
-BOOST_AUTO_TEST_SUITE(blueprint_twisted_edwards_operations_manual_test_suite)
 
-BOOST_AUTO_TEST_CASE(babyjubjub_test) {
+
+ACTOR_THREAD_TEST_CASE(babyjubjub_test) {
     using curve_type = curves::babyjubjub;
     using element_component =
         components::element_g1<curve_type, curves::forms::twisted_edwards, curves::coordinates::affine>;
@@ -73,7 +74,7 @@ BOOST_AUTO_TEST_CASE(babyjubjub_test) {
     check_affine_twisted_edwards_g1_operations<curve_type>({p1, p2, p1_plus_p2});
 }
 
-BOOST_AUTO_TEST_CASE(jubjub_test) {
+ACTOR_THREAD_TEST_CASE(jubjub_test) {
     using curve_type = curves::jubjub;
     using element_component =
         components::element_g1<curve_type, curves::forms::twisted_edwards, curves::coordinates::affine>;
@@ -91,4 +92,4 @@ BOOST_AUTO_TEST_CASE(jubjub_test) {
     check_affine_twisted_edwards_g1_operations<curve_type>({p1, p2, p1_plus_p2});
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

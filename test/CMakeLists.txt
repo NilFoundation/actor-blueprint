@@ -154,86 +154,70 @@ set(BLUEPRINT_MC_TESTS_FILES
     )
 
 set(NON_NATIVE_TESTS_FILES
-        "algebra/fields/plonk/non_native/multiplication"
-        "algebra/fields/plonk/non_native/addition"
-        "algebra/fields/plonk/non_native/subtraction"
-        "algebra/fields/plonk/non_native/range"
-        "algebra/fields/plonk/non_native/reduction"
-        "algebra/fields/plonk/non_native/bit_decomposition"
-        "non_native/plonk/var_base_mul_per_bit"
-        "non_native/plonk/complete_addition"
-        "non_native/plonk/doubling"
-        "non_native/plonk/fixed_base_mul"
-        "non_native/plonk/variable_base_multiplication"
-        "non_native/plonk/non_native_demo"
-        "non_native/plonk/ed25519"
-        "non_native/plonk/signatures_verification"
-        "non_native/plonk/ec_point"
-        "non_native/plonk/bool_scalar_multiplication"
-        "non_native/plonk/scalar_non_native_range"
-        )
-
-set(BLUEPRINT_TESTS_FILES
-        "blueprint/plonk"
-        )
+    "algebra/fields/plonk/non_native/multiplication"
+    "algebra/fields/plonk/non_native/addition"
+    "algebra/fields/plonk/non_native/subtraction"
+    "algebra/fields/plonk/non_native/range"
+    "algebra/fields/plonk/non_native/reduction"
+    "algebra/fields/plonk/non_native/bit_decomposition"
+    "non_native/plonk/bool_scalar_multiplication"
+    "non_native/plonk/scalar_non_native_range"
+    )
 
 set(PLONK_TESTS_FILES
-        "algebra/curves/plonk/fixed_base_scalar_mul"
-        "algebra/curves/plonk/variable_base_scalar_mul"
-        "algebra/curves/plonk/decomposed_variable_base_scalar_mul"
-        "algebra/curves/plonk/unified_addition"
-        "algebra/curves/plonk/variable_base_endo_scalar_mul"
-        "algebra/curves/plonk/endo_scalar"
-        "algebra/curves/plonk/multi_scalar_multiplication"
-        "hashes/plonk/poseidon"
-        "hashes/plonk/sha256"
-        "hashes/plonk/sha512"
-        "hashes/plonk/sha256_process"
-        "hashes/plonk/sha512_process"
-        "hashes/plonk/decomposition"
-        "merkle_tree/plonk/merkle_tree"
-        "verifiers/kimchi/base_field"
-        "verifiers/kimchi/prepare_batch_scalar"
-        "verifiers/kimchi/verify_scalar"
-        "verifiers/kimchi/basic_verifier"
-        "verifiers/kimchi/table_commitment"
-        "verifiers/kimchi/demo_verifier"
-        "verifiers/kimchi/oracles_scalar"
-        "verifiers/kimchi/batch_verify_base_field"
-        "verifiers/kimchi/batch_verify_scalar_field"
-        "verifiers/kimchi/detail/lagrange_denominators"
-        "verifiers/kimchi/detail/b_poly"
-        "verifiers/kimchi/detail/b_poly_coefficients"
-        "verifiers/kimchi/detail/to_group"
-        "verifiers/kimchi/detail/public_evaluations"
-        "verifiers/kimchi/detail/prev_chal_evals"
-        "verifiers/kimchi/detail/ft_eval"
-        "verifiers/kimchi/detail/combine_proof_evals"
-        "verifiers/kimchi/detail//constraints/index_terms_scalars"
-        "verifiers/kimchi/detail/constraints/rpn_expression"
-        "verifiers/kimchi/detail/constraints/vanishes_on_last_4_rows"
-        "verifiers/kimchi/detail/constraints/unnormalized_lagrange_basis"
-        "verifiers/kimchi/detail/constraints/perm_scalars"
-        "verifiers/kimchi/detail/constraints/generic_scalars"
-        "verifiers/kimchi/detail/oracles_cip"
-        "verifiers/kimchi/detail/zk_w3"
-        "verifiers/kimchi/detail/prepare_scalars"
-        "verifiers/kimchi/detail/zkpm_evaluate"
-        "verifiers/kimchi/sponge/sponge"
-        "verifiers/kimchi/sponge/oracles"
-        "verifiers/kimchi/sponge/transcript_fr"
-        "verifiers/kimchi/sponge/transcript_fq"
-        "verifiers/kimchi/sponge/compare"
-        "algebra/fields/plonk/field_operations"
-        "algebra/fields/plonk/combined_inner_product"
-        "algebra/fields/plonk/element_powers"
-        "algebra/fields/plonk/exponentiation"
-        "algebra/fields/plonk/sqrt"
-        "algebra/fields/plonk/range_check"
-        "verifiers/pickles/verify_heterogenous_scalar"
-        "verifiers/pickles/verify_heterogenous_base"
-        "verifiers/pickles/scalar_details/evals_of_split_evals"
-        )
+    "algebra/curves/plonk/variable_base_scalar_mul"
+    "algebra/curves/plonk/decomposed_variable_base_scalar_mul"
+    "algebra/curves/plonk/unified_addition"
+    "algebra/curves/plonk/variable_base_endo_scalar_mul"
+    "algebra/curves/plonk/endo_scalar"
+    "hashes/plonk/poseidon"
+    "hashes/plonk/sha256"
+    "hashes/plonk/sha512"
+    "hashes/plonk/sha256_process"
+    "hashes/plonk/sha512_process"
+    "hashes/plonk/decomposition"
+    "verifiers/kimchi/base_field"
+    "verifiers/kimchi/prepare_batch_scalar"
+    "verifiers/kimchi/verify_scalar"
+    "verifiers/kimchi/basic_verifier"
+    "verifiers/kimchi/table_commitment"
+    "verifiers/kimchi/demo_verifier"
+    "verifiers/kimchi/oracles_scalar"
+    "verifiers/kimchi/batch_verify_base_field"
+    "verifiers/kimchi/batch_verify_scalar_field"
+    "verifiers/kimchi/detail/lagrange_denominators"
+    "verifiers/kimchi/detail/b_poly"
+    "verifiers/kimchi/detail/b_poly_coefficients"
+    "verifiers/kimchi/detail/to_group"
+    "verifiers/kimchi/detail/public_evaluations"
+    "verifiers/kimchi/detail/prev_chal_evals"
+    "verifiers/kimchi/detail/ft_eval"
+    "verifiers/kimchi/detail/combine_proof_evals"
+    "verifiers/kimchi/detail//constraints/index_terms_scalars"
+    "verifiers/kimchi/detail/constraints/rpn_expression"
+    "verifiers/kimchi/detail/constraints/vanishes_on_last_4_rows"
+    "verifiers/kimchi/detail/constraints/unnormalized_lagrange_basis"
+    "verifiers/kimchi/detail/constraints/perm_scalars"
+    "verifiers/kimchi/detail/constraints/generic_scalars"
+    "verifiers/kimchi/detail/oracles_cip"
+    "verifiers/kimchi/detail/zk_w3"
+    "verifiers/kimchi/detail/prepare_scalars"
+    "verifiers/kimchi/detail/zkpm_evaluate"
+    "verifiers/kimchi/sponge/sponge"
+    "verifiers/kimchi/sponge/oracles"
+    "verifiers/kimchi/sponge/transcript_fr"
+    "verifiers/kimchi/sponge/transcript_fq"
+    "verifiers/kimchi/sponge/compare"
+    "algebra/fields/plonk/field_operations"
+    "algebra/fields/plonk/combined_inner_product"
+    "algebra/fields/plonk/element_powers"
+    "algebra/fields/plonk/exponentiation"
+    "algebra/fields/plonk/sqrt"
+    "algebra/fields/plonk/range_check"
+    "verifiers/pickles/verify_heterogenous_scalar"
+    "verifiers/pickles/verify_heterogenous_base"
+    "verifiers/pickles/scalar_details/evals_of_split_evals"
+    )
 
 set(FIELDS_TESTS_FILES
         "algebra/fields/r1cs/fp2"
@@ -291,7 +275,6 @@ SET(ALGEBRA_TESTS_FILES
 SET(ALL_TESTS_FILES
         ${BLUEPRINT_MC_TESTS_FILES}
         ${NON_NATIVE_TESTS_FILES}
-        ${BLUEPRINT_TESTS_FILES}
         ${PLONK_TESTS_FILES}
         ${ALGEBRA_TESTS_FILES}
         ${HASHES_TESTS_FILES}
@@ -301,20 +284,7 @@ SET(ALL_TESTS_FILES
         ${VOTING_TESTS_FILES}
         ${BASIC_COMPONENTS_TESTS_FILES})
 
-#foreach(TEST_FILE ${ALL_TESTS_FILES})
-#    define_blueprint_test(${TEST_FILE})
-#endforeach()
+foreach(TEST_FILE ${ALL_TESTS_FILES})
+    actor_add_test(${TEST_FILE})
+endforeach()
 
-actor_add_test("verifiers/kimchi/batch_verify_base_field")
-actor_add_test("verifiers/kimchi/batch_verify_scalar_field")
-actor_add_test("verifiers/kimchi/demo_verifier")
-
-actor_add_test("algebra/curves/plonk/unified_addition")
-actor_add_test("algebra/fields/plonk/non_native/addition")
-
-actor_add_test("non_native/plonk/bool_scalar_multiplication")
-actor_add_test("non_native/plonk/scalar_non_native_range")
-actor_add_test("non_native/plonk/signatures_verification")
-
-actor_add_test("hashes/plonk/sha256_process")
-actor_add_test("hashes/plonk/sha512_process")

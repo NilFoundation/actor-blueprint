@@ -23,9 +23,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE as_waksman_components_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/bn128.hpp>
 #include <nil/crypto3/algebra/curves/edwards.hpp>
@@ -70,9 +71,8 @@ void test_as_waksman_routing_component(const std::size_t num_packets, const std:
     BOOST_CHECK(!bp.is_satisfied());
 }
 
-BOOST_AUTO_TEST_SUITE(as_waksman_components_test_suite)
 
-BOOST_AUTO_TEST_CASE(as_waksman_components_test) {
+
+ACTOR_THREAD_TEST_CASE(as_waksman_components_test) {
 }
 
-BOOST_AUTO_TEST_SUITE_END()

@@ -24,9 +24,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE plonk_sha512_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -93,9 +94,9 @@ void test_sha512(std::vector<typename BlueprintFieldType::value_type> public_inp
     nil::actor::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (component_instance, public_input, result_check, instance_input);
 }
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_sha512) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_sha512) {
     using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
 
@@ -138,4 +139,4 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_sha512) {
     test_sha512<BlueprintFieldType>(public_input);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+
