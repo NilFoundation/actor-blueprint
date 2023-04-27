@@ -60,7 +60,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_multiplication) {
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using component_type = actor_blueprint::components::multiplication<ArithmetizationType, BlueprintFieldType, 3,
-                            nil::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
+                            nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename BlueprintFieldType::value_type x = 2;
     typename BlueprintFieldType::value_type y = 12;
@@ -99,7 +99,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_addition) {
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using component_type = actor_blueprint::components::addition<ArithmetizationType, BlueprintFieldType, 3,
-                            nil::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
+                            nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename BlueprintFieldType::value_type x = 2;
     typename BlueprintFieldType::value_type y = 22;
@@ -138,7 +138,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_division) {
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using component_type = actor_blueprint::components::division<ArithmetizationType, BlueprintFieldType, 4,
-                            nil::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
+                            nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename BlueprintFieldType::value_type x = 16;
     typename BlueprintFieldType::value_type y = 2;
@@ -177,7 +177,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_subtraction) {
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using component_type = actor_blueprint::components::subtraction<ArithmetizationType, BlueprintFieldType, 3,
-                            nil::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
+                            nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename BlueprintFieldType::value_type x = 0x56BC8334B5713726A_cppui256;
     typename BlueprintFieldType::value_type y = 101;

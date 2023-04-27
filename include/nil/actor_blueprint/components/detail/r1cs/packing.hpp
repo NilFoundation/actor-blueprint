@@ -55,7 +55,7 @@ namespace nil {
                 }
 
                 template<typename Field>
-                struct packing : public nil::actor_blueprint::components::component<Field> {
+                struct packing : public nil::actor::actor_blueprint::components::component<Field> {
                     using field_type = Field;
                     using field_value_type = typename field_type::value_type;
 
@@ -65,7 +65,7 @@ namespace nil {
                     packing(blueprint<field_type> &bp,
                             const detail::blueprint_linear_combination_vector<field_type> &bits,
                             const detail::blueprint_linear_combination<field_type> &packed) :
-                        nil::actor_blueprint::components::component<field_type>(bp),
+                        nil::actor::actor_blueprint::components::component<field_type>(bp),
                         bits(bits), packed(packed) {
                     }
                     explicit packing(const detail::blueprint_linear_combination_vector<field_type> &bits) : bits(bits) {
@@ -101,7 +101,7 @@ namespace nil {
                 };
 
                 template<typename Field>
-                class multipacking_component : public nil::actor_blueprint::components::component<Field> {
+                class multipacking_component : public nil::actor::actor_blueprint::components::component<Field> {
                 private:
                     std::vector<packing<Field>> packers;
 
@@ -118,7 +118,7 @@ namespace nil {
                                            const detail::blueprint_linear_combination_vector<Field> &bits,
                                            const detail::blueprint_linear_combination_vector<Field> &packed_vars,
                                            std::size_t chunk_size) :
-                        nil::actor_blueprint::components::component<Field>(bp),
+                        nil::actor::actor_blueprint::components::component<Field>(bp),
                         bits(bits), packed_vars(packed_vars), chunk_size(chunk_size),
                         num_chunks((bits.size() + (chunk_size - 1)) / chunk_size) {
 
@@ -153,7 +153,7 @@ namespace nil {
                 };
 
                 template<typename Field>
-                class field_vector_copy_component : public nil::actor_blueprint::components::component<Field> {
+                class field_vector_copy_component : public nil::actor::actor_blueprint::components::component<Field> {
                 public:
                     const detail::blueprint_variable_vector<Field> source;
                     const detail::blueprint_variable_vector<Field> target;
@@ -163,7 +163,7 @@ namespace nil {
                                                 const detail::blueprint_variable_vector<Field> &source,
                                                 const detail::blueprint_variable_vector<Field> &target,
                                                 const detail::blueprint_linear_combination<Field> &do_copy) :
-                        nil::actor_blueprint::components::component<Field>(bp),
+                        nil::actor::actor_blueprint::components::component<Field>(bp),
                         source(source), target(target), do_copy(do_copy) {
 
                         assert(source.size() == target.size());
@@ -188,7 +188,7 @@ namespace nil {
                 };
 
                 template<typename Field>
-                class bit_vector_copy_component : public nil::actor_blueprint::components::component<Field> {
+                class bit_vector_copy_component : public nil::actor::actor_blueprint::components::component<Field> {
                 public:
                     const detail::blueprint_variable_vector<Field> source_bits;
                     const detail::blueprint_variable_vector<Field> target_bits;
@@ -209,7 +209,7 @@ namespace nil {
                                               const detail::blueprint_variable_vector<Field> &target_bits,
                                               const detail::blueprint_linear_combination<Field> &do_copy,
                                               std::size_t chunk_size) :
-                        nil::actor_blueprint::components::component<Field>(bp),
+                        nil::actor::actor_blueprint::components::component<Field>(bp),
                         source_bits(source_bits), target_bits(target_bits), do_copy(do_copy), chunk_size(chunk_size),
                         num_chunks((source_bits.size() + (chunk_size - 1)) / chunk_size) {
 
@@ -249,7 +249,7 @@ namespace nil {
                 };
 
                 template<typename Field>
-                class dual_variable_component : public nil::actor_blueprint::components::component<Field> {
+                class dual_variable_component : public nil::actor::actor_blueprint::components::component<Field> {
                 private:
                     std::shared_ptr<packing<Field>> consistency_check;
 
@@ -258,7 +258,7 @@ namespace nil {
                     detail::blueprint_variable_vector<Field> bits;
 
                     dual_variable_component(blueprint<Field> &bp, std::size_t width) :
-                        nil::actor_blueprint::components::component<Field>(bp) {
+                        nil::actor::actor_blueprint::components::component<Field>(bp) {
                         packed.allocate(bp);
                         bits.allocate(bp, width);
                         consistency_check.reset(new packing<Field>(bp, bits, packed));
@@ -266,7 +266,7 @@ namespace nil {
 
                     dual_variable_component(blueprint<Field> &bp,
                                             const detail::blueprint_variable_vector<Field> &bits) :
-                        nil::actor_blueprint::components::component<Field>(bp),
+                        nil::actor::actor_blueprint::components::component<Field>(bp),
                         bits(bits) {
                         packed.allocate(bp);
                         consistency_check.reset(new packing<Field>(bp, bits, packed));
@@ -274,7 +274,7 @@ namespace nil {
 
                     dual_variable_component(blueprint<Field> &bp, const detail::blueprint_variable<Field> &packed,
                                             std::size_t width) :
-                        nil::actor_blueprint::components::component<Field>(bp),
+                        nil::actor::actor_blueprint::components::component<Field>(bp),
                         packed(packed) {
                         bits.allocate(bp, width);
                         consistency_check.reset(new packing<Field>(bp, bits, packed));

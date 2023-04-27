@@ -67,7 +67,7 @@ void test_field_sub(std::vector<typename BlueprintFieldType::value_type> public_
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using component_type = actor_blueprint::components::subtraction<ArithmetizationType,
-        NonNativeFieldType, 9, nil::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
+        NonNativeFieldType, 9, nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     std::array<var, 4> input_var_a = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),

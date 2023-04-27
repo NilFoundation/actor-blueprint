@@ -53,11 +53,11 @@ auto test_range_check_inner(std::vector<typename BlueprintFieldType::value_type>
     using ArithmetizationParams = nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor::actor_blueprint::assignment<ArithmetizationType>;
 	using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
-    using component_type = nil::actor_blueprint::components::range_check<ArithmetizationType, R, 15>;
+    using component_type = nil::actor::actor_blueprint::components::range_check<ArithmetizationType, R, 15>;
 	using var = nil::actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     var x(0, 0, false, var::column_type::public_input);
@@ -87,11 +87,11 @@ void test_range_check(std::vector<typename BlueprintFieldType::value_type> publi
     using ArithmetizationParams = nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor::actor_blueprint::assignment<ArithmetizationType>;
 	using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
-    using component_type = nil::actor_blueprint::components::range_check<ArithmetizationType, R, 15>;
+    using component_type = nil::actor::actor_blueprint::components::range_check<ArithmetizationType, R, 15>;
 
     auto [component_instance, instance_input, result_check] = test_range_check_inner<BlueprintFieldType>(public_input);
 
@@ -109,11 +109,11 @@ void test_range_check_to_fail(std::vector<typename BlueprintFieldType::value_typ
     using ArithmetizationParams = nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor::actor_blueprint::assignment<ArithmetizationType>;
 	using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
-    using component_type = nil::actor_blueprint::components::range_check<ArithmetizationType, R, 15>;
+    using component_type = nil::actor::actor_blueprint::components::range_check<ArithmetizationType, R, 15>;
 	
     auto [component_instance, instance_input, result_check] = test_range_check_inner<BlueprintFieldType>(public_input);
 

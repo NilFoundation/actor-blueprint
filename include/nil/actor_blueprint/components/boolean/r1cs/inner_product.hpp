@@ -48,7 +48,7 @@ namespace nil {
                   if X != 0 then R = 1 and I = X^{-1}
                 */
                 template<typename FieldType>
-                class inner_product : public nil::actor_blueprint::components::component<FieldType> {
+                class inner_product : public nil::actor::actor_blueprint::components::component<FieldType> {
                 private:
                     /* S_i = \sum_{k=0}^{i+1} A[i] * B[i] */
                     detail::blueprint_variable_vector<FieldType> S;
@@ -62,7 +62,7 @@ namespace nil {
                                   const detail::blueprint_linear_combination_vector<FieldType> &A,
                                   const detail::blueprint_linear_combination_vector<FieldType> &B,
                                   const detail::blueprint_variable<FieldType> &result) :
-                        nil::actor_blueprint::components::component<FieldType>(bp),
+                        nil::actor::actor_blueprint::components::component<FieldType>(bp),
                         A(A), B(B), result(result) {
                         assert(A.size() >= 1);
                         assert(A.size() == B.size());

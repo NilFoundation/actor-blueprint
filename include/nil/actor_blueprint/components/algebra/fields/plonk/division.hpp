@@ -38,7 +38,7 @@
 #include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
 #include <nil/actor_blueprint/blueprint/plonk/circuit.hpp>
 #include <nil/actor_blueprint/component.hpp>
-#include <nil/blueprint/basic_non_native_policy.hpp>
+#include <nil/actor_blueprint/basic_non_native_policy.hpp>
 
 namespace nil {
     namespace actor {

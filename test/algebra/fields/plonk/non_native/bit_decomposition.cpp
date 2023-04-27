@@ -61,7 +61,7 @@ void test_bit_decomposition(std::vector<typename BlueprintFieldType::value_type>
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using component_type = actor_blueprint::components::bit_decomposition<ArithmetizationType,
-        BlueprintFieldType, 9, nil::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
+        BlueprintFieldType, 9, nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename component_type::input_type instance_input = {var(0, 0, false, var::column_type::public_input)};
 

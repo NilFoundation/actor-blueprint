@@ -55,10 +55,10 @@ void test_exponentiation(std::vector<typename FieldType::value_type> public_inpu
     using ArithmetizationParams = nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor::actor_blueprint::assignment<ArithmetizationType>;
 	using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
-	using component_type = nil::actor_blueprint::components::exponentiation<ArithmetizationType, BlueprintFieldType, exp_size, 15>;
+	using component_type = nil::actor::actor_blueprint::components::exponentiation<ArithmetizationType, BlueprintFieldType, exp_size, 15>;
 
 	using var = nil::actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
