@@ -65,7 +65,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_transcript_0) {
         PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
                 ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
 
     constexpr size_t num_squeezes = 1;
     using component_type = zk::components::aux_fr<num_squeezes, ArithmetizationType, curve_type,

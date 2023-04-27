@@ -154,11 +154,10 @@ namespace nil {
             typename nil::actor::zk::snark::placeholder_public_preprocessor<
                 BlueprintFieldType, placeholder_params>::preprocessed_data_type public_preprocessed_data =
                 nil::actor::zk::snark::placeholder_public_preprocessor<BlueprintFieldType, placeholder_params>::process(
-                    bp, public_assignment, desc, fri_params, permutation_size);
+                    bp, public_assignment, desc, fri_params, permutation_size).get();
             typename nil::actor::zk::snark::placeholder_private_preprocessor<
                 BlueprintFieldType, placeholder_params>::preprocessed_data_type private_preprocessed_data =
-                nil::actor::zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(
-                    bp, private_assignment, desc, fri_params);
+                nil::actor::zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(bp, private_assignment, desc, fri_params).get();
 
             return std::make_tuple(desc, bp, fri_params, assignments, public_preprocessed_data,
                                    private_preprocessed_data);

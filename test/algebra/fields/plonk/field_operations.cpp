@@ -59,7 +59,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_multiplication) {
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::multiplication<ArithmetizationType, BlueprintFieldType, 3,
+    using component_type = actor::actor_blueprint::components::multiplication<ArithmetizationType, BlueprintFieldType, 3,
                             nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename BlueprintFieldType::value_type x = 2;
@@ -98,7 +98,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_addition) {
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::addition<ArithmetizationType, BlueprintFieldType, 3,
+    using component_type = actor::actor_blueprint::components::addition<ArithmetizationType, BlueprintFieldType, 3,
                             nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename BlueprintFieldType::value_type x = 2;
@@ -137,7 +137,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_division) {
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::division<ArithmetizationType, BlueprintFieldType, 4,
+    using component_type = actor::actor_blueprint::components::division<ArithmetizationType, BlueprintFieldType, 4,
                             nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename BlueprintFieldType::value_type x = 16;
@@ -176,7 +176,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_subtraction) {
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::subtraction<ArithmetizationType, BlueprintFieldType, 3,
+    using component_type = actor::actor_blueprint::components::subtraction<ArithmetizationType, BlueprintFieldType, 3,
                             nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     typename BlueprintFieldType::value_type x = 0x56BC8334B5713726A_cppui256;
@@ -215,7 +215,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_mul_by_constant) {
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::mul_by_constant<ArithmetizationType, BlueprintFieldType, 2>;
+    using component_type = actor::actor_blueprint::components::mul_by_constant<ArithmetizationType, BlueprintFieldType, 2>;
 
     typename BlueprintFieldType::value_type x = 2;
     typename BlueprintFieldType::value_type y = 22;
@@ -252,7 +252,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_div_or_zero) {
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::division_or_zero<ArithmetizationType, BlueprintFieldType, 4>;
+    using component_type = actor::actor_blueprint::components::division_or_zero<ArithmetizationType, BlueprintFieldType, 4>;
 
     typename BlueprintFieldType::value_type x = 2;
     typename BlueprintFieldType::value_type y = 0;

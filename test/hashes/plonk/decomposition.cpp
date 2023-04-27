@@ -59,8 +59,8 @@ void test_decomposition(std::vector<typename BlueprintFieldType::value_type> pub
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
-    using component_type = actor_blueprint::components::decomposition<ArithmetizationType,
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
+    using component_type = actor::actor_blueprint::components::decomposition<ArithmetizationType,
         BlueprintFieldType, 9>;
 
     std::array<var, 2> input_state_var = {var(0, 0, false, var::column_type::public_input),

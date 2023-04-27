@@ -109,8 +109,8 @@ namespace nil {
             using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
             using component_type = ComponentType;
 
-            actor_blueprint::circuit<ArithmetizationType> bp;
-            actor_blueprint::assignment<ArithmetizationType> assignment;
+            actor::actor_blueprint::circuit<ArithmetizationType> bp;
+            actor::actor_blueprint::assignment<ArithmetizationType> assignment;
 
             std::size_t start_row = 0;
 
@@ -118,10 +118,10 @@ namespace nil {
                 assignment.public_input(0, start_row + i) = (public_input[i]);
             }
 
-            actor_blueprint::components::generate_circuit<BlueprintFieldType, ArithmetizationParams>(
+            actor::actor_blueprint::components::generate_circuit<BlueprintFieldType, ArithmetizationParams>(
                 component_instance, bp, assignment, instance_input, start_row);
             typename component_type::result_type component_result =
-                actor_blueprint::components::generate_assignments<BlueprintFieldType, ArithmetizationParams>(
+                actor::actor_blueprint::components::generate_assignments<BlueprintFieldType, ArithmetizationParams>(
                     component_instance, assignment, instance_input, start_row);
             result_check(assignment, component_result);
 

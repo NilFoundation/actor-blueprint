@@ -73,7 +73,7 @@ void test_disjunction_component(std::size_t w) {
 
     std::size_t n = std::log2(w) + ((w > (1ul << std::size_t(std::log2(w)))) ? 1 : 0);
 
-    actor_blueprint::blueprint<field_type> bp;
+    actor::actor_blueprint::blueprint<field_type> bp;
     nil::actor::zk::detail::blueprint_variable<field_type> output;
     output.allocate(bp);
 
@@ -105,7 +105,7 @@ void test_conjunction_component(std::size_t w) {
 
     std::size_t n = std::log2(w) + ((w > (1ul << std::size_t(std::log2(w)))) ? 1 : 0);
 
-    actor_blueprint::blueprint<field_type> bp;
+    actor::actor_blueprint::blueprint<field_type> bp;
 
     nil::actor::actor_blueprint::detail::blueprint_variable<field_type> output;
     output.allocate(bp);
@@ -137,7 +137,7 @@ void test_comparison_component(std::size_t a, std::size_t b) {
     using field_type = typename CurveType::scalar_field_type;
     using curve_type = CurveType;
 
-    actor_blueprint::blueprint<field_type> bp;
+    actor::actor_blueprint::blueprint<field_type> bp;
 
     nil::actor::actor_blueprint::detail::blueprint_variable<field_type> A, B, less, less_or_eq;
     A.allocate(bp);

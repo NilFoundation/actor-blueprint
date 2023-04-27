@@ -104,7 +104,7 @@ namespace nil {
                                                 ArithmetizationParams::witness_columns; w_index++) {
 
                     this->_witnesses[w_index].resize(_table_description.rows_amount,
-                                                            decltype(this->witnesses())::value_type::value_type::zero());
+                                                            decltype(this->_witnesses)::value_type::value_type::zero());
                 }
 
 

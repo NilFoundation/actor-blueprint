@@ -56,10 +56,10 @@ void test_poseidon(std::vector<typename BlueprintFieldType::value_type> public_i
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
 
     using component_type =
-        actor_blueprint::components::poseidon<ArithmetizationType, FieldType, 15>;
+        actor::actor_blueprint::components::poseidon<ArithmetizationType, FieldType, 15>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
     constexpr std::size_t Lambda = 5;

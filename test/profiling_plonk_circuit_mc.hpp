@@ -152,7 +152,7 @@ namespace nil {
 
             template<typename Terms, typename TermsIt>
             static typename std::enable_if<
-                std::is_same<nil::crypto3::math::non_linear_term<nil::actor::zk::snark::plonk_variable<FieldType>>,
+                std::is_same<math::non_linear_term<nil::actor::zk::snark::plonk_variable<FieldType>>,
                              typename std::iterator_traits<typename Terms::iterator>::value_type>::value>::type
                 print_terms(std::ostream &os,
                             const Terms &terms,

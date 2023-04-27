@@ -79,10 +79,10 @@ namespace nil {
 
                     assert(selector_index < this->_public_table.selectors_amount());
 
-                    if (this->_public_table.selectors()[selector_index].size() <= row_index)
-                        this->_public_table.selectors()[selector_index].resize(row_index + 1);
+                    if (this->_public_table._selectors[selector_index].size() <= row_index)
+                        this->_public_table._selectors[selector_index].resize(row_index + 1);
 
-                    return this->_public_table.selectors()[selector_index][row_index];
+                    return this->_public_table._selectors[selector_index][row_index];
                 }
 
                 typename component_selector_map_type::iterator selectors_end() {
@@ -139,7 +139,7 @@ namespace nil {
                     for (std::size_t row_index: row_indices) {
                         selector_column[row_index] = BlueprintFieldType::value_type::one();
                     }
-                    this->_public_table.selectors()[next_selector_index] = selector_column;
+                    this->_public_table._selectors[next_selector_index] = selector_column;
                     next_selector_index++;
                     return next_selector_index - 1;
                 }
@@ -175,17 +175,17 @@ namespace nil {
                     BLUEPRINT_ASSERT(witness_index < ArithmetizationParams::WitnessColumns);
 
                     if (this->_private_table.witness(witness_index).size() <= row_index)
-                        this->_private_table.witnesses()[witness_index].resize(row_index + 1);
+                        this->_private_table._witnesses[witness_index].resize(row_index + 1);
 
                     _allocated_rows = std::max(_allocated_rows, row_index + 1);
-                    return this->_private_table.witnesses()[witness_index][row_index];
+                    return this->_private_table._witnesses[witness_index][row_index];
                 }
 
                 typename BlueprintFieldType::value_type witness(std::uint32_t witness_index, std::uint32_t row_index) const {
                     BLUEPRINT_ASSERT(witness_index < ArithmetizationParams::WitnessColumns);
                     BLUEPRINT_ASSERT(row_index < this->_private_table.witnesses(witness_index).size());
 
-                    return this->_private_table.witnesses()[witness_index][row_index];
+                    return this->_private_table._witnesses[witness_index][row_index];
                 }
 
                 typename BlueprintFieldType::value_type &public_input(
@@ -194,9 +194,9 @@ namespace nil {
                     BLUEPRINT_ASSERT(public_input_index < zk_type::public_inputs_amount());
 
                     if (zk_type::public_input_column_size(public_input_index) <= row_index)
-                        this->_public_table.public_inputs()[public_input_index].resize(row_index + 1);
+                        this->_public_table._public_inputs[public_input_index].resize(row_index + 1);
 
-                    return this->_public_table.public_inputs()[public_input_index][row_index];
+                    return this->_public_table._public_inputs[public_input_index][row_index];
                 }
 
                 typename BlueprintFieldType::value_type public_input(
@@ -214,10 +214,10 @@ namespace nil {
                     assert(constant_index < zk_type::constants_amount());
 
                     if (zk_type::constant_column_size(constant_index) <= row_index)
-                        this->_public_table.constants()[constant_index].resize(row_index + 1);
+                        this->_public_table._constants[constant_index].resize(row_index + 1);
 
                     _allocated_rows = std::max(_allocated_rows, row_index + 1);
-                    return this->_public_table.constants()[constant_index][row_index];
+                    return this->_public_table._constants[constant_index][row_index];
                 }
 
                 typename BlueprintFieldType::value_type constant(
