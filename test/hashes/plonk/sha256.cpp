@@ -56,10 +56,10 @@ void test_sha256(std::vector<typename BlueprintFieldType::value_type> public_inp
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::sha256<ArithmetizationType, 9>;
+    using component_type = actor::actor_blueprint::components::sha256<ArithmetizationType, 9>;
 
     std::array<var, 4> input_state_var = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),

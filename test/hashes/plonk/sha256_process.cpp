@@ -63,9 +63,9 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_sha256_process) {
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
                 ArithmetizationParams>;
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
 
-    using component_type = actor_blueprint::components::sha256_process<ArithmetizationType, 9, 1>;
+    using component_type = actor::actor_blueprint::components::sha256_process<ArithmetizationType, 9, 1>;
 
     typename BlueprintFieldType::value_type s = typename BlueprintFieldType::value_type(2).pow(29);
     std::array<typename ArithmetizationType::field_type::value_type, 24> public_input = {

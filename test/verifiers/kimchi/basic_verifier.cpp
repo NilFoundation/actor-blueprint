@@ -140,7 +140,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_verifiers_kimchi_basic_verifier_test) {
         actor::zk::snark::plonk_arithmetization_params<WitnessColumnsScalar, PublicInputColumnsScalar, ConstantColumnsScalar,
                                                 SelectorColumnsScalar>;
     using ArithmetizationTypeScalar = actor::zk::snark::plonk_constraint_system<ScalarFieldType, ArithmetizationParamsScalar>;
-    using AssignmentTypeScalar = actor_blueprint::assignment<ArithmetizationTypeScalar>;
+    using AssignmentTypeScalar = actor::actor_blueprint::assignment<ArithmetizationTypeScalar>;
 
     using commitment_params = nil::actor_blueprint_mc::components::kimchi_commitment_params_type<eval_rounds, max_poly_size, srs_len>;
     using index_terms_list = nil::actor_blueprint_mc::components::index_terms_scalars_list_ec_test<AssignmentTypeScalar>;
@@ -268,7 +268,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_verifiers_kimchi_basic_verifier_test) {
     using ArithmetizationParams = actor::zk::snark::plonk_arithmetization_params<WitnessColumnsBase, PublicInputColumnsBase,
                                                                           ConstantColumnsBase, SelectorColumnsBase>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BaseFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
 
     using var_ec_point = typename nil::actor_blueprint_mc::components::var_ec_point<BaseFieldType>;
 

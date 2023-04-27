@@ -55,13 +55,13 @@ void test_scalar_non_native_range(std::vector<typename BlueprintFieldType::value
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::scalar_non_native_range<ArithmetizationType,
+    using component_type = actor::actor_blueprint::components::scalar_non_native_range<ArithmetizationType,
         ed25519_type, 9>;
 
     typename component_type::input_type instance_input = {var(0, 0, false, var::column_type::public_input)};

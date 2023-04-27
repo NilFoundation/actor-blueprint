@@ -80,7 +80,7 @@ bool verify_component(actor_blueprint::blueprint<typename CurveType::scalar_fiel
 
 template<>
 bool verify_component<curves::edwards<183>, snark::r1cs_gg_ppzksnark<curves::edwards<183>>>(
-    actor_blueprint::blueprint<typename curves::edwards<183>::scalar_field_type> bp) {
+    actor::actor_blueprint::blueprint<typename curves::edwards<183>::scalar_field_type> bp) {
     std::cout << "Warning! r1cs_gg_ppzksnark for Edwards-183 is not implemented yet" << std::endl;
 
     return false;

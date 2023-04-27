@@ -61,9 +61,9 @@ void test_sha512(std::vector<typename BlueprintFieldType::value_type> public_inp
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
 
-    using component_type = actor_blueprint::components::sha512<ArithmetizationType, 9>;
+    using component_type = actor::actor_blueprint::components::sha512<ArithmetizationType, 9>;
     
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 

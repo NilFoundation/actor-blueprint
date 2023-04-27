@@ -56,15 +56,15 @@ void test_bool_scalar_multiplication(std::vector<typename BlueprintFieldType::va
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
     using NonNativeFieldType = typename NonNativeCurveType::base_field_type;
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::bool_scalar_multiplication<ArithmetizationType,
-        NonNativeCurveType, 9, actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
+    using component_type = actor::actor_blueprint::components::bool_scalar_multiplication<ArithmetizationType,
+        NonNativeCurveType, 9, actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     std::array<var, 4> T_x = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),

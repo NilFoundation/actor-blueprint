@@ -49,14 +49,14 @@ using namespace nil::crypto3::algebra;
 
 template<typename FieldType>
 void test_disjunction_component(size_t n) {
-    actor_blueprint::blueprint<FieldType> bp;
-    actor_blueprint::detail::blueprint_variable_vector<FieldType> inputs;
+    actor::actor_blueprint::blueprint<FieldType> bp;
+    actor::actor_blueprint::detail::blueprint_variable_vector<FieldType> inputs;
     inputs.allocate(bp, n);
 
-    actor_blueprint::detail::blueprint_variable_vector<FieldType> output;
+    actor::actor_blueprint::detail::blueprint_variable_vector<FieldType> output;
     output.allocate(bp);
 
-    actor_blueprint::components::disjunction<FieldType> d(bp, inputs, output);
+    actor::actor_blueprint::components::disjunction<FieldType> d(bp, inputs, output);
     d.generate_gates();
 
     for (std::size_t w = 0; w < 1ul << n; ++w) {
@@ -76,14 +76,14 @@ void test_disjunction_component(size_t n) {
 
 template<typename FieldType>
 void test_conjunction_component(size_t n) {
-    actor_blueprint::blueprint<FieldType> bp;
-    actor_blueprint::detail::blueprint_variable_vector<FieldType> inputs;
+    actor::actor_blueprint::blueprint<FieldType> bp;
+    actor::actor_blueprint::detail::blueprint_variable_vector<FieldType> inputs;
     inputs.allocate(bp, n);
 
-    actor_blueprint::detail::blueprint_variable<FieldType> output;
+    actor::actor_blueprint::detail::blueprint_variable<FieldType> output;
     output.allocate(bp);
 
-    actor_blueprint::components::conjunction<FieldType> c(bp, inputs, output);
+    actor::actor_blueprint::components::conjunction<FieldType> c(bp, inputs, output);
     c.generate_gates();
 
     for (std::size_t w = 0; w < 1ul << n; ++w) {
@@ -104,15 +104,15 @@ void test_conjunction_component(size_t n) {
 
 template<typename FieldType>
 void test_comparison_component(size_t n) {
-    actor_blueprint::blueprint<FieldType> bp;
+    actor::actor_blueprint::blueprint<FieldType> bp;
 
-    actor_blueprint::detail::blueprint_variable<FieldType> A, B, less, less_or_eq;
+    actor::actor_blueprint::detail::blueprint_variable<FieldType> A, B, less, less_or_eq;
     A.allocate(bp);
     B.allocate(bp);
     less.allocate(bp);
     less_or_eq.allocate(bp);
 
-    actor_blueprint::components::comparison<FieldType> cmp(bp, n, A, B, less, less_or_eq);
+    actor::actor_blueprint::components::comparison<FieldType> cmp(bp, n, A, B, less, less_or_eq);
     cmp.generate_gates();
 
     for (std::size_t a = 0; a < 1ul << n; ++a) {
@@ -131,16 +131,16 @@ void test_comparison_component(size_t n) {
 
 template<typename FieldType>
 void test_inner_product_component(size_t n) {
-    actor_blueprint::blueprint<FieldType> bp;
-    actor_blueprint::detail::blueprint_variable_vector<FieldType> A;
+    actor::actor_blueprint::blueprint<FieldType> bp;
+    actor::actor_blueprint::detail::blueprint_variable_vector<FieldType> A;
     A.allocate(bp, n);
-    actor_blueprint::detail::blueprint_variable_vector<FieldType> B;
+    actor::actor_blueprint::detail::blueprint_variable_vector<FieldType> B;
     B.allocate(bp, n);
 
-    actor_blueprint::detail::blueprint_variable<FieldType> result;
+    actor::actor_blueprint::detail::blueprint_variable<FieldType> result;
     result.allocate(bp);
 
-    actor_blueprint::components::inner_product<FieldType> g(bp, A, B, result);
+    actor::actor_blueprint::components::inner_product<FieldType> g(bp, A, B, result);
     g.generate_gates();
 
     for (std::size_t i = 0; i < 1ul << n; ++i) {
@@ -165,10 +165,10 @@ void test_inner_product_component(size_t n) {
 
 template<typename FieldType>
 void test_loose_multiplexing_component(size_t n) {
-    actor_blueprint::blueprint<FieldType> bp;
-    actor_blueprint::detail::blueprint_variable_vector<FieldType> arr;
+    actor::actor_blueprint::blueprint<FieldType> bp;
+    actor::actor_blueprint::detail::blueprint_variable_vector<FieldType> arr;
     arr.allocate(bp, 1ul << n);
-    actor_blueprint::detail::blueprint_variable<FieldType> index, result, success_flag;
+    actor::actor_blueprint::detail::blueprint_variable<FieldType> index, result, success_flag;
     index.allocate(bp);
     result.allocate(bp);
     success_flag.allocate(bp);
