@@ -277,7 +277,7 @@ namespace nil {
             };
 
         }    // namespace components
-    }        // namespace blueprint
+    }        // namespace actor_blueprint
 }    // namespace nil
 
-#endif    // ACTOR_BLUEPRINT_COMPONENTS_VARIABLE_BASE_MULTIPLICATION_EDWARD25519_HPP
+#endif    // ACTOR_BLUEPRINT_COMPONENTS_FIXED_BASE_MULTIPLICATION_EDWARD25519_HPP

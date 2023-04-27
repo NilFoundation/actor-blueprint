@@ -66,7 +66,7 @@ void test_field_sub(std::vector<typename BlueprintFieldType::value_type> public_
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using component_type = actor_blueprint::components::subtraction<ArithmetizationType,
-        NonNativeFieldType, 9, nil::blueprint::basic_non_native_policy<BlueprintFieldType>>;
+        NonNativeFieldType, 9, nil::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     std::array<var, 4> input_var_a = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),
@@ -175,7 +175,7 @@ void test_field_sub_all_cases(){
     }
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_subtraction_pallas) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_subtraction_pallas) {
     using non_native_field_type = typename crypto3::algebra::fields::curve25519_base_field;
     using field_type = crypto3::algebra::curves::pallas::base_field_type;
     test_field_sub_all_cases<field_type, non_native_field_type>();

@@ -63,7 +63,7 @@ void test_field_range(std::vector<typename BlueprintFieldType::value_type> publi
 
     using component_type = actor_blueprint::components::range<ArithmetizationType,
 
-    typename crypto3::algebra::fields::curve25519_base_field, 9, blueprint::basic_non_native_policy<BlueprintFieldType>>;
+    typename crypto3::algebra::fields::curve25519_base_field, 9, actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     std::array<var, 4> input_var = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),
@@ -90,7 +90,7 @@ void test_field_range(std::vector<typename BlueprintFieldType::value_type> publi
 
 BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_range_test0) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_range_test0) {
     using non_native_field_type = typename crypto3::algebra::fields::curve25519_base_field;
     using field_type = crypto3::algebra::curves::pallas::base_field_type;
 
@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_range_test0) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_range_test_must_fail) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_range_test_must_fail) {
     using non_native_field_type = typename crypto3::algebra::fields::curve25519_base_field;
     using field_type = crypto3::algebra::curves::pallas::base_field_type;
 

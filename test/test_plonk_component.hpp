@@ -43,7 +43,7 @@
 #include <nil/actor_blueprint/utils/table_profiling.hpp>
 #include <nil/actor_blueprint/utils/satisfiability_check.hpp>
 
-#include <nil/crypto3/math/algorithms/calculate_domain_set.hpp>
+#include <nil/actor/math/algorithms/calculate_domain_set.hpp>
 
 // #include "profiling_plonk_circuit.hpp"
 
@@ -84,7 +84,7 @@ namespace nil {
             std::size_t r = degree_log - 1;
 
             std::vector<std::shared_ptr<crypto3::math::evaluation_domain<FieldType>>> domain_set =
-                crypto3::math::calculate_domain_set<FieldType>(degree_log + expand_factor, r);
+                math::calculate_domain_set<FieldType>(degree_log + expand_factor, r).get();
 
             params.r = r;
             params.D = domain_set;
@@ -103,7 +103,8 @@ namespace nil {
                                     bool>::type = true>
         auto prepare_component(ComponentType component_instance, const PublicInputContainerType &public_input,
                                const FunctorResultCheck &result_check,
-                               typename ComponentType::input_type instance_input) {
+                               typename ComponentType::input_type instance_input,
+                               bool expected_to_pass) {
 
             using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
             using component_type = ComponentType;
@@ -135,7 +136,7 @@ namespace nil {
             profiling(assignment);
 #endif
 
-            assert(actor_blueprint::is_satisfied(bp, assignment));
+            assert(actor_blueprint::is_satisfied(bp, assignment) == expected_to_pass);
 
             return std::make_tuple(desc, bp, assignment);
         }
@@ -145,12 +146,13 @@ namespace nil {
         typename std::enable_if<std::is_same<
             typename BlueprintFieldType::value_type,
             typename std::iterator_traits<typename PublicInputContainerType::iterator>::value_type>::value>::type
-            test_component(ComponentType component_instance, const PublicInputContainerType &public_input,
-                           FunctorResultCheck result_check, typename ComponentType::input_type instance_input) {
+            test_component_inner(ComponentType component_instance, const PublicInputContainerType &public_input,
+                           FunctorResultCheck result_check, typename ComponentType::input_type instance_input,
+                           bool expected_to_pass) {
 
             auto [desc, bp, assignments] =
                 prepare_component<ComponentType, BlueprintFieldType, ArithmetizationParams, Hash, Lambda,
-                                  FunctorResultCheck>(component_instance, public_input, result_check, instance_input);
+                                  FunctorResultCheck>(component_instance, public_input, result_check, instance_input, expected_to_pass);
 
 #ifdef BLUEPRINT_PLACEHOLDER_PROOF_GEN_ENABLED
             using placeholder_params =
@@ -176,15 +178,48 @@ namespace nil {
                 zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(
                     bp, assignments.private_table(), desc, fri_params).get();
             auto proof = zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params>::process(
-                public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params);
+                public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params).get();
 
             bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
-                public_preprocessed_data, proof, bp, fri_params);
+                public_preprocessed_data, proof, bp, fri_params).get();
 
-            assert(verifier_res);
+            if (expected_to_pass) {
+                BOOST_CHECK(verifier_res);
+            } else {
+                BOOST_CHECK(!verifier_res);
+            }
 #endif
         }
-    }    // namespace actor
+
+        template<typename ComponentType, typename BlueprintFieldType, typename ArithmetizationParams, typename Hash,
+                 std::size_t Lambda, typename PublicInputContainerType, typename FunctorResultCheck>
+        typename std::enable_if<std::is_same<
+            typename BlueprintFieldType::value_type,
+            typename std::iterator_traits<typename PublicInputContainerType::iterator>::value_type>::value>::type
+            test_component(ComponentType component_instance, const PublicInputContainerType &public_input,
+                           FunctorResultCheck result_check, typename ComponentType::input_type instance_input) {
+            return test_component_inner<ComponentType, BlueprintFieldType, ArithmetizationParams, Hash, Lambda,
+                                 PublicInputContainerType, FunctorResultCheck>(component_instance,
+                                                                               public_input, result_check,
+                                                                               instance_input,
+                                                                               true);
+        }
+
+        template<typename ComponentType, typename BlueprintFieldType, typename ArithmetizationParams, typename Hash,
+                 std::size_t Lambda, typename PublicInputContainerType, typename FunctorResultCheck>
+        typename std::enable_if<std::is_same<
+            typename BlueprintFieldType::value_type,
+            typename std::iterator_traits<typename PublicInputContainerType::iterator>::value_type>::value>::type
+            test_component_to_fail(ComponentType component_instance, const PublicInputContainerType &public_input,
+                           FunctorResultCheck result_check, typename ComponentType::input_type instance_input) {
+            std::cout << "Testing component to fail\n";
+            return test_component_inner<ComponentType, BlueprintFieldType, ArithmetizationParams, Hash, Lambda,
+                                 PublicInputContainerType, FunctorResultCheck>(component_instance,
+                                                                               public_input, result_check,
+                                                                               instance_input,
+                                                                               false);
+        }
+    }    // namespace crypto3
 }    // namespace nil
 
 #endif    // ACTOR_TEST_PLONK_COMPONENT_HPP

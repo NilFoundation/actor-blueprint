@@ -69,7 +69,7 @@ void test_field_mul(std::vector<typename BlueprintFieldType::value_type> public_
         actor_blueprint::components::multiplication<ArithmetizationType,
                                               NonNativeFieldType,
                                               9,
-                                              blueprint::basic_non_native_policy<BlueprintFieldType>>;
+                                              actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     std::array<var, 4> input_var_a = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),
