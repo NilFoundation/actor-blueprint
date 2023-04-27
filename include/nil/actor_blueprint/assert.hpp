@@ -30,16 +30,18 @@
 #include <boost/format.hpp>
 
 namespace nil {
-    namespace actor_blueprint {
-        namespace detail {
-            template<typename T1, typename T2, typename T3>
-            static void blueprint_assert(T1 line, T2 file, T3 expr){
-                std::stringstream errMsg;
-                errMsg << "Assertion " << expr << " failed on line " << line << " in file " << file;
-                throw std::runtime_error(errMsg.str().c_str());
-            }
-        }    // namespace detail
-    }    // namespace blueprint
+    namespace actor {
+        namespace actor_blueprint {
+            namespace detail {
+                template<typename T1, typename T2, typename T3>
+                static void blueprint_assert(T1 line, T2 file, T3 expr){
+                    std::stringstream errMsg;
+                    errMsg << "Assertion " << expr << " failed on line " << line << " in file " << file;
+                    throw std::runtime_error(errMsg.str().c_str());
+                }
+            }    // namespace detail
+        }    // namespace actor_blueprint
+    }            // namespace actor
 }    // namespace nil
 
 #ifdef BLUEPRINT_DEBUG_ENABLED

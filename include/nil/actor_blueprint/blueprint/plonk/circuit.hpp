@@ -36,77 +36,79 @@
 #include <nil/actor/zk/snark/arithmetization/plonk/variable.hpp>
 
 namespace nil {
-    namespace actor_blueprint {
-
-        template<typename ArithmetizationType, std::size_t... BlueprintParams>
-        class circuit;
-
-        template<typename BlueprintFieldType,
-                 typename ArithmetizationParams>
-        class circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
-                                                       ArithmetizationParams>>
-            : public actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
-                                                    ArithmetizationParams> {
-
-            typedef actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
-                                                   ArithmetizationParams> ArithmetizationType;
-
-        public:
-            typedef BlueprintFieldType blueprint_field_type;
-
-            circuit(actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
-                    ArithmetizationParams> constraint_system) :
-                    ArithmetizationType(constraint_system) { }
-
-            circuit() : ArithmetizationType() {
-            }
-
-            // TODO: should put constraint in some storage and return its index
-            actor::zk::snark::plonk_constraint<BlueprintFieldType>
-                add_constraint(const actor::zk::snark::plonk_constraint<BlueprintFieldType> &constraint) {
-                return constraint;
-            }
-
-            void add_gate(std::size_t selector_index,
-                          const actor::zk::snark::plonk_constraint<BlueprintFieldType> &constraint) {
-                this->_gates.emplace_back(selector_index, constraint);
-            }
-
-            void add_gate(std::size_t selector_index,
-                          const std::initializer_list<actor::zk::snark::plonk_constraint<BlueprintFieldType>> &constraints) {
-                this->_gates.emplace_back(selector_index, constraints);
-            }
-
-            void add_gate(actor::zk::snark::plonk_gate<BlueprintFieldType, actor::zk::snark::plonk_constraint<BlueprintFieldType>> &gate) {
-                this->_gates.emplace_back(gate);
-            }
-
-            actor::zk::snark::plonk_constraint<BlueprintFieldType>
-                add_bit_check(const actor::zk::snark::plonk_variable<BlueprintFieldType> &bit_variable) {
-                return add_constraint(bit_variable * (bit_variable - 1));
-            }
-
-            void add_copy_constraint(const actor::zk::snark::plonk_copy_constraint<BlueprintFieldType> &copy_constraint) {
-                if (copy_constraint.first == copy_constraint.second) {
-                    return;
+    namespace actor {
+        namespace actor_blueprint {
+    
+            template<typename ArithmetizationType, std::size_t... BlueprintParams>
+            class circuit;
+    
+            template<typename BlueprintFieldType,
+                     typename ArithmetizationParams>
+            class circuit<actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
+                                                           ArithmetizationParams>>
+                : public actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
+                                                        ArithmetizationParams> {
+    
+                typedef actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
+                                                       ArithmetizationParams> ArithmetizationType;
+    
+            public:
+                typedef BlueprintFieldType blueprint_field_type;
+    
+                circuit(actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
+                        ArithmetizationParams> constraint_system) :
+                        ArithmetizationType(constraint_system) { }
+    
+                circuit() : ArithmetizationType() {
                 }
-                this->_copy_constraints.emplace_back(copy_constraint);
-            }
-
-            actor::zk::snark::plonk_lookup_constraint<BlueprintFieldType>
-                add_lookup_constraint(std::vector<actor::math::non_linear_term<actor::zk::snark::plonk_variable<BlueprintFieldType>>> lookup_input,
-                std::vector<actor::zk::snark::plonk_variable<BlueprintFieldType>> lookup_value) {
-                actor::zk::snark::plonk_lookup_constraint<BlueprintFieldType> lookup_constraint;
-                lookup_constraint.lookup_input = lookup_input;
-                lookup_constraint.lookup_value = lookup_value;
-                return lookup_constraint;
-            }
-
-            void add_lookup_gate(std::size_t selector_index,
-                          const std::initializer_list<actor::zk::snark::plonk_lookup_constraint<BlueprintFieldType>> &constraints) {
-                this->_lookup_gates.emplace_back(selector_index, constraints);
-            }
-        };
-    }    // namespace blueprint
+    
+                // TODO: should put constraint in some storage and return its index
+                actor::zk::snark::plonk_constraint<BlueprintFieldType>
+                    add_constraint(const actor::zk::snark::plonk_constraint<BlueprintFieldType> &constraint) {
+                    return constraint;
+                }
+    
+                void add_gate(std::size_t selector_index,
+                              const actor::zk::snark::plonk_constraint<BlueprintFieldType> &constraint) {
+                    this->_gates.emplace_back(selector_index, constraint);
+                }
+    
+                void add_gate(std::size_t selector_index,
+                              const std::initializer_list<actor::zk::snark::plonk_constraint<BlueprintFieldType>> &constraints) {
+                    this->_gates.emplace_back(selector_index, constraints);
+                }
+    
+                void add_gate(actor::zk::snark::plonk_gate<BlueprintFieldType, actor::zk::snark::plonk_constraint<BlueprintFieldType>> &gate) {
+                    this->_gates.emplace_back(gate);
+                }
+    
+                actor::zk::snark::plonk_constraint<BlueprintFieldType>
+                    add_bit_check(const actor::zk::snark::plonk_variable<BlueprintFieldType> &bit_variable) {
+                    return add_constraint(bit_variable * (bit_variable - 1));
+                }
+    
+                void add_copy_constraint(const actor::zk::snark::plonk_copy_constraint<BlueprintFieldType> &copy_constraint) {
+                    if (copy_constraint.first == copy_constraint.second) {
+                        return;
+                    }
+                    this->_copy_constraints.emplace_back(copy_constraint);
+                }
+    
+                actor::zk::snark::plonk_lookup_constraint<BlueprintFieldType>
+                    add_lookup_constraint(std::vector<actor::math::non_linear_term<actor::zk::snark::plonk_variable<BlueprintFieldType>>> lookup_input,
+                    std::vector<actor::zk::snark::plonk_variable<BlueprintFieldType>> lookup_value) {
+                    actor::zk::snark::plonk_lookup_constraint<BlueprintFieldType> lookup_constraint;
+                    lookup_constraint.lookup_input = lookup_input;
+                    lookup_constraint.lookup_value = lookup_value;
+                    return lookup_constraint;
+                }
+    
+                void add_lookup_gate(std::size_t selector_index,
+                              const std::initializer_list<actor::zk::snark::plonk_lookup_constraint<BlueprintFieldType>> &constraints) {
+                    this->_lookup_gates.emplace_back(selector_index, constraints);
+                }
+            };
+        }    // namespace actor_blueprint
+    }            // namespace actor
 }    // namespace nil
 #endif    // ACTOR_BLUEPRINT_CIRCUIT_PLONK_HPP

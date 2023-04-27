@@ -29,19 +29,21 @@
 #include <typeinfo>
 
 namespace nil {
-    namespace actor_blueprint {
-        namespace detail {
-
-            using blueprint_component_id_type = std::string;
-
-            template<typename ComponentType>
-            blueprint_component_id_type get_component_id(ComponentType component) {
-                std::stringstream id;
-
-                id << typeid(component).name();
-                return id.str();
-            }
-        }    // namespace detail
-    }        // namespace blueprint
+    namespace actor {
+        namespace actor_blueprint {
+            namespace detail {
+    
+                using blueprint_component_id_type = std::string;
+    
+                template<typename ComponentType>
+                blueprint_component_id_type get_component_id(ComponentType component) {
+                    std::stringstream id;
+    
+                    id << typeid(component).name();
+                    return id.str();
+                }
+            }    // namespace detail
+        }        // namespace actor_blueprint
+    }            // namespace actor
 }    // namespace nil
 #endif    // ACTOR_BLUEPRINT_DETAIL_COMPONENT_ID_HPP
