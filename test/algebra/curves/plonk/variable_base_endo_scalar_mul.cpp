@@ -46,6 +46,7 @@
 
 #include "../../../profiling.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 
 

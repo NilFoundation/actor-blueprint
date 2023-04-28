@@ -42,9 +42,8 @@
 #include <nil/actor_blueprint_mc/assignment/plonk.hpp>
 #include "../../../test_plonk_component_mc.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
-
-
 
 template<typename FieldType, std::size_t ChalAmount>
 typename FieldType::value_type b_poly(const std::array<typename FieldType::value_type, ChalAmount> &chals,

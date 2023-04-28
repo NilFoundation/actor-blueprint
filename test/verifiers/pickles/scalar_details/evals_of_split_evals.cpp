@@ -48,6 +48,7 @@
 #include "test_plonk_component_mc.hpp"
 #include "verifiers/kimchi/proof_data_mc.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 /*
 

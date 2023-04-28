@@ -45,9 +45,8 @@
 
 #include "../test_plonk_component.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
-
-
 
 // ACTOR_THREAD_TEST_CASE(blueprint_plonk_from_limbs) {
 //     auto start = std::chrono::high_resolution_clock::now();

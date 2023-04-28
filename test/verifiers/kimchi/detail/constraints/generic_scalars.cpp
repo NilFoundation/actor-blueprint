@@ -49,8 +49,8 @@
 
 #include "test_plonk_component_mc.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
-
 
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_detail_constraints_generic_scalars_generic_input_test_suite) {

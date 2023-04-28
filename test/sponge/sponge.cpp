@@ -43,6 +43,7 @@
 
 #include "test_plonk_component.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 
 

@@ -45,6 +45,8 @@
 #include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
 #include <nil/actor_blueprint/components/systems/snark/plonk/kimchi/verifier_base_field.hpp>
 
+using namespace nil;
+
 using curve_type = crypto3::algebra::curves::vesta;
 using FpType = typename curve_type::base_field_type;
 using FrType = typename curve_type::scalar_field_type;

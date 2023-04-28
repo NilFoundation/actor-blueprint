@@ -45,9 +45,8 @@
 
 #include "test_plonk_component.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
-
-
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_pickles_heterogenous_verify_scalar_field_test) {
 

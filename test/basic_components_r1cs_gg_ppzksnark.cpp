@@ -61,6 +61,7 @@
 
 #include <nil/actor_blueprint/blueprint/r1cs/circuit.hpp>
 
+using namespace nil;
 using namespace nil::crypto3;
 using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;

@@ -49,6 +49,7 @@
 #include "verifiers/kimchi/index_terms_instances/ec_index_terms.hpp"
 #include "../../../test_plonk_component.hpp"
 
+using namespace nil;
 using namespace nil::actor;
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_verifiers_kimchi_detail_oracles_cip_test2) {

@@ -45,9 +45,9 @@
 #include <nil/actor_blueprint_mc/blueprint/plonk.hpp>
 #include <nil/actor_blueprint_mc/assignment/plonk.hpp>
 #include "../../../test_plonk_component_mc.hpp"
+
+using namespace nil;
 using namespace nil::crypto3;
-
-
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_publuc_evaluations) {
     auto start = std::chrono::high_resolution_clock::now();

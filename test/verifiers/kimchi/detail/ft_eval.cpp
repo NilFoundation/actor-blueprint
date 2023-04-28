@@ -51,6 +51,7 @@
 #include "test_plonk_component_mc.hpp"
 #include "../proof_data_mc.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 
 

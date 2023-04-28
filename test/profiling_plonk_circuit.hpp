@@ -39,6 +39,8 @@
 #include <nil/actor/zk/snark/systems/plonk/placeholder/params.hpp>
 #include <nil/actor/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
 
+using namespace nil;
+
 namespace nil {
     namespace actor {
         template<typename FieldType, typename ArithmetizationParams, typename Hash, std::size_t Lambda>

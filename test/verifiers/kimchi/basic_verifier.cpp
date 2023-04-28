@@ -59,9 +59,8 @@
 #include "test_plonk_component_mc.hpp"
 #include "proof_data.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
-
-
 
 template<typename CurveType, typename BlueprintFieldType, typename KimchiParamsType, std::size_t EvelRounds>
 void prepare_proof(actor::zk::snark::pickles_proof<CurveType> &original_proof,

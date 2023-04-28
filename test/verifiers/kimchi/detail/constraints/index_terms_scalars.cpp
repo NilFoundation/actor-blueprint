@@ -57,9 +57,8 @@
 
 #include "test_plonk_component.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
-
-
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_detail_index_terms_scalar_ec_test_suite) {
 

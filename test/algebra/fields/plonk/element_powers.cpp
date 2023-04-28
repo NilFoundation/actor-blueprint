@@ -40,6 +40,7 @@
 #include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
 #include "../../../test_plonk_component.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_element_powers) {

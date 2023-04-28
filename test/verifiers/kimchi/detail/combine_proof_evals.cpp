@@ -52,6 +52,7 @@
 #include "test_plonk_component.hpp"
 #include "../proof_data.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 
 template<typename CurveType, typename BlueprintFieldType, typename KimchiParamsType, std::size_t EvelRounds>

@@ -45,6 +45,7 @@
 
 #include "../../test_plonk_component_mc.hpp"
 
+using namespace nil;
 using namespace nil::actor;
 
 template<typename ed25519_type>

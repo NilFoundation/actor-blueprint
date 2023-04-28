@@ -70,6 +70,7 @@
 #include "test_plonk_component_mc.hpp"
 #include "../../proof_data_mc.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_detail_rpn_expression_test_suite_lagrange) {

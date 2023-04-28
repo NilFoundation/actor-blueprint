@@ -42,6 +42,7 @@
 
 #include "../../../test_plonk_component.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_sqrt_qr_test) {
