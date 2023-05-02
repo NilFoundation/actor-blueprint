@@ -23,10 +23,11 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE element_fp2_test
+
 
 #include <chrono>
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/mnt4.hpp>
 #include <nil/crypto3/algebra/fields/mnt4/base_field.hpp>
@@ -55,9 +56,9 @@ using namespace nil::crypto3;
 using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
 
-BOOST_AUTO_TEST_SUITE(field_element_arithmetic_component_test_suite)
 
-BOOST_AUTO_TEST_CASE(field_element_mul_component_test_mnt4_case) {
+
+ACTOR_THREAD_TEST_CASE(field_element_mul_component_test_mnt4_case) {
     using curve_type = typename curves::mnt4<298>;
     using field_type = typename curve_type::gt_type;
     using base_field_type = typename curve_type::base_field_type;
@@ -83,7 +84,7 @@ BOOST_AUTO_TEST_CASE(field_element_mul_component_test_mnt4_case) {
               << elapsed.count() * 1e-9 / tries_quantity << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(field_element_squared_component_test_mnt4_case) {
+ACTOR_THREAD_TEST_CASE(field_element_squared_component_test_mnt4_case) {
     using curve_type = typename curves::mnt4<298>;
     using field_type = typename curve_type::gt_type;
     using base_field_type = typename curve_type::base_field_type;
@@ -109,4 +110,3 @@ BOOST_AUTO_TEST_CASE(field_element_squared_component_test_mnt4_case) {
               << elapsed.count() * 1e-9 / tries_quantity << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()

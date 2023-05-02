@@ -23,9 +23,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE basic_components_verification_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/bls12.hpp>
 #include <nil/crypto3/algebra/fields/bls12/base_field.hpp>
@@ -58,8 +59,9 @@
 
 #include "verify_r1cs_scheme.hpp"
 
-#include <nil/blueprint/blueprint/r1cs/circuit.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/circuit.hpp>
 
+using namespace nil;
 using namespace nil::crypto3;
 using namespace nil::actor::zk;
 using namespace nil::crypto3::algebra;
@@ -72,13 +74,13 @@ void test_disjunction_component(std::size_t w) {
 
     std::size_t n = std::log2(w) + ((w > (1ul << std::size_t(std::log2(w)))) ? 1 : 0);
 
-    actor_blueprint::blueprint<field_type> bp;
+    actor::actor_blueprint::blueprint<field_type> bp;
     nil::actor::zk::detail::blueprint_variable<field_type> output;
     output.allocate(bp);
 
     bp.set_input_sizes(1);
 
-    nil::actor::blueprint::detail::blueprint_variable_vector<field_type> inputs;
+    nil::actor::actor_blueprint::detail::blueprint_variable_vector<field_type> inputs;
     inputs.allocate(bp, n);
 
     nil::crypto3::actor_blueprint::components::disjunction<field_type> d(bp, inputs, output);
@@ -104,14 +106,14 @@ void test_conjunction_component(std::size_t w) {
 
     std::size_t n = std::log2(w) + ((w > (1ul << std::size_t(std::log2(w)))) ? 1 : 0);
 
-    blueprint::blueprint<field_type> bp;
+    actor::actor_blueprint::blueprint<field_type> bp;
 
-    nil::actor::blueprint::detail::blueprint_variable<field_type> output;
+    nil::actor::actor_blueprint::detail::blueprint_variable<field_type> output;
     output.allocate(bp);
 
     bp.set_input_sizes(1);
 
-    nil::actor::blueprint::detail::blueprint_variable_vector<field_type> inputs;
+    nil::actor::actor_blueprint::detail::blueprint_variable_vector<field_type> inputs;
     inputs.allocate(bp, n);
 
     nil::crypto3::actor_blueprint::components::conjunction<field_type> c(bp, inputs, output);
@@ -136,9 +138,9 @@ void test_comparison_component(std::size_t a, std::size_t b) {
     using field_type = typename CurveType::scalar_field_type;
     using curve_type = CurveType;
 
-    blueprint::blueprint<field_type> bp;
+    actor::actor_blueprint::blueprint<field_type> bp;
 
-    nil::actor::blueprint::detail::blueprint_variable<field_type> A, B, less, less_or_eq;
+    nil::actor::actor_blueprint::detail::blueprint_variable<field_type> A, B, less, less_or_eq;
     A.allocate(bp);
     B.allocate(bp);
     less.allocate(bp);
@@ -163,9 +165,9 @@ void test_comparison_component(std::size_t a, std::size_t b) {
     BOOST_CHECK(verify_component<curve_type>(bp));
 }
 
-BOOST_AUTO_TEST_SUITE(basic_components_test_suite)
 
-BOOST_AUTO_TEST_CASE(basic_components_disjunction_r1cs_gg_ppzksnark_test) {
+
+ACTOR_THREAD_TEST_CASE(basic_components_disjunction_r1cs_gg_ppzksnark_test) {
     std::cout << "Disjunction component test started" << std::endl;
     std::cout << "Started for bls12<381>" << std::endl;
     test_disjunction_component<curves::bls12<381>>(10);
@@ -175,7 +177,7 @@ BOOST_AUTO_TEST_CASE(basic_components_disjunction_r1cs_gg_ppzksnark_test) {
     test_disjunction_component<curves::mnt6<298>>(10);
 }
 
-BOOST_AUTO_TEST_CASE(basic_components_conjunction_r1cs_gg_ppzksnark_test) {
+ACTOR_THREAD_TEST_CASE(basic_components_conjunction_r1cs_gg_ppzksnark_test) {
     std::cout << "Conjunction component test started" << std::endl;
     std::cout << "Started for bls12<381>" << std::endl;
     test_conjunction_component<curves::bls12<381>>(10);
@@ -185,7 +187,7 @@ BOOST_AUTO_TEST_CASE(basic_components_conjunction_r1cs_gg_ppzksnark_test) {
     test_conjunction_component<curves::mnt6<298>>(10);
 }
 
-BOOST_AUTO_TEST_CASE(basic_components_comparison_r1cs_gg_ppzksnark_test) {
+ACTOR_THREAD_TEST_CASE(basic_components_comparison_r1cs_gg_ppzksnark_test) {
     std::cout << "Comparison component r1cs_gg_ppzksnark test started" << std::endl;
     std::cout << "Started for bls12<381>" << std::endl;
     test_comparison_component<curves::bls12<381>>(1, 4);
@@ -195,4 +197,4 @@ BOOST_AUTO_TEST_CASE(basic_components_comparison_r1cs_gg_ppzksnark_test) {
     test_comparison_component<curves::mnt6<298>>(1, 4);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

@@ -24,9 +24,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_non_native_field_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -59,14 +60,14 @@ void test_field_sub(std::vector<typename BlueprintFieldType::value_type> public_
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::subtraction<ArithmetizationType,
-        NonNativeFieldType, 9, nil::blueprint::basic_non_native_policy<BlueprintFieldType>>;
+    using component_type = actor::actor_blueprint::components::subtraction<ArithmetizationType,
+        NonNativeFieldType, 9, nil::actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     std::array<var, 4> input_var_a = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),
@@ -120,7 +121,7 @@ void test_field_sub(std::vector<typename BlueprintFieldType::value_type> public_
         component_instance, public_input, result_check, instance_input);
 }
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
+
 
 template <typename FieldType, typename NonNativeFieldType>
 void test_field_sub_useable(typename NonNativeFieldType::value_type a, typename NonNativeFieldType::value_type b){
@@ -175,10 +176,10 @@ void test_field_sub_all_cases(){
     }
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_subtraction_pallas) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_subtraction_pallas) {
     using non_native_field_type = typename crypto3::algebra::fields::curve25519_base_field;
     using field_type = crypto3::algebra::curves::pallas::base_field_type;
     test_field_sub_all_cases<field_type, non_native_field_type>();
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

@@ -22,9 +22,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_unified_addition_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/vesta.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/vesta.hpp>
@@ -44,9 +45,10 @@
 
 #include "test_plonk_component_mc.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 /*
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
+
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
     auto start = std::chrono::high_resolution_clock::now();
@@ -58,13 +60,13 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 2;
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
 
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     constexpr std::size_t InputSize = 5;
 
@@ -110,7 +112,7 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
     std::cout << "prepare scalars: " << duration.count() << "ms" << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+
 */
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {

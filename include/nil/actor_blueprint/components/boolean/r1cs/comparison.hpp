@@ -50,7 +50,7 @@ namespace nil {
                   if X != 0 then R = 1 and I = X^{-1}
                 */
                 template<typename FieldType>
-                class comparison : public nil::actor_blueprint::components::component<FieldType> {
+                class comparison : public nil::actor::actor_blueprint::components::component<FieldType> {
                 private:
                     detail::blueprint_variable_vector<FieldType> alpha;
                     detail::blueprint_variable<FieldType> alpha_packed;
@@ -72,7 +72,7 @@ namespace nil {
                                const detail::blueprint_linear_combination<FieldType> &B,
                                const detail::blueprint_variable<FieldType> &less,
                                const detail::blueprint_variable<FieldType> &less_or_eq) :
-                        nil::actor_blueprint::components::component<FieldType>(bp),
+                        nil::actor::actor_blueprint::components::component<FieldType>(bp),
                         n(n), A(A), B(B), less(less), less_or_eq(less_or_eq) {
                         alpha.allocate(bp, n);
                         alpha.emplace_back(less_or_eq);    // alpha[n] is less_or_eq

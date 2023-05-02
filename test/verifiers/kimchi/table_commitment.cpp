@@ -22,9 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_kimchi_batch_verify_base_field_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/vesta.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/vesta.hpp>
@@ -51,11 +50,10 @@
 
 #include "test_plonk_component_mc.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_table_commitment_test_suite)
-
-BOOST_AUTO_TEST_CASE(blueprint_plonk_table_commitment_test) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_table_commitment_test) {
 
     using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
@@ -65,8 +63,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_table_commitment_test) {
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 25;
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
@@ -115,13 +113,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_table_commitment_test) {
                                                                    13,
                                                                    14>;
     using var_ec_point = typename nil::actor_blueprint_mc::components::var_ec_point<BlueprintFieldType>;
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     constexpr static const std::size_t lookup_columns = KimchiParamsType::circuit_params::lookup_columns;
 
     constexpr std::size_t use_lookup_runtime = KimchiParamsType::circuit_params::lookup_runtime ? 1 : 0; 
 
-    // zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
+    // actor::zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
 
     std::vector<typename BlueprintFieldType::value_type> public_input;
     std::vector<commitment_type> lookup_columns_var;
@@ -166,4 +164,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_table_commitment_test) {
     nil::actor_blueprint_mc::test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
         params, public_input, result_check);
 };
-BOOST_AUTO_TEST_SUITE_END()

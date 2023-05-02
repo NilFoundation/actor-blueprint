@@ -56,9 +56,9 @@ namespace nil {
                     using component_type = plonk_component<BlueprintFieldType, ArithmetizationParams, 15, 1, 0>;
                     using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
 
-                    using add_component = nil::actor_blueprint::components::unified_addition<ArithmetizationType, CurveType, 11>;
-                    using mul_component = nil::actor_blueprint::components::curve_element_variable_base_scalar_mul<ArithmetizationType, CurveType, 15>;
-                    using mul_field_component = nil::actor_blueprint::components::multiplication<ArithmetizationType, BlueprintFieldType, 3, basic_non_native_policy<BlueprintFieldType>>;
+                    using add_component = nil::actor::actor_blueprint::components::unified_addition<ArithmetizationType, CurveType, 11>;
+                    using mul_component = nil::actor::actor_blueprint::components::curve_element_variable_base_scalar_mul<ArithmetizationType, CurveType, 15>;
+                    using mul_field_component = nil::actor::actor_blueprint::components::multiplication<ArithmetizationType, BlueprintFieldType, 3, basic_non_native_policy<BlueprintFieldType>>;
 
                 public:
                     using var = typename component_type::var;

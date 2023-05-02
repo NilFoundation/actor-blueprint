@@ -24,7 +24,7 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-//#define BOOST_TEST_MODULE blueprint_plonk_kimchi_basic_verifier_test
+//
 
 #include <nil/actor/testing/test_case.hh>
 #include <nil/actor/testing/thread_test_case.hh>
@@ -105,7 +105,7 @@ typename fri_type::params_type create_fri_params(std::size_t degree_log, const i
     return params;
 }
 
-//BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_demo_verifier_test_suite)
+//
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
     constexpr std::size_t complexity = 16000;
@@ -202,4 +202,4 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
     std::cout << "Proof check: " << verifier_res << std::endl;
 }
 
-//BOOST_AUTO_TEST_SUITE_END()
+//

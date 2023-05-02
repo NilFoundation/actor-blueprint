@@ -32,49 +32,51 @@
 #include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 
 namespace nil {
-    namespace actor_blueprint {
-        namespace detail {
-            template<typename BlueprintFieldType, typename OperatingFieldType>
-            struct basic_non_native_policy_field_type;
-
-            template<>
-            struct basic_non_native_policy_field_type<typename crypto3::algebra::curves::pallas::base_field_type,
-                                                      typename crypto3::algebra::curves::ed25519::base_field_type> {
-
-                constexpr static const std::uint32_t ratio = 4;    // 66,66,66,66 bits
-
-                typedef std::array<
-                    actor::zk::snark::plonk_variable<typename crypto3::algebra::curves::pallas::base_field_type>,
-                    ratio>
-                    value_type;
-            };
-
-            /*
-             * Native element type.
-             */
+    namespace actor {
+        namespace actor_blueprint {
+            namespace detail {
+                template<typename BlueprintFieldType, typename OperatingFieldType>
+                struct basic_non_native_policy_field_type;
+    
+                template<>
+                struct basic_non_native_policy_field_type<typename crypto3::algebra::curves::pallas::base_field_type,
+                                                          typename crypto3::algebra::curves::ed25519::base_field_type> {
+    
+                    constexpr static const std::uint32_t ratio = 4;    // 66,66,66,66 bits
+    
+                    typedef std::array<
+                        actor::zk::snark::plonk_variable<typename crypto3::algebra::curves::pallas::base_field_type>,
+                        ratio>
+                        value_type;
+                };
+    
+                /*
+                 * Native element type.
+                 */
+                template<typename BlueprintFieldType>
+                struct basic_non_native_policy_field_type<BlueprintFieldType, BlueprintFieldType> {
+    
+                    constexpr static const std::uint32_t ratio = 1;
+    
+                    typedef actor::zk::snark::plonk_variable<BlueprintFieldType> value_type;
+                };
+            }    // namespace detail
+    
             template<typename BlueprintFieldType>
-            struct basic_non_native_policy_field_type<BlueprintFieldType, BlueprintFieldType> {
-
-                constexpr static const std::uint32_t ratio = 1;
-
-                typedef actor::zk::snark::plonk_variable<BlueprintFieldType> value_type;
+            class basic_non_native_policy;
+    
+            template<>
+            class basic_non_native_policy<typename crypto3::algebra::curves::pallas::base_field_type> {
+    
+                using BlueprintFieldType = typename crypto3::algebra::curves::pallas::base_field_type;
+    
+            public:
+                template<typename OperatingFieldType>
+                using field = typename detail::basic_non_native_policy_field_type<BlueprintFieldType, OperatingFieldType>;
             };
-        }    // namespace detail
-
-        template<typename BlueprintFieldType>
-        class basic_non_native_policy;
-
-        template<>
-        class basic_non_native_policy<typename crypto3::algebra::curves::pallas::base_field_type> {
-
-            using BlueprintFieldType = typename crypto3::algebra::curves::pallas::base_field_type;
-
-        public:
-            template<typename OperatingFieldType>
-            using field = typename detail::basic_non_native_policy_field_type<BlueprintFieldType, OperatingFieldType>;
-        };
-
-    }    // namespace blueprint
+    
+        }    // namespace actor_blueprint
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_BLUEPRINT_BASIC_NON_NATIVE_POLICY_HPP

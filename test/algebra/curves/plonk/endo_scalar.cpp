@@ -25,9 +25,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_endo_scalar_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -143,12 +142,12 @@ void test_endo_scalar(std::vector<typename CurveType::scalar_field_type::value_t
     using ArithmetizationParams = nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor::actor_blueprint::assignment<ArithmetizationType>;
 	using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
 	constexpr static const std::size_t num_bits = 128;
 
-    using component_type = nil::actor_blueprint::components::endo_scalar<ArithmetizationType, CurveType, num_bits, 15>;
+    using component_type = nil::actor::actor_blueprint::components::endo_scalar<ArithmetizationType, CurveType, num_bits, 15>;
 
 	using var = nil::actor::zk::snark::plonk_variable<BlueprintFieldType>;
 

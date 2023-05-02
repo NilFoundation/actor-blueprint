@@ -22,7 +22,7 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-//#define BOOST_TEST_MODULE blueprint_plonk_signatures_verification_test
+//
 
 #include <nil/actor/testing/test_case.hh>
 #include <nil/actor/testing/thread_test_case.hh>
@@ -45,6 +45,7 @@
 
 #include "../../test_plonk_component_mc.hpp"
 
+using namespace nil;
 using namespace nil::actor;
 
 template<typename ed25519_type>
@@ -342,13 +343,13 @@ ACTOR_THREAD_TEST_CASE(blueprint_signatures_verification) {
     constexpr std::size_t SelectorColumns = 26;
 
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
     using AssignmentType = nil::actor_blueprint_mc::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
     constexpr const std::size_t k = 1;
     using component_type = nil::actor_blueprint_mc::components::signatures_verification<ArithmetizationType, curve_type, ed25519_type, k, 0,
                                                                    1, 2, 3, 4, 5, 6, 7, 8>;

@@ -24,9 +24,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE plonk_poseidon_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -55,10 +56,10 @@ void test_poseidon(std::vector<typename BlueprintFieldType::value_type> public_i
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
 
     using component_type =
-        actor_blueprint::components::poseidon<ArithmetizationType, FieldType, 15>;
+        actor::actor_blueprint::components::poseidon<ArithmetizationType, FieldType, 15>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
     constexpr std::size_t Lambda = 5;
@@ -81,9 +82,9 @@ void test_poseidon(std::vector<typename BlueprintFieldType::value_type> public_i
         component_instance, public_input, result_check, instance_input);
 }
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_poseidon_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_poseidon_test_case0) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_poseidon_test_case0) {
     test_poseidon<typename crypto3::algebra::curves::pallas::base_field_type>(
         {0, 1, 1},
         {0x294B71F8CF2C775369A3B0B8912E508790B0C64BDBE6A5C26F2C6B53767A47CB_cppui255,
@@ -91,4 +92,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_poseidon_test_case0) {
         0x273C6EE50F9A2970162F5D4503596175C6D3FB4C0BF6C269BCD1DFEFB4F50D47_cppui255});
 }
 
-BOOST_AUTO_TEST_SUITE_END()

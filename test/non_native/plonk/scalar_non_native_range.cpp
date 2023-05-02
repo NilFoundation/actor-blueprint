@@ -22,9 +22,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_non_native_scalar_range_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -54,13 +55,13 @@ void test_scalar_non_native_range(std::vector<typename BlueprintFieldType::value
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::scalar_non_native_range<ArithmetizationType,
+    using component_type = actor::actor_blueprint::components::scalar_non_native_range<ArithmetizationType,
         ed25519_type, 9>;
 
     typename component_type::input_type instance_input = {var(0, 0, false, var::column_type::public_input)};
@@ -80,14 +81,14 @@ void test_scalar_non_native_range(std::vector<typename BlueprintFieldType::value
 
 constexpr static const std::size_t random_tests_amount = 10;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_scalar_range_test0) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_scalar_range_test0) {
     test_scalar_non_native_range<typename crypto3::algebra::curves::pallas::base_field_type>(
         {45524});
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_scalar_range_test1) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_scalar_range_test1) {
     using field_type = typename crypto3::algebra::curves::pallas::base_field_type;
 
 
@@ -121,7 +122,7 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_scalar_range_test1) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_scalar_range_test_must_fail) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_scalar_range_test_must_fail) {
     using field_type = crypto3::algebra::curves::pallas::base_field_type;
 
     nil::crypto3::random::algebraic_engine<field_type> rand;
@@ -141,4 +142,4 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_scalar_range_test_must_fail) {
     test_scalar_non_native_range<field_type>({-1});
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

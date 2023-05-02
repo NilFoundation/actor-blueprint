@@ -24,9 +24,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE merkle_tree_components_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/jubjub.hpp>
 
@@ -413,27 +414,26 @@ void test_jubjub_pedersen_merkle_tree_check_validate_component() {
     // BOOST_REQUIRE(num_constraints == expected_constraints);
 }
 
-BOOST_AUTO_TEST_SUITE(merkle_tree_components_test_suite)
 
-// BOOST_AUTO_TEST_CASE(merkle_tree_components_bls12_381_test) {
+
+// ACTOR_THREAD_TEST_CASE(merkle_tree_components_bls12_381_test) {
 //
 //     test_all_merkle_tree_components<curves::bls12<381>>();
 // }
 //
-// BOOST_AUTO_TEST_CASE(merkle_tree_components_mnt4_test) {
+// ACTOR_THREAD_TEST_CASE(merkle_tree_components_mnt4_test) {
 //
 //     test_all_merkle_tree_components<curves::mnt4<398>>();
 // }
 //
-// BOOST_AUTO_TEST_CASE(merkle_tree_components_mnt6_test) {
+// ACTOR_THREAD_TEST_CASE(merkle_tree_components_mnt6_test) {
 //
 //     test_all_merkle_tree_components<curves::mnt6<298>>();
 // }
 
-BOOST_AUTO_TEST_CASE(merkle_tree_components_jubjub_pedersen_test) {
+ACTOR_THREAD_TEST_CASE(merkle_tree_components_jubjub_pedersen_test) {
 
     test_jubjub_pedersen_merkle_tree_container_check_validate_component();
     // test_jubjub_pedersen_merkle_tree_check_validate_component();
 }
 
-BOOST_AUTO_TEST_SUITE_END()

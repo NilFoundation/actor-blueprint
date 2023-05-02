@@ -22,9 +22,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_kimchi_prev_chal_evals_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -41,9 +42,8 @@
 #include <nil/actor_blueprint_mc/assignment/plonk.hpp>
 #include "../../../test_plonk_component_mc.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
-
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
 template<typename FieldType, std::size_t ChalAmount>
 typename FieldType::value_type b_poly(const std::array<typename FieldType::value_type, ChalAmount> &chals,
@@ -60,7 +60,7 @@ typename FieldType::value_type b_poly(const std::array<typename FieldType::value
     return res;
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_prev_chal_evals) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_prev_chal_evals) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = crypto3::algebra::curves::pallas;
@@ -162,4 +162,4 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_prev_chal_evals) {
     std::cout << "prev_chal_evals_component: " << duration.count() << "ms" << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

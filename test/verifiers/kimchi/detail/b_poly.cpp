@@ -22,9 +22,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_kimchi_b_poly_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -41,6 +42,7 @@
 #include <nil/actor_blueprint_mc/assignment/plonk.hpp>
 #include "../../../test_plonk_component_mc.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_b_poly) {

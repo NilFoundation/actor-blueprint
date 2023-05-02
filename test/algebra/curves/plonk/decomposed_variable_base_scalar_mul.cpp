@@ -24,9 +24,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE decomposed_variable_base_scalar_mul_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -45,7 +44,7 @@
 #include <nil/actor_blueprint/components/algebra/curves/pasta/plonk/decomposed_variable_base_scalar_mul_15_wires.hpp>
 #include "test_plonk_component.hpp"
 
-#include "../../zk/include/nil/crypto3/zk/snark/systems/plonk/placeholder/profiling.hpp"
+#include "../../zk/include/nil/actor/zk/snark/systems/plonk/placeholder/profiling.hpp"
 
 using namespace nil::crypto3;
 
@@ -72,10 +71,10 @@ typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates:
     using ArithmetizationParams = nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = nil::actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = nil::actor::actor_blueprint::assignment<ArithmetizationType>;
 	using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
-	using component_type = nil::actor_blueprint::components::curve_element_decomposed_variable_base_scalar_mul<ArithmetizationType, CurveType, 15>;
+	using component_type = nil::actor::actor_blueprint::components::curve_element_decomposed_variable_base_scalar_mul<ArithmetizationType, CurveType, 15>;
 
 	using var = nil::actor::zk::snark::plonk_variable<BlueprintFieldType>;
 

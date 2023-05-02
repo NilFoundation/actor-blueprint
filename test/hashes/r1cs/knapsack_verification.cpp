@@ -23,11 +23,12 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE knapsack_verification_component_test
+
 
 #include <chrono>
 
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/bls12.hpp>
 #include <nil/crypto3/algebra/fields/bls12/base_field.hpp>
@@ -63,9 +64,9 @@
 using namespace nil::crypto3::algebra;
 using namespace nil::actor::zk;
 
-BOOST_AUTO_TEST_SUITE(knapsack_component_test_suite)
 
-BOOST_AUTO_TEST_CASE(knapsack_component_test_bls12_381_case) {
+
+ACTOR_THREAD_TEST_CASE(knapsack_component_test_bls12_381_case) {
     using curve_type = curves::bls12<381>;
     using scalar_field_type = typename curve_type::scalar_field_type;
 
@@ -80,7 +81,7 @@ BOOST_AUTO_TEST_CASE(knapsack_component_test_bls12_381_case) {
     std::cout << "Knapsack component test for BLS12-381 finished, time: " << elapsed.count() * 1e-9 << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(knapsack_component_test_mnt4_case) {
+ACTOR_THREAD_TEST_CASE(knapsack_component_test_mnt4_case) {
     using curve_type = curves::mnt4<298>;
     using scalar_field_type = typename curve_type::scalar_field_type;
 
@@ -95,7 +96,7 @@ BOOST_AUTO_TEST_CASE(knapsack_component_test_mnt4_case) {
     std::cout << "Knapsack component test for MNT4-298 finished, time: " << elapsed.count() * 1e-9 << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(knapsack_component_test_mnt6_case) {
+ACTOR_THREAD_TEST_CASE(knapsack_component_test_mnt6_case) {
     using curve_type = curves::mnt6<298>;
     using scalar_field_type = typename curve_type::scalar_field_type;
 
@@ -110,7 +111,7 @@ BOOST_AUTO_TEST_CASE(knapsack_component_test_mnt6_case) {
     std::cout << "Knapsack component test for MNT6-298 finished, time: " << elapsed.count() * 1e-9 << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(knapsack_component_test_edwards_183_case) {
+ACTOR_THREAD_TEST_CASE(knapsack_component_test_edwards_183_case) {
     using curve_type = curves::edwards<183>;
     using scalar_field_type = typename curve_type::scalar_field_type;
 
@@ -125,4 +126,4 @@ BOOST_AUTO_TEST_CASE(knapsack_component_test_edwards_183_case) {
     std::cout << "Knapsack component test for Edwards-183 finished, time: " << elapsed.count() * 1e-9 << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

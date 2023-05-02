@@ -22,9 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_compare_with_constant_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/vesta.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/vesta.hpp>
@@ -42,11 +41,12 @@
 
 #include "test_plonk_component.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_compare_0) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_compare_0) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = crypto3::algebra::curves::vesta;
@@ -55,15 +55,15 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_compare_0) {
     constexpr std::size_t PublicInputColumns = 1;
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 5;
-    using ArithmetizationParams = zk::snark::plonk_arithmetization_params<WitnessColumns,
+    using ArithmetizationParams = actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
         PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType,
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
                 ArithmetizationParams>;
     using AssignmentType = zk::blueprint_assignment_table<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
 
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     using component_type = zk::components::compare_with_const<ArithmetizationType, curve_type, 0, 1, 2>;
     
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_compare_0) {
     std::cout << "compare with constant: " << duration.count() << "ms" << std::endl;
 }
 
-// BOOST_AUTO_TEST_CASE(blueprint_plonk_compare_1) {
+// ACTOR_THREAD_TEST_CASE(blueprint_plonk_compare_1) {
 //     auto start = std::chrono::high_resolution_clock::now();
 
 //     using curve_type = crypto3::algebra::curves::vesta;
@@ -94,15 +94,15 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_compare_0) {
 //     constexpr std::size_t PublicInputColumns = 1;
 //     constexpr std::size_t ConstantColumns = 1;
 //     constexpr std::size_t SelectorColumns = 5;
-//     using ArithmetizationParams = zk::snark::plonk_arithmetization_params<WitnessColumns,
+//     using ArithmetizationParams = actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
 //         PublicInputColumns, ConstantColumns, SelectorColumns>;
-//     using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType,
+//     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
 //                 ArithmetizationParams>;
 //     using AssignmentType = zk::blueprint_assignment_table<ArithmetizationType>;
 //     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
 //     constexpr std::size_t Lambda = 40;
 
-//     using var = zk::snark::plonk_variable<BlueprintFieldType>;
+//     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
 //     using component_type = zk::components::compare_with_const<ArithmetizationType, curve_type, 0, 1, 2>;
     
@@ -120,7 +120,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_compare_0) {
 //     std::cout << "compare with constant: " << duration.count() << "ms" << std::endl;
 // }
 
-// BOOST_AUTO_TEST_CASE(blueprint_plonk_compare_to_fail) {
+// ACTOR_THREAD_TEST_CASE(blueprint_plonk_compare_to_fail) {
 //     auto start = std::chrono::high_resolution_clock::now();
 
 //     using curve_type = crypto3::algebra::curves::vesta;
@@ -129,15 +129,15 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_compare_0) {
 //     constexpr std::size_t PublicInputColumns = 1;
 //     constexpr std::size_t ConstantColumns = 1;
 //     constexpr std::size_t SelectorColumns = 5;
-//     using ArithmetizationParams = zk::snark::plonk_arithmetization_params<WitnessColumns,
+//     using ArithmetizationParams = actor::zk::snark::plonk_arithmetization_params<WitnessColumns,
 //         PublicInputColumns, ConstantColumns, SelectorColumns>;
-//     using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType,
+//     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType,
 //                 ArithmetizationParams>;
 //     using AssignmentType = zk::blueprint_assignment_table<ArithmetizationType>;
 //     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
 //     constexpr std::size_t Lambda = 40;
 
-//     using var = zk::snark::plonk_variable<BlueprintFieldType>;
+//     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
 //     using component_type = zk::components::compare_with_const<ArithmetizationType, curve_type, 0, 1, 2>;
     
@@ -155,4 +155,4 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_compare_0) {
 //     std::cout << "compare with constant: " << duration.count() << "ms" << std::endl;
 // }
 
-BOOST_AUTO_TEST_SUITE_END()
+

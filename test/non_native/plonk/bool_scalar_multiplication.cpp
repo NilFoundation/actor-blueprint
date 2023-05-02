@@ -22,9 +22,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_non_native_bool_scalar_multiplication_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -55,15 +56,15 @@ void test_bool_scalar_multiplication(std::vector<typename BlueprintFieldType::va
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
     using NonNativeFieldType = typename NonNativeCurveType::base_field_type;
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::bool_scalar_multiplication<ArithmetizationType,
-        NonNativeCurveType, 9, actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
+    using component_type = actor::actor_blueprint::components::bool_scalar_multiplication<ArithmetizationType,
+        NonNativeCurveType, 9, actor::actor_blueprint::basic_non_native_policy<BlueprintFieldType>>;
 
     std::array<var, 4> T_x = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),
@@ -149,9 +150,9 @@ void test_bool_scalar_multiplication_usable (typename NonNativeCurveType::templa
 
 constexpr static const std::size_t random_tests_amount = 3;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_bool_scalar_mul_test1) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_bool_scalar_mul_test1) {
     using field_type = typename crypto3::algebra::curves::pallas::base_field_type;
     using non_native_curve_type = crypto3::algebra::curves::ed25519;
     using non_native_field_type = non_native_curve_type::base_field_type;
@@ -169,7 +170,7 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_bool_scalar_mul_test1) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_bool_scalar_mul_must_fail) { // test should pass if component fails on wrong data, feature is not implemented yet
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_bool_scalar_mul_must_fail) { // test should pass if component fails on wrong data, feature is not implemented yet
     using field_type = typename crypto3::algebra::curves::pallas::base_field_type;
     using non_native_curve_type = crypto3::algebra::curves::ed25519;
     using non_native_field_type = non_native_curve_type::base_field_type;
@@ -187,4 +188,4 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_bool_scalar_mul_must_fail) { // test s
     test_bool_scalar_multiplication_usable<field_type, non_native_curve_type>(rand(), -1);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

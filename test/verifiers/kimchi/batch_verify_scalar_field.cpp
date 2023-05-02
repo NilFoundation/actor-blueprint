@@ -53,15 +53,16 @@
 #include "test_plonk_component_mc.hpp"
 #include "proof_data_mc.hpp"
 
+using namespace nil;
 using namespace nil::actor;
 /*
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite)
+
 
 template<typename CurveType, typename BlueprintFieldType, typename KimchiParamsType, std::size_t EvelRounds>
-void prepare_proof(zk::snark::pickles_proof<CurveType> &original_proof,
+void prepare_proof(actor::zk::snark::pickles_proof<CurveType> &original_proof,
                    zk::components::kimchi_proof_scalar<BlueprintFieldType, KimchiParamsType, EvelRounds> &circuit_proof,
                    std::vector<typename BlueprintFieldType::value_type> &public_input) {
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     // eval_proofs
     for (std::size_t point_idx = 0; point_idx < 2; point_idx++) {
@@ -99,7 +100,7 @@ void prepare_proof(zk::snark::pickles_proof<CurveType> &original_proof,
     circuit_proof.ft_eval = var(0, public_input.size() - 1, false, var::column_type::public_input);
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite) {
 
     using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
@@ -108,13 +109,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
     constexpr std::size_t ConstantColumns = 1;
     constexpr std::size_t SelectorColumns = 30;
     using ArithmetizationParams =
-        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+        actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
+    using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
 
-    using var = zk::snark::plonk_variable<BlueprintFieldType>;
+    using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
     constexpr static std::size_t public_input_size = 3;
     constexpr static std::size_t max_poly_size = 32;
@@ -169,7 +170,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
                                                                      13,
                                                                      14>;
 
-    zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
+    actor::zk::snark::pickles_proof<curve_type> kimchi_proof = test_proof();
 
     typename BlueprintFieldType::value_type joint_combiner = 0;
     typename BlueprintFieldType::value_type beta = 0;

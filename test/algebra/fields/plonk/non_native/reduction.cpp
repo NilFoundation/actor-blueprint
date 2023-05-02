@@ -55,13 +55,13 @@ void test_reduction(std::vector<typename BlueprintFieldType::value_type> public_
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;
 
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::reduction<ArithmetizationType, BlueprintFieldType, 9>;
+    using component_type = actor::actor_blueprint::components::reduction<ArithmetizationType, BlueprintFieldType, 9>;
 
     std::array<var, 8> input_state_var = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),

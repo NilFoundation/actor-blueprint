@@ -24,9 +24,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE plonk_sha256_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -55,10 +56,10 @@ void test_sha256(std::vector<typename BlueprintFieldType::value_type> public_inp
     using ArithmetizationParams =
         actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using var = actor::zk::snark::plonk_variable<BlueprintFieldType>;
 
-    using component_type = actor_blueprint::components::sha256<ArithmetizationType, 9>;
+    using component_type = actor::actor_blueprint::components::sha256<ArithmetizationType, 9>;
 
     std::array<var, 4> input_state_var = {
         var(0, 0, false, var::column_type::public_input), var(0, 1, false, var::column_type::public_input),
@@ -76,9 +77,9 @@ void test_sha256(std::vector<typename BlueprintFieldType::value_type> public_inp
         component_instance, public_input, result_check, instance_input);
 }
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_sha256_test0) {
+
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_sha256_test0) {
 
     using BlueprintFieldType = typename crypto3::algebra::curves::pallas::base_field_type;
 
@@ -90,4 +91,3 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_sha256_test0) {
     test_sha256<BlueprintFieldType>({1, 1, 1, 1});
 }
 
-BOOST_AUTO_TEST_SUITE_END()

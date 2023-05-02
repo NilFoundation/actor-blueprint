@@ -25,9 +25,10 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_kimchi_verifier_scalar_test
 
-#include <boost/test/unit_test.hpp>
+
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/vesta.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/vesta.hpp>
@@ -39,15 +40,15 @@
 
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 /*
-#include <nil/blueprint/blueprint/plonk/circuit.hpp>
-#include <nil/blueprint/blueprint/plonk/assignment.hpp>
-#include <nil/blueprint/components/systems/snark/plonk/kimchi/batch_verify_scalar_field.hpp>
-#include <nil/blueprint/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
-#include <nil/blueprint/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
-#include <nil/blueprint/components/systems/snark/plonk/kimchi/types/verifier_index.hpp>
-#include <nil/blueprint/components/systems/snark/plonk/kimchi/types/proof.hpp>
-#include <nil/blueprint/components/systems/snark/plonk/kimchi/detail/binding.hpp>
-#include <nil/blueprint/components/systems/snark/plonk/kimchi/proof_system/circuit_description.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/circuit.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
+#include <nil/actor_blueprint/components/systems/snark/plonk/kimchi/batch_verify_scalar_field.hpp>
+#include <nil/actor_blueprint/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
+#include <nil/actor_blueprint/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
+#include <nil/actor_blueprint/components/systems/snark/plonk/kimchi/types/verifier_index.hpp>
+#include <nil/actor_blueprint/components/systems/snark/plonk/kimchi/types/proof.hpp>
+#include <nil/actor_blueprint/components/systems/snark/plonk/kimchi/detail/binding.hpp>
+#include <nil/actor_blueprint/components/systems/snark/plonk/kimchi/proof_system/circuit_description.hpp>
 */
 #include <nil/actor_blueprint_mc/blueprint/plonk.hpp>
 #include <nil/actor_blueprint_mc/assignment/plonk.hpp>
@@ -63,9 +64,10 @@
 #include "test_plonk_component_mc.hpp"
 #include "proof_data_mc.hpp"
 
+using namespace nil;
 using namespace nil::crypto3;
 /*
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite)
+
 template<typename CurveType, typename BlueprintFieldType, typename KimchiParamsType, std::size_t EvelRounds>
 void prepare_proof(nil::actor::zk::snark::pickles_proof<CurveType> &original_proof,
                    zk::components::kimchi_proof_scalar<BlueprintFieldType, KimchiParamsType, EvelRounds> &circuit_proof,
@@ -105,7 +107,7 @@ void prepare_proof(nil::actor::zk::snark::pickles_proof<CurveType> &original_pro
     public_input.push_back(algebra::random_element<BlueprintFieldType>());
     circuit_proof.ft_eval = var(0, public_input.size() - 1, false, var::column_type::public_input);
 }
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite) {
     using curve_type = algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
@@ -115,7 +117,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
     using ArithmetizationParams =
         nil::actor::zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = nil::actor::zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-    using AssignmentType = actor_blueprint::assignment<ArithmetizationType>;
+    using AssignmentType = actor::actor_blueprint::assignment<ArithmetizationType>;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 40;
     using var = nil::actor::zk::snark::plonk_variable<BlueprintFieldType>;
@@ -231,10 +233,10 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
     test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(
         params, public_input, result_check);
 }
-BOOST_AUTO_TEST_SUITE_END()
+
 */
 
-BOOST_AUTO_TEST_SUITE(blueprint_mc_plonk_kimchi_batch_verifier_scalar_field_test_suite)
+
 
 template<typename CurveType, typename BlueprintFieldType, typename KimchiParamsType, std::size_t EvelRounds>
 void prepare_proof(nil::actor::zk::snark::proof_type<CurveType> &original_proof,
@@ -278,7 +280,7 @@ void prepare_proof(nil::actor::zk::snark::proof_type<CurveType> &original_proof,
     circuit_proof.ft_eval = var(0, public_input.size() - 1, false, var::column_type::public_input);
 }
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite) {
 
     using curve_type = algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
@@ -430,4 +432,4 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
         params, public_input, result_check);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

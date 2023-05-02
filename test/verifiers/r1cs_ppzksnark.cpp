@@ -23,9 +23,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE r1cs_ppzksnark_test
-
-#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/mnt4.hpp>
 #include <nil/crypto3/algebra/fields/mnt4/base_field.hpp>
@@ -376,9 +375,9 @@ void test_full_precomputed_pair() {
     std::cout << "number of constraints for full precomputed pairing: " << bp.num_constraints() << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE(benes_components_test_suite)
 
-BOOST_AUTO_TEST_CASE(benes_components_mnt4_test) {
+
+ACTOR_THREAD_TEST_CASE(benes_components_mnt4_test) {
 
     std::cout << "Benes components test for mnt4-298 started" << std::endl;
     using curve_type = typename algebra::curves::mnt4<298>;
@@ -416,7 +415,7 @@ BOOST_AUTO_TEST_CASE(benes_components_mnt4_test) {
     test_hardcoded_verifier<curve_type, typename curve_type::pairing::pair_curve_type>();
 }
 
-BOOST_AUTO_TEST_CASE(benes_components_mnt6_test) {
+ACTOR_THREAD_TEST_CASE(benes_components_mnt6_test) {
 
     std::cout << "Benes components test for mnt6-298 started" << std::endl;
 
@@ -456,4 +455,4 @@ BOOST_AUTO_TEST_CASE(benes_components_mnt6_test) {
     test_hardcoded_verifier<curve_type, typename curve_type::pairing::pair_curve_type>();
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+
