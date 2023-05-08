@@ -95,7 +95,7 @@ namespace nil {
                 }
     
                 actor::zk::snark::plonk_lookup_constraint<BlueprintFieldType>
-                    add_lookup_constraint(std::vector<actor::math::non_linear_term<actor::zk::snark::plonk_variable<BlueprintFieldType>>> lookup_input,
+                    add_lookup_constraint(std::vector<actor::math::term<actor::zk::snark::plonk_variable<BlueprintFieldType>>> lookup_input,
                     std::vector<actor::zk::snark::plonk_variable<BlueprintFieldType>> lookup_value) {
                     actor::zk::snark::plonk_lookup_constraint<BlueprintFieldType> lookup_constraint;
                     lookup_constraint.lookup_input = lookup_input;

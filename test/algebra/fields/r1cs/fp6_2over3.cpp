@@ -33,14 +33,15 @@
 #include <nil/crypto3/algebra/random_element.hpp>
 
 #include <nil/actor_blueprint/blueprint/r1cs/circuit.hpp>
-#include <nil/actor_blueprint/blueprint/r1cs/assignment.hpp>
+#include <nil/actor_blueprint/blueprint/plonk/assignment.hpp>
 
-#include <nil/actor_blueprint/components/algebra/fields/element_fp6_2over3.hpp>
+#include <nil/actor_blueprint/components/algebra/fields/r1cs/element_fp6_2over3.hpp>
 
 #include "arithmetic.hpp"
 
 using namespace nil::crypto3;
 using namespace nil::actor::zk;
+using namespace nil::actor::actor_blueprint;
 using namespace nil::crypto3::algebra;
 
 
