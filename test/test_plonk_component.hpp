@@ -83,7 +83,7 @@ namespace nil {
             constexpr std::size_t expand_factor = 0;
             std::size_t r = degree_log - 1;
 
-            std::vector<std::shared_ptr<crypto3::math::evaluation_domain<FieldType>>> domain_set =
+            std::vector<std::shared_ptr<actor::math::evaluation_domain<FieldType>>> domain_set =
                 math::calculate_domain_set<FieldType>(degree_log + expand_factor, r).get();
 
             params.r = r;
@@ -151,12 +151,12 @@ namespace nil {
                                   FunctorResultCheck>(component_instance, public_input, result_check, instance_input);
 
             if (expected_to_pass) {
-                BOOST_CHECK(blueprint::is_satisfied(bp, assignments));
+                BOOST_CHECK(actor::actor_blueprint::is_satisfied(bp, assignments));
             }
             else {
                 // Test was expected to fail, if already failed, no need to continue, if it did not
                 // fail yet, it's fine, it may fail a later check.
-                if (!blueprint::is_satisfied(bp, assignments))
+                if (!actor::actor_blueprint::is_satisfied(bp, assignments))
                     return;
             }
 
@@ -184,10 +184,10 @@ namespace nil {
                 actor::zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(
                     bp, assignments.private_table(), desc, fri_params).get();
             auto proof = actor::zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params>::process(
-                public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params).get();
+                public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params);
 
             bool verifier_res = actor::zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
-                public_preprocessed_data, proof, bp, fri_params).get();
+                public_preprocessed_data, proof, bp, fri_params);
 
             if (expected_to_pass) {
                 BOOST_CHECK(verifier_res);

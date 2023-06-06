@@ -32,7 +32,7 @@
 #include <nil/crypto3/hash/pedersen.hpp>
 #include <nil/crypto3/hash/algorithm/hash.hpp>
 
-#include <nil/actor_blueprint/components/algebra/curves/fixed_base_mul_zcash.hpp>
+#include <nil/actor_blueprint/components/algebra/curves/detail/r1cs/fixed_base_mul_zcash.hpp>
 #include <nil/actor_blueprint/components/hashes/hash_io.hpp>
 
 namespace nil {

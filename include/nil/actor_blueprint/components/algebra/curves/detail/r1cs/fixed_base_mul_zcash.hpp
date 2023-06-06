@@ -40,14 +40,13 @@
 
 #include <nil/crypto3/detail/static_pow.hpp>
 
-#include <nil/actor_blueprint/components/component.hpp>
-#include <nil/actor_blueprint/components/blueprint_variable.hpp>
-#include <nil/actor_blueprint/components/blueprint_linear_combination.hpp>
+#include <nil/actor_blueprint/component.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/detail/r1cs/blueprint_variable.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/detail/r1cs/blueprint_linear_combination.hpp>
 
-#include <nil/actor_blueprint/components/lookup_signed_3bit.hpp>
+#include <nil/actor_blueprint/components/detail/r1cs/lookup_signed_3bit.hpp>
 
-#include <nil/actor_blueprint/components/algebra/fields/element_fp.hpp>
-
+#include <nil/actor_blueprint/components/algebra/fields/r1cs/element_fp.hpp>
 #include <nil/actor_blueprint/components/algebra/curves/montgomery/element_g1.hpp>
 #include <nil/actor_blueprint/components/algebra/curves/twisted_edwards/element_g1.hpp>
 
