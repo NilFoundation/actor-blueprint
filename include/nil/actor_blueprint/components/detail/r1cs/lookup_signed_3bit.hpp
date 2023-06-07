@@ -35,9 +35,9 @@
 #include <algorithm>
 #include <type_traits>
 
-#include <nil/actor_blueprint/components/component.hpp>
-#include <nil/actor_blueprint/components/blueprint_variable.hpp>
-#include <nil/actor_blueprint/components/blueprint_linear_combination.hpp>
+#include <nil/actor_blueprint/component.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/detail/r1cs/blueprint_variable.hpp>
+#include <nil/actor_blueprint/blueprint/r1cs/detail/r1cs/blueprint_linear_combination.hpp>
 
 namespace nil {
     namespace actor {
@@ -94,7 +94,7 @@ namespace nil {
                     void generate_gates() {
                         /// b0b1 = b[0] * b[1]
                         this->bp.add_r1cs_constraint(
-                            snark::r1cs_constraint<field_type>(this->b[0], this->b[1], this->b0b1));
+                            zk::snark::r1cs_constraint<field_type>(this->b[0], this->b[1], this->b0b1));
 
                         /// y_lc = c[0] + b[0] * (c[1]-c0) + b[1] * (c[2]-c[0]) + b[0]&b[1] * (c[3] - c[2] - c[1] +
                         /// c[0])
@@ -109,7 +109,7 @@ namespace nil {
 
                         /// (y_lc + y_lc) * b[2] == y_lc - result
                         this->bp.add_r1cs_constraint(
-                            snark::r1cs_constraint<field_type>({y_lc + y_lc}, this->b[2], {y_lc - this->result}));
+                            zk::snark::r1cs_constraint<field_type>({y_lc + y_lc}, this->b[2], {y_lc - this->result}));
                     }
 
                     void generate_assignments() {

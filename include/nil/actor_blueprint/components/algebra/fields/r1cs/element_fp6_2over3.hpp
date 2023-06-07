@@ -32,8 +32,8 @@
 #define ACTOR_BLUEPRINT_COMPONENTS_FP6_2OVER3_COMPONENTS_HPP
 
 #include <nil/actor_blueprint/component.hpp>
-#include <nil/actor_blueprint/components/algebra/fields/element_fp2.hpp>
-#include <nil/actor_blueprint/components/algebra/fields/element_fp3.hpp>
+#include <nil/actor_blueprint/components/algebra/fields/r1cs/element_fp2.hpp>
+#include <nil/actor_blueprint/components/algebra/fields/r1cs/element_fp3.hpp>
 #include <nil/actor/zk/blueprint/r1cs.hpp>
 
 namespace nil {

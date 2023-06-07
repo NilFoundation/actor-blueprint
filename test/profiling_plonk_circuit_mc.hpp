@@ -32,6 +32,7 @@
 #include <fstream>
 #include <sstream>
 
+#include <nil/actor/zk/math/expression.hpp>
 #include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 
@@ -154,7 +155,7 @@ namespace nil {
 
             template<typename Terms, typename TermsIt>
             static typename std::enable_if<
-                std::is_same<math::non_linear_term<nil::actor::zk::snark::plonk_variable<FieldType>>,
+                std::is_same<math::term<nil::actor::zk::snark::plonk_variable<FieldType>>,
                              typename std::iterator_traits<typename Terms::iterator>::value_type>::value>::type
                 print_terms(std::ostream &os,
                             const Terms &terms,
